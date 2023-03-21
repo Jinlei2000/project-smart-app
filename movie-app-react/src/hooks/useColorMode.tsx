@@ -1,116 +1,30 @@
-// import { useColorMode } from 'native-base'
-// import { Appearance } from 'react-native'
-// import AsyncStorage from '@react-native-async-storage/async-storage'
-
-// export default () => {
-//   const { colorMode, setColorMode } = useColorMode()
-
-//   const setMode = async (mode : "dark" | "light" | "system") => {
-//     if (mode === 'dark') {
-//       // dark mode
-//       // console.log('dark mode')
-//       setColorMode('dark')
-//       await AsyncStorage.setItem('@color-mode', 'dark')
-//       AsyncStorage.setItem('@use-system-color-mode', 'false')
-//     } else if (mode === 'light') {
-//       // light mode
-//       // console.log('light mode')
-//       setColorMode('light')
-//       await AsyncStorage.setItem('@color-mode', 'light')
-//       AsyncStorage.setItem('@use-system-color-mode', 'false')
-//     } else if (mode === 'system') {
-//       // system mode
-//       // console.log('default mode')
-
-//       if (Appearance.getColorScheme() === 'dark') {
-//         setColorMode('dark')
-//         await AsyncStorage.setItem('@color-mode', 'dark')
-//       } else if (Appearance.getColorScheme() === 'light') {
-//         setColorMode('light')
-//         await AsyncStorage.setItem('@color-mode', 'light')
-//       }
-//       AsyncStorage.setItem('@use-system-color-mode', 'true')
-//     }
-//   }
-
-//   // Add an event handler that is fired when appearance preferences change.
-//   Appearance.addChangeListener(({ colorScheme }) => {
-//     AsyncStorage.getItem('@use-system-color-mode').then(IsSystemColorMode => {
-//       if (IsSystemColorMode === 'true') {
-//         if (colorScheme === 'dark') {
-//           setColorMode('dark')
-//           AsyncStorage.setItem('@color-mode', 'dark')
-//         } else if (colorScheme === 'light') {
-//           setColorMode('light')
-//           AsyncStorage.setItem('@color-mode', 'light')
-//         }
-//       }
-//     })
-//   })
-
-//   const getMode = () => {
-//     return colorMode
-//   }
-
-//   const getSystemMode = async () => {
-//     return (await AsyncStorage.getItem('@use-system-color-mode')) === 'true'
-//       ? true
-//       : false
-//   }
-
-//   const setFirstTime = async () => {
-//     const value = await AsyncStorage.getItem('@color-mode')
-//     if (value === 'true') {
-//       console.log('already set', value)
-//       AsyncStorage.setItem('@use-system-color-mode', 'false')
-//     } else {
-//       setMode('system')
-//       AsyncStorage.setItem('@use-system-color-mode', 'true')
-//     }
-//   }
-
-//   return {
-//     setMode,
-//     getMode,
-//     setFirstTime,
-//     getSystemMode,
-//   }
-// }
-
-// refactor to use useColorMode hook
-
 import { useColorMode } from 'native-base'
 import { Appearance } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default () => {
+  // use native-base useColorMode hook
   const { colorMode, setColorMode } = useColorMode()
 
-  const setMode = async (mode: 'dark' | 'light' | 'system') => {
-    if (mode === 'dark') {
-      // dark mode
-      // console.log('dark mode')
-      setColorMode('dark')
-      await AsyncStorage.setItem('@color-mode', 'dark')
-      AsyncStorage.setItem('@use-system-color-mode', 'false')
-    } else if (mode === 'light') {
-      // light mode
-      // console.log('light mode')
-      setColorMode('light')
-      await AsyncStorage.setItem('@color-mode', 'light')
-      AsyncStorage.setItem('@use-system-color-mode', 'false')
-    } else if (mode === 'system') {
-      // system mode
-      // console.log('default mode')
+  // store color mode in async storage & change color mode
+  const _changeMode = async (mode: 'dark' | 'light') => {
+    await AsyncStorage.setItem('@color-mode', mode)
+    setColorMode(mode)
+  }
 
-      if (Appearance.getColorScheme() === 'dark') {
-        setColorMode('dark')
-        await AsyncStorage.setItem('@color-mode', 'dark')
-      } else if (Appearance.getColorScheme() === 'light') {
-        setColorMode('light')
-        await AsyncStorage.setItem('@color-mode', 'light')
-      }
-      AsyncStorage.setItem('@use-system-color-mode', 'true')
+  // store system color mode in async storage
+  const _setSystemMode = async (value: string) => {
+    await AsyncStorage.setItem('@use-system-color-mode', value)
+  }
+
+  const setMode = async (mode: 'dark' | 'light' | 'system') => {
+    if (mode === 'dark' || mode === 'light') {
+      _changeMode(mode)
+      _setSystemMode('false')
+    } else if (mode === 'system') {
+      // console.log('system mode')
+      _changeMode(Appearance.getColorScheme() === 'dark' ? 'dark' : 'light')
+      _setSystemMode('true')
     }
   }
 
@@ -118,13 +32,7 @@ export default () => {
   Appearance.addChangeListener(({ colorScheme }) => {
     AsyncStorage.getItem('@use-system-color-mode').then(IsSystemColorMode => {
       if (IsSystemColorMode === 'true') {
-        if (colorScheme === 'dark') {
-          setColorMode('dark')
-          AsyncStorage.setItem('@color-mode', 'dark')
-        } else if (colorScheme === 'light') {
-          setColorMode('light')
-          AsyncStorage.setItem('@color-mode', 'light')
-        }
+        _changeMode(colorScheme === 'dark' ? 'dark' : 'light')
       }
     })
   })
@@ -133,22 +41,36 @@ export default () => {
     return colorMode
   }
 
-  const getSystemMode = async () => {
-    return (await AsyncStorage.getItem('@use-system-color-mode')) === 'true'
-      ? true
-      : false
+  const getSystemModeAsync = async () => {
+    const value = await AsyncStorage.getItem('@use-system-color-mode')
+    return value === 'true'
   }
 
-  const setFirstTime = async () => {
-    const value = await AsyncStorage.getItem('@color-mode')
-    if (value === 'true') {
-      console.log('already set', value)
-      AsyncStorage.setItem('@use-system-color-mode', 'false')
+  const setInitialColorMode = async () => {
+    const systemColorMode = await AsyncStorage.getItem('@use-system-color-mode')
+    const colorMode = await AsyncStorage.getItem('@color-mode')
+
+    console.log(
+      'use-system-color-mode',
+      systemColorMode,
+      'color-mode',
+      colorMode,
+    )
+
+    if (colorMode && systemColorMode) {
+      // console.log('already set')
+      _changeMode(colorMode === 'dark' ? 'dark' : 'light')
     } else {
+      // console.log('set default')
+      _setSystemMode('true')
       setMode('system')
-      AsyncStorage.setItem('@use-system-color-mode', 'true')
     }
   }
 
-  return { setMode, getMode, setFirstTime, getSystemMode }
+  return { setMode, getMode, setInitialColorMode, getSystemModeAsync }
 }
+
+
+
+
+
