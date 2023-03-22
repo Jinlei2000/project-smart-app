@@ -50,12 +50,12 @@ export default () => {
     const systemColorMode = await AsyncStorage.getItem('@use-system-color-mode')
     const colorMode = await AsyncStorage.getItem('@color-mode')
 
-    console.log(
-      'use-system-color-mode',
-      systemColorMode,
-      'color-mode',
-      colorMode,
-    )
+    // console.log(
+    //   'use-system-color-mode',
+    //   systemColorMode,
+    //   'color-mode',
+    //   colorMode,
+    // )
 
     if (colorMode && systemColorMode) {
       // console.log('already set')
@@ -69,8 +69,3 @@ export default () => {
 
   return { setMode, getMode, setInitialColorMode, getSystemModeAsync }
 }
-
-
-
-
-

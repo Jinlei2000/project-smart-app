@@ -1,14 +1,12 @@
-import AppStack from './AppStack'
 import { StatusBar } from 'expo-status-bar'
 import { ColorMode, NativeBaseProvider, StorageManager } from 'native-base'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import useColorMode from '../hooks/useColorMode'
 import theme from '../styles/theme'
-import { Appearance } from 'react-native'
 import { useState } from 'react'
 
-export default () => {
+export default ({ children }: { children: React.ReactNode }) => {
   // Status bar style dark or light
   const [statusBarStyle, setStatusBarStyle] = useState<'dark' | 'light'>('dark')
   // use my own useColorMode hook
@@ -36,7 +34,7 @@ export default () => {
   return (
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
       <StatusBar style={statusBarStyle === 'dark' ? 'light' : 'dark'} />
-      <AppStack />
+      {children}
     </NativeBaseProvider>
   )
 }
