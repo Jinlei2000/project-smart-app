@@ -1,10 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen'
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
+import Auth from './src/components/Auth'
 import NativeBase from './src/components/NativeBase'
-import AppStack from './src/screens/AppStack'
 
 preventAutoHideAsync()
 
@@ -35,7 +35,7 @@ export default () => {
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <NavigationContainer>
         <NativeBase>
-          <AppStack />
+          <Auth />
         </NativeBase>
       </NavigationContainer>
     </View>
