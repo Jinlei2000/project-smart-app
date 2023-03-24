@@ -14,11 +14,15 @@ export default () => {
     usernameError: string
     password: boolean
     passwordError: string
+    loginError: string
+    login: boolean
   }>({
     username: false,
     usernameError: '',
     password: false,
     passwordError: '',
+    loginError: '',
+    login: false,
   })
 
   const _validate = (name: string, value: string): void => {
@@ -42,6 +46,18 @@ export default () => {
     return !errors.username && !errors.password
   }
 
+  const setLoginError = (): void => {
+    setErrors({
+      ...errors,
+      loginError: 'Invalid username or password',
+      login: true,
+      username: true,
+      password: true,
+      usernameError: '',
+      passwordError: '',
+    })
+  }
+
   const handleChange = (
     event: NativeSyntheticEvent<TextInputChangeEventData>,
     name: string,
@@ -63,5 +79,6 @@ export default () => {
     errors,
     handleChange,
     validateAll,
+    setLoginError,
   }
 }
