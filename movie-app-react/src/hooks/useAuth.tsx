@@ -4,10 +4,12 @@ import { BASE_URL } from '../constants'
 
 // file is temporarily
 import { API_KEY } from '../../env'
+import useSessionToken from './useSessionToken'
 
 export default () => {
   // global state for auth
   const [isAuth, setIsAuth] = useAtom(isAuthAtom)
+  const { setSession, deleteSession, getSession } = useSessionToken()
   let userError = ''
   const apiKey = API_KEY
 
@@ -51,6 +53,9 @@ export default () => {
     if (data.success) {
       console.log('Session token:', data.session_id)
       // TODO: save session id to secure storage
+      await setSession(data.session_id)
+      // TODO: set isAuth to true in global state
+      setIsAuth(true)
       return data.session_id
     }
     return false
@@ -79,9 +84,9 @@ export default () => {
       )
 
       if (!loginResponse.ok) {
-        userError = 'Something wrong with server, try again later'
+        userError = 'Invalid username or password'
         throw new Error(
-          `Failed to login: ${loginResponse.status} ${loginResponse.statusText}`,
+          `Failed to validate request token: ${loginResponse.statusText}`,
         )
       }
 
@@ -101,14 +106,14 @@ export default () => {
 
       return { success: true }
     } catch (error) {
-      console.error(error)
+      // console.error(error)
       return { success: false, error: userError }
     }
   }
 
   const logout = async () => {
     // TODO: get session id from secure storage
-    const sessionToken = 'SESSION_ID'
+    const sessionToken = await getSession()
 
     const logoutResponse = await fetch(
       `${BASE_URL}/authentication/session?api_key=${apiKey}`,
@@ -130,7 +135,7 @@ export default () => {
     }
 
     // TODO: remove session id from secure storage
-
+    await deleteSession()
     // TODO: set isAuth to false in global state (go back to login screen)
     setIsAuth(false)
   }

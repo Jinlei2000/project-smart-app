@@ -33,7 +33,7 @@ export default () => {
     } else {
       login(values.username, values.password).then(result => {
         if (!result.success) {
-          console.log(`login failed: ${result.error}`)
+          // console.log(`login failed: ${result.error}`)
           showToast({
             title: result.error,
             status: 'error',
