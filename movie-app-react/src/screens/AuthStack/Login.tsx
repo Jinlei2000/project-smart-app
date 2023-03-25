@@ -1,5 +1,4 @@
 import {
-  View,
   Text,
   Box,
   Button,
@@ -13,23 +12,16 @@ import {
   KeyboardAvoidingView,
   Stack,
 } from 'native-base'
-import { useEffect } from 'react'
+import React from 'react'
 import { Keyboard, Platform } from 'react-native'
 import useAuth from '../../hooks/useAuth'
 import useForm from '../../hooks/useForm'
+import useToast from '../../hooks/useToast'
 
 export default () => {
-  const { handleChange, errors, values, validateAll, setLoginError } = useForm()
-  const { login, isLoginFailed } = useAuth()
-
-  useEffect(() => {
-    // show error message if login failed
-    if (isLoginFailed) {
-      // TODO: show error message
-      console.log('login failed')
-      setLoginError()
-    }
-  }, [isLoginFailed])
+  const { handleChange, errors, values, validateAll } = useForm()
+  const { login } = useAuth()
+  const { showToast } = useToast()
 
   const handleSubmit = () => {
     // dismiss keyboard
@@ -39,9 +31,15 @@ export default () => {
     if (!isValid) {
       console.log('invalid form')
     } else {
-      console.log(values)
-
-      login(values.username, values.password)
+      login(values.username, values.password).then(result => {
+        if (!result.success) {
+          // console.log(`login failed: ${result.error}`)
+          showToast({
+            title: result.error,
+            status: 'error',
+          })
+        }
+      })
     }
   }
 

@@ -19,3 +19,5 @@ web-build/
 # Ignore the .env file
 .env
 *.env
+
+env.tsx
