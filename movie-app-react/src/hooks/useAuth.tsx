@@ -5,6 +5,7 @@ import { BASE_URL } from '../constants'
 // file is temporarily
 import { API_KEY } from '../../env'
 import useSessionToken from './useSessionToken'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default () => {
   // global state for auth
@@ -12,6 +13,11 @@ export default () => {
   const { setSession, deleteSession, getSession } = useSessionToken()
   let userError = ''
   const apiKey = API_KEY
+
+  const _setGlobalIsAuth = async (value: boolean) => {
+    await AsyncStorage.setItem('isAuth', value.toString())
+    setIsAuth(value)
+  }
 
   const _getRequestToken = async (): Promise<string> => {
     const requestTokenResponse = await fetch(
@@ -55,7 +61,7 @@ export default () => {
       // TODO: save session id to secure storage
       await setSession(data.session_id)
       // TODO: set isAuth to true in global state
-      setIsAuth(true)
+      await _setGlobalIsAuth(true)
       return data.session_id
     }
     return false
@@ -111,10 +117,11 @@ export default () => {
     }
   }
 
-  const logout = async () => {
-    // TODO: get session id from secure storage
+  const logout = async () : Promise<void> => {
+    // get session id from secure storage
     const sessionToken = await getSession()
 
+    // delete session id from server
     const logoutResponse = await fetch(
       `${BASE_URL}/authentication/session?api_key=${apiKey}`,
       {
@@ -134,10 +141,10 @@ export default () => {
       throw new Error('Failed to delete session token from server')
     }
 
-    // TODO: remove session id from secure storage
+    // remove session id from secure storage
     await deleteSession()
-    // TODO: set isAuth to false in global state (go back to login screen)
-    setIsAuth(false)
+    // set isAuth to false in global state (go back to login screen)
+    await _setGlobalIsAuth(false)
   }
 
   return {
