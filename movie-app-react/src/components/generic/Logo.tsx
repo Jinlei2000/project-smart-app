@@ -1,6 +1,6 @@
 import { useColorMode } from 'native-base'
 import { useEffect, useState } from 'react'
-import { Dimensions, StyleSheet, View } from 'react-native'
+import {StyleSheet, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 
 export default () => {
