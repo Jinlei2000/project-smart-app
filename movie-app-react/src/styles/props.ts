@@ -91,5 +91,26 @@ export const formProps = {
 }
 
 export const buttonProps = {
-  
+  mt: 2,
+  borderRadius: 16,
+  h: 12,
+  _text: {
+    fontSize: 16,
+    fontWeight: 600,
+  },
+  _pressed: {
+    opacity: 0.8,
+    bg: 'extra.purple',
+  },
+  _light: {
+    _text: {
+      color: 'coolGray.100',
+    },
+  },
+  _dark: {
+    _text: {
+      color: 'brand.200',
+    },
+  },
+  bg: 'extra.purple',
 }

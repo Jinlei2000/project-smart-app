@@ -1,29 +1,37 @@
 import {
   Box,
   Button,
+  Center,
   FormControl,
-  Heading,
   HStack,
   Input,
   KeyboardAvoidingView,
   Link,
+  Spinner,
   Stack,
   Text,
   useSafeArea,
   VStack,
 } from 'native-base'
-import React from 'react'
+import React, { useState } from 'react'
 import { Keyboard, Platform } from 'react-native'
 import Logo from '../../components/generic/Logo'
 import useAuth from '../../hooks/useAuth'
 import useForm from '../../hooks/useForm'
 import useToast from '../../hooks/useToast'
-import { bgProps, formProps, textProps } from '../../styles/props'
+import { bgProps, buttonProps, formProps } from '../../styles/props'
 
 export default () => {
   const { handleChange, errors, values, validateAll } = useForm()
   const { login } = useAuth()
   const { showToast } = useToast()
+  const [btnInfo, setBtnInfo] = useState<{
+    state: React.ReactNode
+    disabled: boolean
+  }>({
+    state: 'Login',
+    disabled: false,
+  })
 
   const safeAreaProps = useSafeArea({
     safeArea: true,
@@ -31,23 +39,34 @@ export default () => {
     py: 2,
   })
 
-  const handleSubmit = () => {
-    // dismiss keyboard
+  const resetButton = () => {
+    setBtnInfo({ state: 'Login', disabled: false })
+  }
+
+  const handleSubmit = async (): Promise<void> => {
+    // set button state to spinner and disable button
+    setBtnInfo({ state: <Spinner color="white" />, disabled: true })
     Keyboard.dismiss()
 
     const isValid = validateAll()
+
     if (!isValid) {
-      console.log('invalid form')
-    } else {
-      login(values.username, values.password).then(result => {
-        if (!result.success) {
-          // console.log(`login failed: ${result.error}`)
-          showToast({
-            title: result.error,
-            status: 'error',
-          })
-        }
-      })
+      resetButton()
+      // console.log('invalid form')
+      return
+    }
+
+    try {
+      const result = await login(values.username, values.password)
+      if (!result.success) {
+        showToast({ title: result.error, status: 'error' })
+      } else {
+        // if login success it will automatically go to home screen
+      }
+    } catch (error) {
+      // console.log(error)
+    } finally {
+      resetButton()
     }
   }
 
@@ -56,14 +75,11 @@ export default () => {
       {...bgProps}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <VStack w="full" h="full" {...safeAreaProps} alignItems="center">
+      <Center w="full" h="full" {...safeAreaProps}>
         <Logo />
         <Box justifyContent="center" alignContent="center" w="full">
-          <Heading {...textProps.header} mb={6}>
-            Login
-          </Heading>
           <VStack space={4}>
-            <FormControl isRequired isInvalid={errors.username}>
+            <FormControl isInvalid={errors.username}>
               <Stack direction="row" justifyContent="space-between">
                 <FormControl.Label htmlFor="username" {...formProps.label}>
                   Username
@@ -82,7 +98,7 @@ export default () => {
                 }}
               />
             </FormControl>
-            <FormControl isRequired isInvalid={errors.password}>
+            <FormControl isInvalid={errors.password}>
               <Stack direction="row" justifyContent="space-between">
                 <FormControl.Label htmlFor="password" {...formProps.label}>
                   Password
@@ -100,29 +116,36 @@ export default () => {
                   handleChange(event, 'password')
                 }}
               />
-              <Link {...formProps.link} alignSelf="flex-end" mt="1" isExternal>
+              <Link
+                {...formProps.link}
+                alignSelf="flex-end"
+                mt="1"
+                isExternal
+                href="https://www.themoviedb.org/reset-password"
+              >
                 Forget Password?
               </Link>
             </FormControl>
             <Button
-              mt="2"
-              borderRadius={16}
-              h={12}
-              _text={{ fontSize: 16, fontWeight: 600 }}
-              colorScheme="indigo"
+              {...buttonProps}
               onPress={handleSubmit}
+              disabled={btnInfo.disabled}
             >
-              Sign in
+              {btnInfo.state}
             </Button>
             <HStack justifyContent="center">
               <Text {...formProps.text}>Don't have an account? </Text>
-              <Link {...formProps.link} isExternal href="#">
+              <Link
+                {...formProps.link}
+                isExternal
+                href="https://www.themoviedb.org/signup"
+              >
                 Register
               </Link>
             </HStack>
           </VStack>
         </Box>
-      </VStack>
+      </Center>
     </KeyboardAvoidingView>
   )
 }

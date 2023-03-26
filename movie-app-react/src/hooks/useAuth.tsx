@@ -58,9 +58,9 @@ export default () => {
 
     if (data.success) {
       console.log('Session token:', data.session_id)
-      // TODO: save session id to secure storage
+      // save session id to secure storage
       await setSession(data.session_id)
-      // TODO: set isAuth to true in global state
+      // set isAuth to true in global state
       await _setGlobalIsAuth(true)
       return data.session_id
     }
