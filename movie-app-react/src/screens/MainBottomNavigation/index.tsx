@@ -64,7 +64,7 @@ export default () => {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, size }) => (
-            <HomeIcon strokeWidth={stroke} color={color} size={size} />
+            <HomeIcon strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Home}
@@ -74,7 +74,7 @@ export default () => {
         options={{
           title: 'Watchlist',
           tabBarIcon: ({ color, size }) => (
-            <Bookmark strokeWidth={stroke} color={color} size={size} />
+            <Bookmark strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Watchlist}
@@ -84,7 +84,7 @@ export default () => {
         options={{
           title: 'Random',
           tabBarIcon: ({ color, size }) => (
-            <Dices strokeWidth={stroke} color={color} size={size} />
+            <Dices strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Random}
@@ -94,7 +94,7 @@ export default () => {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <User strokeWidth={stroke} color={color} size={size} />
+            <User strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Profile}

@@ -1,8 +1,11 @@
 import { Button, Text, View } from 'native-base'
+import Background from '../../../components/generic/Background'
+import useApi from '../../../hooks/useApi'
 import useAuth from '../../../hooks/useAuth'
 import useSessionToken from '../../../hooks/useSessionToken'
 
 export default () => {
+  const {} = useApi()
   const { getSession } = useSessionToken()
   const { logout } = useAuth()
 
@@ -11,7 +14,7 @@ export default () => {
     console.log(session)
   }
   return (
-    <View>
+    <Background>
       <Button onPress={handleBtn}></Button>
       <Button
         onPress={() => {
@@ -21,6 +24,6 @@ export default () => {
         <Text>Logout</Text>
       </Button>
       <Text>Profile</Text>
-    </View>
+    </Background>
   )
 }
