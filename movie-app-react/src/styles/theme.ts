@@ -1,4 +1,5 @@
 import { extendTheme } from 'native-base'
+import { IColorHues } from 'native-base/lib/typescript/theme/base/colors'
 
 // Add new colors & fonts to the theme
 export default extendTheme({
@@ -12,7 +13,6 @@ export default extendTheme({
       200: '#E6E6E7',
       50: '#FCFCFE',
     },
-    
     extra: {
       purple: '#5C61CB',
       green: '#32CD32',

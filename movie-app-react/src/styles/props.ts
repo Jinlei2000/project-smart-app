@@ -1,3 +1,5 @@
+import { useSafeArea } from 'native-base'
+
 // This file is used to define props that can be used in the theme
 export const bgProps = {
   _dark: {

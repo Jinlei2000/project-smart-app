@@ -1,16 +1,21 @@
+import { Eye, EyeOff } from 'lucide-react-native'
 import {
   Box,
   Button,
   Center,
   FormControl,
   HStack,
+  Icon,
   Input,
   KeyboardAvoidingView,
   Link,
+  Pressable,
   Spinner,
   Stack,
   Text,
+  useColorMode,
   useSafeArea,
+  useTheme,
   VStack,
 } from 'native-base'
 import React, { useState } from 'react'
@@ -23,6 +28,9 @@ import { bgProps, buttonProps, formProps } from '../../styles/props'
 
 export default () => {
   const { handleChange, errors, values, validateAll } = useForm()
+  const { colors } = useTheme()
+  const { colorMode } = useColorMode()
+  const [showPassword, setShowPassword] = useState(false)
   const { login } = useAuth()
   const { showToast } = useToast()
   const [btnInfo, setBtnInfo] = useState<{
@@ -70,6 +78,10 @@ export default () => {
     }
   }
 
+  const togglePassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <KeyboardAvoidingView
       {...bgProps}
@@ -109,18 +121,45 @@ export default () => {
               </Stack>
               <Input
                 {...formProps.input}
-                type="text"
+                // type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 placeholder="CHdfzd51sd?5"
+                // secureTextEntry={!showPassword}
                 onChange={event => {
                   handleChange(event, 'password')
                 }}
+                InputRightElement={
+                  <Pressable onPress={togglePassword} mx={4}>
+                    {showPassword ? (
+                      <EyeOff
+                        size={24}
+                        color={
+                          colorMode === 'dark'
+                            ? colors.coolGray[400]
+                            : // @ts-ignore
+                              colors.brand[600]
+                        }
+                      />
+                    ) : (
+                      <Eye
+                        size={24}
+                        color={
+                          colorMode === 'dark'
+                            ? colors.coolGray[400]
+                            : // @ts-ignore
+                              colors.brand[600]
+                        }
+                      />
+                    )}
+                  </Pressable>
+                }
               />
+
               <Link
                 {...formProps.link}
                 alignSelf="flex-end"
                 mt="1"
-                isExternal
                 href="https://www.themoviedb.org/reset-password"
               >
                 Forget Password?
@@ -137,7 +176,6 @@ export default () => {
               <Text {...formProps.text}>Don't have an account? </Text>
               <Link
                 {...formProps.link}
-                isExternal
                 href="https://www.themoviedb.org/signup"
               >
                 Register
