@@ -22,10 +22,26 @@ export default () => {
   const stroke = Platform.OS === 'ios' ? 2.5 : 2
   const { colorMode } = useColorMode()
 
+  let bgColor = ''
+  let tabBarBg = () => {}
+  if (Platform.OS !== 'ios') {
+    bgColor = colorMode === 'dark' ? '#24242c' : '#e4e8eb'
+    tabBarBg = () => null
+  } else {
+    bgColor = colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3'
+    tabBarBg = () => (
+      <BlurView
+        tint={colorMode === 'dark' ? 'dark' : 'light'}
+        intensity={50}
+        style={StyleSheet.absoluteFill}
+      />
+    )
+  }
+
   const screenOptions: any = {
     headerShown: false,
     tabBarStyle: {
-      backgroundColor: colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3',
+      backgroundColor: bgColor,
       paddingBottom: 6,
       paddingTop: 8,
       padingHorizontal: 8,
@@ -36,13 +52,7 @@ export default () => {
     tabBarLabelStyle: {
       fontSize: 11,
     },
-    tabBarBackground: () => (
-      <BlurView
-        tint={colorMode === 'dark' ? 'dark' : 'light'}
-        intensity={50}
-        style={StyleSheet.absoluteFill}
-      />
-    ),
+    tabBarBackground: tabBarBg,
     tabBarInactiveTintColor: colorMode === 'dark' ? '#9B9B9F' : '#6B7280',
     tabBarActiveTintColor: colorMode === 'dark' ? '#E6E6E7' : '#111827',
   }
