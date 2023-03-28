@@ -11,9 +11,7 @@ export const bgProps = {
 }
 
 export const textProps = {
-  header: {
-    fontSize: 24,
-    fontWeight: '700',
+  primaryColor: {
     _dark: {
       color: 'brand.200',
     },
@@ -21,7 +19,16 @@ export const textProps = {
       color: 'coolGray.800',
     },
   },
+  secondaryColor: {
+    _dark: {
+      color: 'brand.600',
+    },
+    _light: {
+      color: 'coolGray.400',
+    },
+  },
 }
+
 
 export const formProps = {
   label: {
