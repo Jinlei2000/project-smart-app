@@ -1,4 +1,5 @@
 import { Pressable, useColorMode, useTheme } from 'native-base'
+import { btnProps } from '../../styles/props';
 
 export default ({ icon: Icon, handleBtn }: { icon: any; handleBtn: any }) => {
   const { colorMode } = useColorMode()
@@ -8,12 +9,7 @@ export default ({ icon: Icon, handleBtn }: { icon: any; handleBtn: any }) => {
     <Pressable
       p={2}
       size={10}
-      _dark={{ bg: 'brand.700', _pressed: { 
-        opacity: 0.5,
-       } }}
-      _light={{ bg: 'coolGray.200', _pressed: { 
-       bg: 'coolGray.300',
-      } }}
+      {...btnProps}
       onPress={handleBtn}
       rounded="full"
       justifyContent={'center'}

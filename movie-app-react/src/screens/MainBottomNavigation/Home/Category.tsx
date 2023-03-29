@@ -1,5 +1,5 @@
-import Category from "../Generic/Category"
+import Category from '../Generic/Category'
 
-export default () => {
-    return <Category />
+export default (props: any) => {
+  return <Category {...props} />
 }

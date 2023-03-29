@@ -1,6 +1,7 @@
 // file is temporarily
 import { API_KEY } from '../../env'
 import { BASE_URL } from '../constants'
+import { ICategory } from '../interfaces/ICategory'
 import useSessionToken from './useSessionToken'
 
 export default () => {
@@ -33,10 +34,24 @@ export default () => {
     })
   }
 
+  const getCategories = () : Promise<ICategory[]> => {
+    return new Promise((resolve, reject) => {
+      fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+          resolve(data.genres)
+          // console.log('categories', data.genres)
+        })
+        .catch(error => reject(error))
+    })
+  }
+
+
+
   return {
     // getMovies,
     // getMovie,
-    // getCategories,
+    getCategories,
     getUser,
     // getFavorites,
     // getWatchlist,

@@ -27,8 +27,31 @@ export const textProps = {
       color: 'coolGray.400',
     },
   },
+
+  accentColor: {
+    _dark: {
+      color: 'blue.500',
+    },
+    _light: {
+      color: 'blue.500',
+    },
+  },
 }
 
+export const btnProps = {
+  _dark: {
+    bg: 'brand.700',
+    _pressed: {
+      opacity: 0.5,
+    },
+  },
+  _light: {
+    bg: 'coolGray.200',
+    _pressed: {
+      bg: 'coolGray.300',
+    },
+  },
+}
 
 export const formProps = {
   label: {
