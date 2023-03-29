@@ -63,7 +63,7 @@ export default () => {
         name={TabScreens.HomeStack}
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <HomeIcon strokeWidth={stroke} color={color} size={24} />
           ),
         }}
@@ -73,7 +73,7 @@ export default () => {
         name={TabScreens.WatchlistStack}
         options={{
           title: 'Watchlist',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <Bookmark strokeWidth={stroke} color={color} size={24} />
           ),
         }}
@@ -83,7 +83,7 @@ export default () => {
         name={TabScreens.RandomStack}
         options={{
           title: 'Random',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <Dices strokeWidth={stroke} color={color} size={24} />
           ),
         }}
@@ -93,7 +93,7 @@ export default () => {
         name={TabScreens.ProfileStack}
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <User strokeWidth={stroke} color={color} size={24} />
           ),
         }}

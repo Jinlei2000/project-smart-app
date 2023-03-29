@@ -1,8 +1,13 @@
-import { Button, Text, View } from 'native-base'
-import Background from '../../../components/generic/Background'
+import { Avatar, Box, Button, HStack, Text, View, VStack } from 'native-base'
+import Main from '../../../components/generic/Main'
 import useApi from '../../../hooks/useApi'
 import useAuth from '../../../hooks/useAuth'
 import useSessionToken from '../../../hooks/useSessionToken'
+import { BlurView } from 'expo-blur'
+import { StyleSheet } from 'react-native'
+import { Search } from 'lucide-react-native'
+import RoundBtn from '../../../components/button/RoundBtn'
+import { textProps } from '../../../styles/props'
 
 export default () => {
   const {} = useApi()
@@ -14,16 +19,18 @@ export default () => {
     console.log(session)
   }
   return (
-    <Background>
-      <Button onPress={handleBtn}></Button>
-      <Button
-        onPress={() => {
-          logout()
-        }}
-      >
-        <Text>Logout</Text>
-      </Button>
-      <Text>Profile</Text>
-    </Background>
+    <>
+      <Main>
+        <Button onPress={handleBtn}></Button>
+        <Button
+          onPress={() => {
+            logout()
+          }}
+        >
+          <Text>Logout</Text>
+        </Button>
+        <Text>Profile</Text>
+      </Main>
+    </>
   )
 }

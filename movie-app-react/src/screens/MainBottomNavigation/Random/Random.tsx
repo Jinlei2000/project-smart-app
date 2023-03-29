@@ -1,16 +1,16 @@
 import { Text, View } from 'native-base'
 import React from 'react'
-import Background from '../../../components/generic/Background'
+import Main from '../../../components/generic/Main'
 import useApi from '../../../hooks/useApi'
 
 export default () => {
   const {} = useApi()
 
   return (
-    <Background>
+    <Main>
       <View>
         <Text>Random</Text>
       </View>
-    </Background>
+    </Main>
   )
 }
