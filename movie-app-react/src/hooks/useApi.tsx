@@ -2,12 +2,13 @@
 import { API_KEY } from '../../env'
 import { BASE_URL } from '../constants'
 import { ICategory } from '../interfaces/ICategory'
+import { IUserdata } from '../interfaces/IUserdata'
 import useSessionToken from './useSessionToken'
 
 export default () => {
   const { getSession } = useSessionToken()
 
-  const getUser = () => {
+  const getUser = (): Promise<IUserdata> => {
     return new Promise((resolve, reject) => {
       getSession()
         .then(sessionToken => {
@@ -20,7 +21,7 @@ export default () => {
                 userName: data.username,
                 avatarUrl:
                   data.avatar.gravatar.hash != ''
-                    ? `https://www.gravatar.com/avatar/${data.avatar.gravatar.hash}`
+                    ? `https://www.gravatar.com/avatar/${data.avatar.gravatar.hash}?d=404`
                     : null,
                 name: data.name,
                 id: data.id,
@@ -34,7 +35,7 @@ export default () => {
     })
   }
 
-  const getCategories = () : Promise<ICategory[]> => {
+  const getCategories = (): Promise<ICategory[]> => {
     return new Promise((resolve, reject) => {
       fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
         .then(response => response.json())
@@ -45,8 +46,6 @@ export default () => {
         .catch(error => reject(error))
     })
   }
-
-
 
   return {
     // getMovies,

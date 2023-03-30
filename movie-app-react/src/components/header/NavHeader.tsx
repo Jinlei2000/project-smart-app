@@ -14,8 +14,11 @@ import {
 import { useEffect, useState } from 'react'
 import useApi from '../../hooks/useApi'
 import { INavbarOptions } from '../../interfaces/INavbarOptions'
+import { IUserdata } from '../../interfaces/IUserdata'
 import { textProps } from '../../styles/props'
 import RoundBtn from '../button/RoundBtn'
+import { Image } from 'react-native'
+import AvatarPic from '../avatar/AvatarPic'
 
 export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
   const safeAreaProps = useSafeArea({
@@ -27,11 +30,11 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
     useNavigation<StackNavigationProp<ParamListBase>>()
   const [leftItem, setLeftItem] = useState<JSX.Element[]>([])
   const [rightItem, setRightItem] = useState<JSX.Element[]>([])
-  const [userData, setUserData] = useState<any>({})
+  const [userData, setUserData] = useState<IUserdata | undefined>(undefined)
 
   useEffect(() => {
     // get user data
-    getUser().then(data => {
+    getUser().then((data: IUserdata) => {
       setUserData(data)
     })
   }, [])
@@ -48,7 +51,7 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
             lineHeight={20}
             {...textProps.primaryColor}
           >
-            Hi, {userData.userName}
+            Hi, {userData?.userName}
           </Text>
           <Text
             fontSize={12}
@@ -91,16 +94,7 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
       setRightItem([
         <HStack space={2} key="right">
           <RoundBtn handleBtn={handleSearch} icon={Search} />
-          <Avatar
-            size={10}
-            _dark={{ bg: 'brand.700', _text: { color: 'brand.200' } }}
-            _light={{ bg: 'coolGray.200', _text: { color: 'coolGray.700' } }}
-            source={{
-              uri: userData.avatarUrl,
-            }}
-          >
-            {userData.firstLetter}
-          </Avatar>
+          <AvatarPic userDatas={userData} />
         </HStack>,
       ])
     }

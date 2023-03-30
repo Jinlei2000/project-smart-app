@@ -27,6 +27,8 @@ export default () => {
     getCategories().then((data: ICategory[]) => {
       setCategories(data)
     })
+
+
   }, [])
 
   return (
