@@ -5,7 +5,6 @@ import {
   View,
   Text,
   VStack,
-  Avatar,
   HStack,
   Box,
   useSafeArea,
@@ -17,8 +16,12 @@ import { INavbarOptions } from '../../interfaces/INavbarOptions'
 import { IUserdata } from '../../interfaces/IUserdata'
 import { textProps } from '../../styles/props'
 import RoundBtn from '../button/RoundBtn'
-import { Image } from 'react-native'
 import AvatarPic from '../avatar/AvatarPic'
+import { Platform } from 'react-native'
+import { BlurView } from 'expo-blur'
+
+// PLEASE PLACE THE NAVHEADER COMPONENT UNDER ALL OTHER COMPONENTS
+// ELSE THE BLURVIEW WILL NOT WORK PROPERLY
 
 export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
   const safeAreaProps = useSafeArea({
@@ -28,6 +31,7 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
   const { getUser } = useApi()
   const { navigate, goBack } =
     useNavigation<StackNavigationProp<ParamListBase>>()
+  const { colorMode } = useColorMode()
   const [leftItem, setLeftItem] = useState<JSX.Element[]>([])
   const [rightItem, setRightItem] = useState<JSX.Element[]>([])
   const [userData, setUserData] = useState<IUserdata>({
@@ -106,27 +110,44 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
     navigate('Search')
   }
 
+  const children = (
+    <Box {...safeAreaProps} px={6} h={20} justifyContent="center" py={2}>
+      <HStack alignItems="center" justifyContent="space-between">
+        {leftItem}
+        {rightItem}
+      </HStack>
+    </Box>
+  )
+
   return (
-    <View
-      position="absolute"
-      _dark={{ bg: 'brand.900' }}
-      _light={{ bg: 'coolGray.100' }}
-      top={0}
-      left={0}
-      right={0}
-      zIndex={100}
-    >
-      <Box {...safeAreaProps} 
-      px={6} 
-      h={20} 
-      justifyContent="center" 
-      py={2}
-      >
-        <HStack alignItems="center" justifyContent="space-between">
-          {leftItem}
-          {rightItem}
-        </HStack>
-      </Box>
-    </View>
+    <>
+      {Platform.OS === 'ios' ? (
+        <BlurView
+          tint={colorMode === 'dark' ? 'dark' : 'light'}
+          intensity={100}
+          style={{
+            zIndex: 100,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: 'transparent',
+          }}
+        >
+          {children}
+        </BlurView>
+      ) : (
+        <View
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          zIndex={100}
+          bg={colorMode === 'dark' ? '#24242c' : '#f3f4f6'}
+        >
+          {children}
+        </View>
+      )}
+    </>
   )
 }

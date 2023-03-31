@@ -77,12 +77,6 @@ export default () => {
 
   return (
     <>
-      <NavHeader
-        navBarOptions={{
-          left: 'Name&Text',
-          right: 'Search&Profile',
-        }}
-      />
       <Main>
         <Box mt={12} mb={20}>
           <VStack space={6} mt={2}>
@@ -103,6 +97,13 @@ export default () => {
           </VStack>
         </Box>
       </Main>
+      {/* NavHeader have to be the last component, because else the BlurView don't work */}
+      <NavHeader
+        navBarOptions={{
+          left: 'Name&Text',
+          right: 'Search&Profile',
+        }}
+      />
     </>
   )
 }
