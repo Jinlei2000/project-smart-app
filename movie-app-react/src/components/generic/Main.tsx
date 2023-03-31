@@ -19,8 +19,7 @@ export default ({
       {...safeAreaProps}
       flex={1}
       {...styleProps}
-      mt={16}
-      mb={12}
+      my={12}
     >
       <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
     </View>

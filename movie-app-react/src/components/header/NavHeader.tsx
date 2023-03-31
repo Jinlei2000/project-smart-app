@@ -30,7 +30,9 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
     useNavigation<StackNavigationProp<ParamListBase>>()
   const [leftItem, setLeftItem] = useState<JSX.Element[]>([])
   const [rightItem, setRightItem] = useState<JSX.Element[]>([])
-  const [userData, setUserData] = useState<IUserdata | undefined>(undefined)
+  const [userData, setUserData] = useState<IUserdata>({
+    userName: 'User',
+  })
 
   useEffect(() => {
     // get user data
@@ -46,9 +48,9 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
       setLeftItem([
         <VStack key="left">
           <Text
-            fontSize={20}
+            fontSize={24}
             fontWeight={'bold'}
-            lineHeight={20}
+            lineHeight={24}
             {...textProps.primaryColor}
           >
             Hi, {userData?.userName}
@@ -56,7 +58,7 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
           <Text
             fontSize={12}
             fontWeight={'medium'}
-            lineHeight={15}
+            lineHeight={12}
             {...textProps.secondaryColor}
           >
             Let's explore some movies
@@ -114,7 +116,12 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
       right={0}
       zIndex={100}
     >
-      <Box {...safeAreaProps} px={6} h={20} justifyContent="center" py={2}>
+      <Box {...safeAreaProps} 
+      px={6} 
+      h={20} 
+      justifyContent="center" 
+      py={2}
+      >
         <HStack alignItems="center" justifyContent="space-between">
           {leftItem}
           {rightItem}

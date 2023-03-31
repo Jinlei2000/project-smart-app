@@ -9,6 +9,8 @@ import {
   VStack,
   Image,
   Box,
+  Spinner,
+  Skeleton,
 } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import Main from '../../../components/generic/Main'
@@ -20,12 +22,21 @@ import { ICategory } from '../../../interfaces/ICategory'
 import IMovie from '../../../interfaces/IMovie'
 import { textProps } from '../../../styles/props'
 import MovieCard from '../../../components/card/MovieCard'
+import SectionHeader from '../../../components/title/SectionHeader'
+import SkeletonMovieList from '../../../components/skeleton/SkeletonMovieList'
+import MovieList from '../../../components/list/MovieList'
 
 export default () => {
   const { getCategories, getMovies } = useApi()
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
   const [categories, setCategories] = useState<ICategory[]>([])
-  const [movies, setMovies] = useState<{ [key: string]: IMovie[] | null }>({})
+  const [movies, setMovies] = useState<{ [key: string]: IMovie[] | null }>({
+    nowPlaying: null,
+    popular: null,
+    topRated: null,
+    trending: null,
+    upcoming: null,
+  })
 
   const getFirst10Movies = (data: IMovie[] | null) => {
     if (data) {
@@ -91,7 +102,7 @@ export default () => {
         }}
       />
       <Main>
-        <VStack space={6} mb={8}>
+        <VStack space={6} mb={8} mt={2}>
           {/* Categories */}
           <VStack space={3}>
             <Text
@@ -106,165 +117,21 @@ export default () => {
           </VStack>
 
           {/* Now Playing */}
-          <VStack space={4}>
-            <HStack
-              justifyContent={'space-between'}
-              alignItems={'flex-end'}
-              px={6}
-            >
-              <Text
-                fontSize={20}
-                fontWeight="semibold"
-                {...textProps.primaryColor}
-              >
-                Now Playing
-              </Text>
-              <Text
-                fontSize={12}
-                fontWeight="medium"
-                {...textProps.accentColor}
-                onPress={() =>
-                  navigate('Category', {
-                    category: 'movies',
-                    item: { name: 'Now Playing' },
-                  })
-                }
-              >
-                View all
-              </Text>
-            </HStack>
-            {/* https://www.npmjs.com/package/react-native-swipeable-view-stack */}
-            {/* <FlatList
-              horizontal
-              pagingEnabled
-              data={movies.nowPlaying}
-              keyExtractor={item => item?.id.toString()}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingHorizontal: 24 }}
-              renderItem={({ item }) => (
-                <Pressable
-                  justifyContent={'center'}
-                  onPress={() =>
-                    navigate('Detail', {
-                      movie: item,
-                    })
-                  }
-                >
-                  <Flex
-                    width={200}
-                    height={300}
-                    bg="gray.300"
-                    borderRadius={8}
-                    mr={4}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                  >
-                    <Text>{item?.title}</Text>
-                  </Flex>
-                </Pressable>
-              )}
-            /> */}
-          </VStack>
+          {/* swipe effect */}
+          {/* https://www.npmjs.com/package/react-native-swipeable-view-stack */}
+          <MovieList title="Now Playing" data={movies.nowPlaying} />
 
           {/* Trending Now*/}
-          <VStack space={4}>
-            <HStack
-              justifyContent={'space-between'}
-              alignItems={'flex-end'}
-              px={6}
-            >
-              <Text
-                fontSize={20}
-                fontWeight="semibold"
-                {...textProps.primaryColor}
-              >
-                Trending Now
-              </Text>
-              <Text
-                fontSize={12}
-                fontWeight="medium"
-                {...textProps.accentColor}
-                onPress={() =>
-                  navigate('Category', {
-                    category: 'movies',
-                    item: { name: 'Now Playing' },
-                  })
-                }
-              >
-                View all
-              </Text>
-            </HStack>
-            <FlatList
-              horizontal
-              data={movies.trending}
-              keyExtractor={item => item?.id.toString()}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingLeft: 24, paddingRight: 12 }}
-              renderItem={({ item }: { item: IMovie }) => (
-                <MovieCard movie={item} />
-              )}
-            />
-          </VStack>
-          
+          <MovieList title="Trending Now" data={movies.trending} />
+
           {/* Popular */}
-          <VStack space={4}>
-            <HStack
-              justifyContent={'space-between'}
-              alignItems={'flex-end'}
-              px={6}
-            >
-              <Text
-                fontSize={20}
-                fontWeight="semibold"
-                {...textProps.primaryColor}
-              >
-                Popular
-              </Text>
-              <Text
-                fontSize={12}
-                fontWeight="medium"
-                {...textProps.accentColor}
-                onPress={() =>
-                  navigate('Category', {
-                    category: 'movies',
-                    item: { name: 'Now Playing' },
-                  })
-                }
-              >
-                View all
-              </Text>
-            </HStack>
-            <FlatList
-              horizontal
-              data={movies.popular}
-              keyExtractor={item => item?.id.toString()}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingHorizontal: 24 }}
-              renderItem={({ item }) => (
-                <Pressable
-                  onPress={() =>
-                    navigate('Detail', {
-                      movie: item,
-                    })
-                  }
-                >
-                  <Flex
-                    width={100}
-                    height={150}
-                    bg="gray.300"
-                    borderRadius={8}
-                    mr={4}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                  >
-                    <Text>{item?.title}</Text>
-                  </Flex>
-                </Pressable>
-              )}
-            />
-          </VStack>
+          <MovieList title="Popular" data={movies.popular} />
+
           {/* Upcoming */}
+          <MovieList title="Upcoming" data={movies.upcoming} />
+
           {/* Top Rated */}
+          <MovieList title="Top Rated" data={movies.topRated} />
         </VStack>
       </Main>
     </>
