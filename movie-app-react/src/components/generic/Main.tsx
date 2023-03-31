@@ -14,7 +14,14 @@ export default ({
   })
 
   return (
-    <View {...bgProps} {...safeAreaProps} flex={1} {...styleProps} mt={16}>
+    <View
+      {...bgProps}
+      {...safeAreaProps}
+      flex={1}
+      {...styleProps}
+      mt={16}
+      mb={12}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
     </View>
   )

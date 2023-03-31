@@ -1,5 +1,6 @@
 import Category from '../Generic/Category'
 
 export default (props: any) => {
-  return <Category {...props} />
+  const { category, item } = props.route.params
+  return <Category category={category} item={item} />
 }
