@@ -1,10 +1,13 @@
-import { Text } from 'native-base'
+import { Text, VStack } from 'native-base'
 import Main from '../../../components/generic/Main'
 
 export default () => {
   return (
     <Main>
-      <Text>Search</Text>
-    </Main>
+        <VStack mt={2}>
+          <Text>Search</Text>
+        </VStack>
+      </Main>
+  
   )
 }

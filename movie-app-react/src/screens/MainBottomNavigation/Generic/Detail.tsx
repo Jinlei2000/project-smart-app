@@ -7,7 +7,9 @@ export default ({ movie }: { movie: IMovie }) => {
 
   return (
     <Main>
-      <Text>Detail</Text>
+      <Text>
+        {movie.title} {movie.id} {movie.overview} {movie.rating}
+      </Text>
     </Main>
   )
 }

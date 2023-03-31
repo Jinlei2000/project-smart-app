@@ -1,15 +1,13 @@
-import { ParamListBase, useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { VStack } from 'native-base'
-import React, { useEffect, useState } from 'react'
-import Main from '../../../components/generic/Main'
-import NavHeader from '../../../components/header/NavHeader'
-import CategoryList from '../../../components/list/CategoryList'
 import { enumMovieCategory } from '../../../enum/enumMovieCategory'
-import useApi from '../../../hooks/useApi'
 import { ICategory } from '../../../interfaces/ICategory'
+import { Box, VStack } from 'native-base'
+import CategoryList from '../../../components/list/CategoryList'
 import IMovie from '../../../interfaces/IMovie'
+import Main from '../../../components/generic/Main'
 import MovieList from '../../../components/list/MovieList'
+import NavHeader from '../../../components/header/NavHeader'
+import React, { useEffect, useState } from 'react'
+import useApi from '../../../hooks/useApi'
 
 export default () => {
   const { getCategories, getMovies } = useApi()
@@ -86,27 +84,24 @@ export default () => {
         }}
       />
       <Main>
-        <VStack space={6} mb={8} mt={2}>
-          {/* Categories */}
-          <CategoryList categories={categories} header={true} />
-
-          {/* Now Playing */}
-          {/* swipe effect */}
-          {/* https://www.npmjs.com/package/react-native-swipeable-view-stack */}
-          <MovieList title="Now Playing" data={movies.nowPlaying} />
-
-          {/* Trending Now*/}
-          <MovieList title="Trending Now" data={movies.trending} />
-
-          {/* Popular */}
-          <MovieList title="Popular" data={movies.popular} />
-
-          {/* Upcoming */}
-          <MovieList title="Upcoming" data={movies.upcoming} />
-
-          {/* Top Rated */}
-          <MovieList title="Top Rated" data={movies.topRated} />
-        </VStack>
+        <Box mt={12} mb={20}>
+          <VStack space={6} mt={2}>
+            {/* Categories */}
+            <CategoryList categories={categories} header={true} />
+            {/* Now Playing */}
+            {/* swipe effect */}
+            {/* https://www.npmjs.com/package/react-native-swipeable-view-stack */}
+            <MovieList title="Now Playing" data={movies.nowPlaying} />
+            {/* Trending Now*/}
+            <MovieList title="Trending Now" data={movies.trending} />
+            {/* Popular */}
+            <MovieList title="Popular" data={movies.popular} />
+            {/* Upcoming */}
+            <MovieList title="Upcoming" data={movies.upcoming} />
+            {/* Top Rated */}
+            <MovieList title="Top Rated" data={movies.topRated} />
+          </VStack>
+        </Box>
       </Main>
     </>
   )

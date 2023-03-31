@@ -1,6 +1,7 @@
 // Description: Interface for navbar options
+
 export interface INavbarOptions {
-  left: string
+  left?: string
   leftTitle?: string
-  right: string
+  right?: string
 }

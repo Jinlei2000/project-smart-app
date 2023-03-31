@@ -3,9 +3,13 @@ import Random from './Random'
 
 const Stack = createStackNavigator()
 
+const screenOptions = {
+  headerShown: false,
+}
+
 export default () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="Random" component={Random} />
     </Stack.Navigator>
   )
