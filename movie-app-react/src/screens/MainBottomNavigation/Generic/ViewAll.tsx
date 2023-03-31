@@ -6,7 +6,7 @@ export default (data: any) => {
 
   return (
     <Main>
-      <Text>Category</Text>
+      <Text>View All</Text>
     </Main>
   )
 }

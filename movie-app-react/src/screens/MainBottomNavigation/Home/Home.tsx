@@ -1,17 +1,6 @@
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import {
-  FlatList,
-  Flex,
-  HStack,
-  Pressable,
-  Text,
-  VStack,
-  Image,
-  Box,
-  Spinner,
-  Skeleton,
-} from 'native-base'
+import { VStack } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import Main from '../../../components/generic/Main'
 import NavHeader from '../../../components/header/NavHeader'
@@ -20,16 +9,11 @@ import { enumMovieCategory } from '../../../enum/enumMovieCategory'
 import useApi from '../../../hooks/useApi'
 import { ICategory } from '../../../interfaces/ICategory'
 import IMovie from '../../../interfaces/IMovie'
-import { textProps } from '../../../styles/props'
-import MovieCard from '../../../components/card/MovieCard'
-import SectionHeader from '../../../components/title/SectionHeader'
-import SkeletonMovieList from '../../../components/skeleton/SkeletonMovieList'
 import MovieList from '../../../components/list/MovieList'
 
 export default () => {
   const { getCategories, getMovies } = useApi()
-  const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
-  const [categories, setCategories] = useState<ICategory[]>([])
+  const [categories, setCategories] = useState<ICategory[] | null>(null)
   const [movies, setMovies] = useState<{ [key: string]: IMovie[] | null }>({
     nowPlaying: null,
     popular: null,
@@ -104,17 +88,7 @@ export default () => {
       <Main>
         <VStack space={6} mb={8} mt={2}>
           {/* Categories */}
-          <VStack space={3}>
-            <Text
-              fontSize={20}
-              fontWeight="semibold"
-              {...textProps.primaryColor}
-              px={6}
-            >
-              Categories
-            </Text>
-            <CategoryList categories={categories} />
-          </VStack>
+          <CategoryList categories={categories} header={true} />
 
           {/* Now Playing */}
           {/* swipe effect */}

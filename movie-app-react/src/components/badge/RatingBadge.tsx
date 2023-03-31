@@ -1,16 +1,15 @@
 import { Box, Text } from 'native-base'
-import { textProps } from '../../styles/props'
 
 export default ({ rating }: { rating: number }) => {
   const getRatingBgColor = (rating: number) => {
-    if (rating >= 7) {
-      return "extra.green"
-    } else if (rating >= 5) {
-      return "extra.yellow"
-    } else if (rating !== 0) {
-      return "extra.red"
+    if (rating >= 70) {
+      return 'extra.green'
+    } else if (rating >= 50) {
+      return 'extra.orange'
+    } else if (rating > 0) {
+      return 'extra.red'
     } else {
-      return "brand.800"
+      return 'brand.800'
     }
   }
 

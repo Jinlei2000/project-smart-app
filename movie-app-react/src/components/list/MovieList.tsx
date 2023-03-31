@@ -8,7 +8,7 @@ import SkeletonMovieList from '../skeleton/SkeletonMovieList'
 export default ({ title, data }: { title: string; data: IMovie[] | null }) => {
   return (
     <VStack space={4}>
-      <SectionHeader title={title} navigateTo="Category" category="Movies" />
+      <SectionHeader title={title} category="Movies" />
       {data !== null ? (
         <FlatList
           horizontal

@@ -3,7 +3,15 @@ import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { textProps } from '../../styles/props'
 
-export default ({ title, navigateTo, category }: any) => {
+export default ({
+  title,
+  category,
+  viewAll = true,
+}: {
+  title: string
+  category?: string
+  viewAll?: boolean
+}) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
 
   return (
@@ -11,19 +19,21 @@ export default ({ title, navigateTo, category }: any) => {
       <Text fontSize={20} fontWeight="semibold" {...textProps.primaryColor}>
         {title}
       </Text>
-      <Text
-        fontSize={12}
-        fontWeight="medium"
-        {...textProps.accentColor}
-        onPress={() =>
-          navigate(navigateTo, {
-            category: category,
-            item: { name: title },
-          })
-        }
-      >
-        View all
-      </Text>
+      {viewAll && (
+        <Text
+          fontSize={12}
+          fontWeight="medium"
+          {...textProps.accentColor}
+          onPress={() =>
+            navigate('ViewAll', {
+              category: category,
+              item: { name: title },
+            })
+          }
+        >
+          View all
+        </Text>
+      )}
     </HStack>
   )
 }
