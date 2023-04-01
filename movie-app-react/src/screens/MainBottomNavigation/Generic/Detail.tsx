@@ -4,6 +4,7 @@ import IMovie from '../../../interfaces/IMovie'
 
 export default ({ movie }: { movie: IMovie }) => {
   console.log(movie)
+  
 
   return (
     <Main>

@@ -25,8 +25,8 @@ export default () => {
   let bgColor = ''
   let tabBarBg = () => {}
   if (Platform.OS !== 'ios') {
-    bgColor = colorMode === 'dark' ? '#24242c' : '#e4e8eb'
-    tabBarBg = () => null
+    bgColor = colorMode === 'dark' ? '#1E1F27' : '#F3F4F6'
+    tabBarBg = () => <View shadow={2} />
   } else {
     bgColor = colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3'
     tabBarBg = () => (

@@ -124,14 +124,14 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
       {Platform.OS === 'ios' ? (
         <BlurView
           tint={colorMode === 'dark' ? 'dark' : 'light'}
-          intensity={100}
+          intensity={50}
           style={{
             zIndex: 100,
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
-            backgroundColor: 'transparent',
+            backgroundColor: colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3',
           }}
         >
           {children}
@@ -143,7 +143,8 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
           left={0}
           right={0}
           zIndex={100}
-          bg={colorMode === 'dark' ? '#24242c' : '#f3f4f6'}
+          bg={colorMode === 'dark' ? '#1e1e24' : '#f3f4f6'}
+          shadow={1}
         >
           {children}
         </View>

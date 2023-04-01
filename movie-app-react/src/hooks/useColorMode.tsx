@@ -10,6 +10,7 @@ export default () => {
   const _changeMode = async (mode: 'dark' | 'light') => {
     await AsyncStorage.setItem('@color-mode', mode)
     setColorMode(mode)
+    // console.log('color mode changed', mode)
   }
 
   // store system color mode in async storage
@@ -32,6 +33,7 @@ export default () => {
   Appearance.addChangeListener(({ colorScheme }) => {
     AsyncStorage.getItem('@use-system-color-mode').then(IsSystemColorMode => {
       if (IsSystemColorMode === 'true') {
+        // console.log('system mode changed', colorScheme === 'dark' ? 'dark' : 'light')
         _changeMode(colorScheme === 'dark' ? 'dark' : 'light')
       }
     })

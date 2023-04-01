@@ -3,6 +3,8 @@ import ViewAll from './ViewAll'
 import Detail from './Detail'
 import Home from './Home'
 import Search from './Search'
+import { useLayoutEffect } from 'react'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 
 const Stack = createStackNavigator()
 
