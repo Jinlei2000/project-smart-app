@@ -85,13 +85,13 @@ export default () => {
     })
   }
 
-  const getWatchlist = (): Promise<IMovie[] | null> => {
+  const getWatchlist = (page: number): Promise<IMovie[] | null> => {
     return new Promise((resolve, reject) => {
       getSession()
         .then(sessionToken => {
           getUser().then(user => {
             fetch(
-              `${BASE_URL}/account/${user.id}/watchlist/movies?api_key=${API_KEY}&session_id=${sessionToken}&language=en-BE`,
+              `${BASE_URL}/account/${user.id}/watchlist/movies?api_key=${API_KEY}&session_id=${sessionToken}&language=en-BE&page=${page}`,
             )
               .then(response => response.json())
               .then(data => {

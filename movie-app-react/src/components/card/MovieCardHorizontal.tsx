@@ -9,26 +9,32 @@ import {
   useColorMode,
   useTheme,
 } from 'native-base'
-import colors from 'native-base/lib/typescript/theme/base/colors'
 import { textProps } from '../../styles/props'
 import RatingBadge from '../badge/RatingBadge'
 import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import IMovie from '../../interfaces/IMovie'
 
-export default (watchlist: IMovie) => {
+export default ({ movie }: { movie: IMovie }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
   const { colorMode } = useColorMode()
   const { colors } = useTheme()
 
+  const handleRemoveFromWatchlist = () => {
+    console.log('remove from watchlist')
+  }
+
+  const handleNavigateToDetail = () => {
+    navigate('Detail', {
+      movie: movie,
+    })
+  }
+
   return (
     <Flex position="relative" height={145} justify="flex-end" mt={3}>
+      {/* Movie poster */}
       <Pressable
-        onPress={() =>
-          navigate('Detail', {
-            movie: watchlist,
-          })
-        }
+        onPress={handleNavigateToDetail}
         mx={3}
         mb={3}
         bg="blueGray.900"
@@ -41,34 +47,30 @@ export default (watchlist: IMovie) => {
         <Image
           width={24}
           height={145}
-          src={watchlist?.posterUrl}
-          alt={watchlist?.title}
+          src={movie?.posterUrl}
+          alt={movie?.title}
           resizeMode="cover"
           borderRadius={12}
         />
-        <RatingBadge rating={watchlist?.rating} />
+        <RatingBadge rating={movie?.rating} />
       </Pressable>
 
+      {/* Movie details */}
       <Pressable
-        onPress={() =>
-          navigate('Detail', {
-            movie: watchlist,
-          })
-        }
-        _dark={{
-          bg: 'brand.800',
-        }}
-        _light={{
-          bg: 'coolGray.200',
-        }}
+        onPress={handleNavigateToDetail}
+        _dark={{ bg: 'brand.750' }}
+        _light={{ bg: 'coolGray.200' }}
         height={100}
         borderRadius={22}
         alignItems="center"
-        flexDirection={'row'}
+        flexDirection="row"
         pl={3}
         position="relative"
       >
-        <Box width={24} height={'full'} />
+        {/* Empty space to align with movie poster */}
+        <Box width={24} height="full" />
+
+        {/* Movie title and release date */}
         <VStack space={2} pl={3} flexBasis={0} flexGrow={1}>
           <Text
             numberOfLines={2}
@@ -77,7 +79,7 @@ export default (watchlist: IMovie) => {
             lineHeight={17}
             {...textProps.primaryColor}
           >
-            {watchlist?.title}
+            {movie?.title}
           </Text>
           <Text
             numberOfLines={1}
@@ -86,17 +88,18 @@ export default (watchlist: IMovie) => {
             lineHeight={15}
             {...textProps.secondaryColor}
           >
-            {watchlist?.releaseDate}
+            {movie?.releaseDate}
           </Text>
         </VStack>
 
+        {/* Remove from watchlist button */}
         <Pressable
           alignSelf="flex-start"
-          mr={2.5}
-          mt={2.5}
-          onPress={() => {
-            console.log('remove from watchlist')
-          }}
+          borderRadius="full"
+          m={2.5}
+          _dark={{ _pressed: { bg: 'brand.600' } }}
+          _light={{ _pressed: { bg: 'coolGray.300' } }}
+          onPress={handleRemoveFromWatchlist}
         >
           <BookmarkMinus
             size={24}

@@ -7,6 +7,7 @@ export default extendTheme({
     brand: {
       900: '#201E26',
       800: '#1E1F27',
+      750: '#24242c',
       700: '#37373F',
       600: '#9B9B9F',
       400: '#CDCDCF',
