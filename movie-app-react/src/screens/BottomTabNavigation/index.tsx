@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Profile from './Profile'
-import Random from './Random'
-import Watchlist from './Watchlist'
-import Home from './Home'
+import Profile from './ProfileTab/Profile'
+import Random from './RandomTab/Random'
+import Watchlist from './WatchlistTab/Watchlist'
+import Home from './HomeTab/Home'
 import { View, useColorMode } from 'native-base'
 import { HomeIcon, Bookmark, Dices, User } from 'lucide-react-native'
 import React from 'react'
@@ -12,10 +12,10 @@ import { BlurView } from 'expo-blur'
 const Tab = createBottomTabNavigator()
 
 enum TabScreens {
-  HomeStack = 'HomeStack',
-  WatchlistStack = 'WatchlistStack',
-  RandomStack = 'RandomStack',
-  ProfileStack = 'ProfileStack',
+  HomeTab = 'HomeTab',
+  WatchlistTab = 'WatchlistTab',
+  RandomTab = 'RandomTab',
+  ProfileTab = 'ProfileTab',
 }
 
 export default () => {
@@ -60,7 +60,7 @@ export default () => {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name={TabScreens.HomeStack}
+        name={TabScreens.HomeTab}
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
@@ -70,7 +70,7 @@ export default () => {
         component={Home}
       />
       <Tab.Screen
-        name={TabScreens.WatchlistStack}
+        name={TabScreens.WatchlistTab}
         options={{
           title: 'Watchlist',
           tabBarIcon: ({ color }) => (
@@ -80,7 +80,7 @@ export default () => {
         component={Watchlist}
       />
       <Tab.Screen
-        name={TabScreens.RandomStack}
+        name={TabScreens.RandomTab}
         options={{
           title: 'Random',
           tabBarIcon: ({ color }) => (
@@ -90,7 +90,7 @@ export default () => {
         component={Random}
       />
       <Tab.Screen
-        name={TabScreens.ProfileStack}
+        name={TabScreens.ProfileTab}
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => (

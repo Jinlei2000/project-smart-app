@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 import AuthStack from '../screens/AuthStack'
-import MainBottomNavigation from '../screens/MainBottomNavigation'
 import { isAuthAtom } from '../stores/isAuth'
+import MainStackNavigation from '../screens/MainStackNavigation'
 
 export default () => {
   // global state for auth
@@ -13,12 +13,12 @@ export default () => {
   //   if (isAuth === false) {
   //     return <AuthStack />
   //   } else if (isAuth === true) {
-  //     return <MainBottomNavigation />
+  //     return <MainStackNavigation />
   //   }
   // } else {
   //   return <></>
   // }
 
   // check if user is logged in
-  return <>{isAuth ? <MainBottomNavigation /> : <AuthStack />}</>
+  return <>{isAuth ? <MainStackNavigation /> : <AuthStack />}</>
 }

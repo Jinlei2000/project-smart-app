@@ -3,13 +3,9 @@ import Watchlist from './Watchlist'
 
 const Stack = createStackNavigator()
 
-const screenOptions = {
-  headerShown: false,
-}
-
 export default () => {
   return (
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator>
       <Stack.Screen name="Watchlist" component={Watchlist} />
     </Stack.Navigator>
   )

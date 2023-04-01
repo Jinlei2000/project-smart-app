@@ -3,13 +3,9 @@ import Profile from './Profile'
 
 const Stack = createStackNavigator()
 
-const screenOptions = {
-  headerShown: false,
-}
-
 export default () => {
   return (
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator>
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   )
