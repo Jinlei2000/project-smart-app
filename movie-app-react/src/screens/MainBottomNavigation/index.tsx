@@ -3,7 +3,7 @@ import Profile from './Profile'
 import Random from './Random'
 import Watchlist from './Watchlist'
 import Home from './Home'
-import { useColorMode } from 'native-base'
+import { View, useColorMode } from 'native-base'
 import { HomeIcon, Bookmark, Dices, User } from 'lucide-react-native'
 import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
@@ -25,8 +25,8 @@ export default () => {
   let bgColor = ''
   let tabBarBg = () => {}
   if (Platform.OS !== 'ios') {
-    bgColor = colorMode === 'dark' ? '#24242c' : '#e4e8eb'
-    tabBarBg = () => null
+    bgColor = colorMode === 'dark' ? '#1E1F27' : '#F3F4F6'
+    tabBarBg = () => <View shadow={2} />
   } else {
     bgColor = colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3'
     tabBarBg = () => (
@@ -63,8 +63,8 @@ export default () => {
         name={TabScreens.HomeStack}
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <HomeIcon strokeWidth={stroke} color={color} size={size} />
+          tabBarIcon: ({ color }) => (
+            <HomeIcon strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Home}
@@ -73,8 +73,8 @@ export default () => {
         name={TabScreens.WatchlistStack}
         options={{
           title: 'Watchlist',
-          tabBarIcon: ({ color, size }) => (
-            <Bookmark strokeWidth={stroke} color={color} size={size} />
+          tabBarIcon: ({ color }) => (
+            <Bookmark strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Watchlist}
@@ -83,8 +83,8 @@ export default () => {
         name={TabScreens.RandomStack}
         options={{
           title: 'Random',
-          tabBarIcon: ({ color, size }) => (
-            <Dices strokeWidth={stroke} color={color} size={size} />
+          tabBarIcon: ({ color }) => (
+            <Dices strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Random}
@@ -93,8 +93,8 @@ export default () => {
         name={TabScreens.ProfileStack}
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <User strokeWidth={stroke} color={color} size={size} />
+          tabBarIcon: ({ color }) => (
+            <User strokeWidth={stroke} color={color} size={24} />
           ),
         }}
         component={Profile}

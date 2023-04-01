@@ -11,14 +11,44 @@ export const bgProps = {
 }
 
 export const textProps = {
-  header: {
-    fontSize: 24,
-    fontWeight: '700',
+  primaryColor: {
     _dark: {
       color: 'brand.200',
     },
     _light: {
       color: 'coolGray.800',
+    },
+  },
+  secondaryColor: {
+    _dark: {
+      color: 'brand.600',
+    },
+    _light: {
+      color: 'coolGray.400',
+    },
+  },
+
+  accentColor: {
+    _dark: {
+      color: 'blue.500',
+    },
+    _light: {
+      color: 'blue.500',
+    },
+  },
+}
+
+export const btnProps = {
+  _dark: {
+    bg: 'brand.700',
+    _pressed: {
+      opacity: 0.5,
+    },
+  },
+  _light: {
+    bg: 'coolGray.200',
+    _pressed: {
+      bg: 'coolGray.300',
     },
   },
 }

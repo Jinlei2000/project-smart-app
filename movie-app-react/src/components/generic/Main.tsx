@@ -1,7 +1,7 @@
 import { ScrollView, useSafeArea, View } from 'native-base'
 import { bgProps } from '../../styles/props'
 
-export default ({ children }: JSX.ElementChildrenAttribute) => {
+export default ({ children }: { children?: JSX.Element | JSX.Element[] }) => {
   const safeAreaProps = useSafeArea({
     safeArea: true,
     pt: 2,
@@ -9,9 +9,7 @@ export default ({ children }: JSX.ElementChildrenAttribute) => {
 
   return (
     <View {...bgProps} {...safeAreaProps} flex={1}>
-      <ScrollView px={6} showsVerticalScrollIndicator={false}>
-        {children}
-      </ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
     </View>
   )
 }

@@ -1,8 +1,11 @@
-import { Button, Text, View } from 'native-base'
+import { Text, VStack } from 'native-base'
+import Main from '../../../components/generic/Main'
+import useApi from '../../../hooks/useApi'
 import useAuth from '../../../hooks/useAuth'
 import useSessionToken from '../../../hooks/useSessionToken'
 
 export default () => {
+  const {} = useApi()
   const { getSession } = useSessionToken()
   const { logout } = useAuth()
 
@@ -11,16 +14,10 @@ export default () => {
     console.log(session)
   }
   return (
-    <View>
-      <Button onPress={handleBtn}></Button>
-      <Button
-        onPress={() => {
-          logout()
-        }}
-      >
-        <Text>Logout</Text>
-      </Button>
-      <Text>Profile</Text>
-    </View>
+    <Main>
+      <VStack mx={6} mb={8}>
+        <Text>Profile</Text>
+      </VStack>
+    </Main>
   )
 }
