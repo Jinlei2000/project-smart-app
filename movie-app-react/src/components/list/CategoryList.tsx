@@ -35,8 +35,7 @@ export default ({
               borderRadius={12}
               onPress={() =>
                 navigate('ViewAll', {
-                  category: 'category',
-                  item: item,
+                  data: { category: 'category', item: item },
                 })
               }
             >

@@ -1,6 +1,6 @@
 import { Text, VStack } from 'native-base'
-import Main from '../../../components/generic/Main'
-import NavHeader from '../../../components/header/NavHeader'
+import NavHeader from '../../components/header/NavHeader'
+import Main from '../../components/generic/Main'
 
 export default () => {
   return (
