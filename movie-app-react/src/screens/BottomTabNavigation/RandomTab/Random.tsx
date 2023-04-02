@@ -7,7 +7,7 @@ export default () => {
   const {} = useApi()
 
   return (
-    <Main>
+    <Main scroll={false}>
       <VStack mx={6} mb={8}>
         <Text>RANDOM</Text>
       </VStack>

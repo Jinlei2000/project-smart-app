@@ -60,7 +60,7 @@ export default () => {
   return (
     <Tab.Navigator
       screenOptions={screenOptions}
-      initialRouteName="WatchlistTab"
+      initialRouteName="RandomTab"
     >
       <Tab.Screen
         name={TabScreens.HomeTab}
