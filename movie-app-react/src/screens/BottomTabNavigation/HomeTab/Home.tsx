@@ -37,38 +37,38 @@ export default () => {
     // Get movies
     getMovies(enumMovieCategory.NOW_PLAYING, 1).then(
       (data: IMovie[] | null) => {
-        setMovies((prevState: { [key: string]: IMovie[] | null }) => ({
-          ...prevState,
+        setMovies(prev => ({
+          ...prev,
           nowPlaying: getFirst10Movies(data),
         }))
       },
     )
 
     getMovies(enumMovieCategory.POPULAR, 1).then((data: IMovie[] | null) => {
-      setMovies((prevState: { [key: string]: IMovie[] | null }) => ({
-        ...prevState,
+      setMovies(prev => ({
+        ...prev,
         popular: getFirst10Movies(data),
       }))
     })
 
     getMovies(enumMovieCategory.TOP_RATED, 1).then((data: IMovie[] | null) => {
-      setMovies((prevState: { [key: string]: IMovie[] | null }) => ({
-        ...prevState,
+      setMovies(prev => ({
+        ...prev,
         topRated: getFirst10Movies(data),
       }))
     })
 
     getMovies(enumMovieCategory.UPCOMING, 1).then((data: IMovie[] | null) => {
-      setMovies((prevState: { [key: string]: IMovie[] | null }) => ({
-        ...prevState,
+      setMovies(prev => ({
+        ...prev,
         upcoming: getFirst10Movies(data),
       }))
     })
 
     getMovies(enumMovieCategory.TRENDING_NOW, 1).then(
       (data: IMovie[] | null) => {
-        setMovies((prevState: { [key: string]: IMovie[] | null }) => ({
-          ...prevState,
+        setMovies(prev => ({
+          ...prev,
           trending: getFirst10Movies(data),
         }))
       },
@@ -83,8 +83,6 @@ export default () => {
             {/* Categories */}
             <CategoryList categories={categories} header={true} />
             {/* Now Playing */}
-            {/* swipe effect */}
-            {/* https://www.npmjs.com/package/react-native-swipeable-view-stack */}
             <MovieList title="Now Playing" data={movies.nowPlaying} />
             {/* Trending Now*/}
             <MovieList title="Trending Now" data={movies.trending} />

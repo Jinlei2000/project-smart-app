@@ -15,6 +15,7 @@ export default ({ title, data }: { title: string; data: IMovie[] | null }) => {
           data={data}
           keyExtractor={item => item?.id.toString()}
           showsHorizontalScrollIndicator={false}
+          bounces={false}
           contentContainerStyle={{ paddingLeft: 24, paddingRight: 12 }}
           renderItem={({ item }: { item: IMovie }) => (
             <MovieCard movie={item} />
