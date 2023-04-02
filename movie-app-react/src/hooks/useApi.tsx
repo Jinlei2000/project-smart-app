@@ -91,7 +91,7 @@ export default () => {
         .then(sessionToken => {
           getUser().then(user => {
             fetch(
-              `${BASE_URL}/account/${user.id}/watchlist/movies?api_key=${API_KEY}&session_id=${sessionToken}&language=en-BE&page=${page}`,
+              `${BASE_URL}/account/${user.id}/watchlist/movies?api_key=${API_KEY}&session_id=${sessionToken}&language=en-BE&page=${page}&sort_by=created_at.desc`,
             )
               .then(response => response.json())
               .then(data => {
@@ -124,6 +124,36 @@ export default () => {
     })
   }
 
+  const deleteOrAddWatchlist = (movieId: number, watchlist: boolean) => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/account/${user.id}/watchlist?api_key=${API_KEY}&session_id=${sessionToken}`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  media_type: 'movie',
+                  media_id: movieId,
+                  watchlist: watchlist, // true = add to watchlist, false = remove from watchlist
+                }),
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                resolve(true)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
   return {
     getMovies,
     // getMovie,
@@ -132,10 +162,8 @@ export default () => {
     // getFavorites,
     getWatchlist,
     // getRated,
-    // postFavorite,
-    // postWatchlist,
-    // deleteFavorite,
-    // deleteWatchlist,
+    // deleteOrAddFavorite,
+    deleteOrAddWatchlist,
     // searchMovies,
     // postMovieRating,
     // deleteMovieRating,

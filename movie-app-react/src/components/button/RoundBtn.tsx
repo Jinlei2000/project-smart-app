@@ -1,7 +1,14 @@
 import { Pressable, useColorMode, useTheme } from 'native-base'
 import { btnProps } from '../../styles/props';
+import { LucideIcon } from 'lucide-react-native';
 
-export default ({ icon: Icon, handleBtn }: { icon: any; handleBtn: any }) => {
+export default ({
+  icon: Icon,
+  handleBtn,
+}: {
+  icon: LucideIcon
+  handleBtn: any
+}) => {
   const { colorMode } = useColorMode()
   const { colors } = useTheme()
 

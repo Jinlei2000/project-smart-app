@@ -1,4 +1,4 @@
-import { BookmarkMinus } from 'lucide-react-native'
+import { BookmarkMinus, LucideIcon } from 'lucide-react-native'
 import {
   Box,
   Flex,
@@ -15,14 +15,18 @@ import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import IMovie from '../../interfaces/IMovie'
 
-export default ({ movie }: { movie: IMovie }) => {
+export default ({
+  movie,
+  handleRemove,
+  removeIcon: RemoveIcon,
+}: {
+  movie: IMovie
+  handleRemove?: () => void
+  removeIcon: LucideIcon | null
+}) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
   const { colorMode } = useColorMode()
   const { colors } = useTheme()
-
-  const handleRemoveFromWatchlist = () => {
-    console.log('remove from watchlist')
-  }
 
   const handleNavigateToDetail = () => {
     navigate('Detail', {
@@ -54,7 +58,6 @@ export default ({ movie }: { movie: IMovie }) => {
         />
         <RatingBadge rating={movie?.rating} />
       </Pressable>
-
       {/* Movie details */}
       <Pressable
         onPress={handleNavigateToDetail}
@@ -69,9 +72,8 @@ export default ({ movie }: { movie: IMovie }) => {
       >
         {/* Empty space to align with movie poster */}
         <Box width={24} height="full" />
-
         {/* Movie title and release date */}
-        <VStack space={2} pl={3} flexBasis={0} flexGrow={1}>
+        <VStack space={2} pl={3} flexBasis={0} flexGrow={1} pr={3}>
           <Text
             numberOfLines={2}
             fontWeight="semibold"
@@ -88,29 +90,35 @@ export default ({ movie }: { movie: IMovie }) => {
             lineHeight={15}
             {...textProps.secondaryColor}
           >
-            {movie?.releaseDate}
+            {movie?.releaseDate &&
+              new Date(movie?.releaseDate).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
           </Text>
         </VStack>
-
         {/* Remove from watchlist button */}
-        <Pressable
-          alignSelf="flex-start"
-          borderRadius="full"
-          m={2.5}
-          _dark={{ _pressed: { bg: 'brand.600' } }}
-          _light={{ _pressed: { bg: 'coolGray.300' } }}
-          onPress={handleRemoveFromWatchlist}
-        >
-          <BookmarkMinus
-            size={24}
-            color={
-              colorMode === 'dark'
-                ? // @ts-ignore
-                  colors.brand[200]
-                : colors.coolGray[700]
-            }
-          />
-        </Pressable>
+        {RemoveIcon && handleRemove && (
+          <Pressable
+            alignSelf="flex-start"
+            borderRadius="full"
+            m={2.5}
+            _dark={{ _pressed: { bg: 'brand.600' } }}
+            _light={{ _pressed: { bg: 'coolGray.300' } }}
+            onPress={handleRemove}
+          >
+            <RemoveIcon
+              size={24}
+              color={
+                colorMode === 'dark'
+                  ? // @ts-ignore
+                    colors.brand[200]
+                  : colors.coolGray[700]
+              }
+            />
+          </Pressable>
+        )}
       </Pressable>
     </Flex>
   )
