@@ -4,16 +4,30 @@ import { Image } from 'react-native'
 import { IUserdata } from '../../interfaces/IUserdata'
 import { textProps } from '../../styles/props'
 
-export default ({ userDatas }: { userDatas: IUserdata | undefined }) => {
-  const [userData, setUserData] = useState<IUserdata | undefined>(userDatas)
+export default ({
+  userDatas,
+  size = 'sm',
+}: {
+  userDatas: IUserdata | null
+  size?: string
+}) => {
+  const [userData, setUserData] = useState<IUserdata | null>(userDatas)
 
   useEffect(() => {
     setUserData(userDatas)
   }, [userDatas])
 
+  const getSize = () => {
+    if (size === 'sm') {
+      return 10
+    } else if (size === 'xxl') {
+      return 128
+    }
+  }
+
   return (
     <Avatar
-      size={10}
+      size={getSize()}
       _dark={{ bg: 'brand.700' }}
       _light={{ bg: 'coolGray.200' }}
     >

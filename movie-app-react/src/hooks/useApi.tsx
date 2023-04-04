@@ -24,7 +24,7 @@ export default () => {
                 userName: data.username,
                 avatarUrl:
                   data.avatar.gravatar.hash != ''
-                    ? `https://www.gravatar.com/avatar/${data.avatar.gravatar.hash}?d=404`
+                    ? `https://www.gravatar.com/avatar/${data.avatar.gravatar.hash}?d=404&s=128`
                     : null,
                 name: data.name,
                 id: data.id,
