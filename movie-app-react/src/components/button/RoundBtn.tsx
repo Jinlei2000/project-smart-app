@@ -23,7 +23,6 @@ export default ({
       alignItems={'center'}
     >
       <Icon
-        // @ts-ignore
         color={colorMode === 'dark' ? colors.brand[200] : colors.coolGray[700]}
         size={24}
       />

@@ -111,10 +111,7 @@ export default ({
             <RemoveIcon
               size={24}
               color={
-                colorMode === 'dark'
-                  ? // @ts-ignore
-                    colors.brand[200]
-                  : colors.coolGray[700]
+                colorMode === 'dark' ? colors.brand[200] : colors.coolGray[700]
               }
             />
           </Pressable>

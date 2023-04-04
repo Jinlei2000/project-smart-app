@@ -3,7 +3,7 @@ import Profile from './ProfileTab/Profile'
 import Random from './RandomTab/Random'
 import Watchlist from './WatchlistTab/Watchlist'
 import Home from './HomeTab/Home'
-import { View, useColorMode } from 'native-base'
+import { View, useColorMode, useTheme } from 'native-base'
 import { HomeIcon, Bookmark, Dices, User } from 'lucide-react-native'
 import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
@@ -21,11 +21,15 @@ enum TabScreens {
 export default () => {
   const stroke = Platform.OS === 'ios' ? 2.5 : 2
   const { colorMode } = useColorMode()
+  const { colors } = useTheme()
 
   let bgColor = ''
   let tabBarBg = () => {}
   if (Platform.OS !== 'ios') {
-    bgColor = colorMode === 'dark' ? '#1E1F27' : '#F3F4F6'
+    bgColor =
+      colorMode === 'dark'
+        ? colors.brand[800]
+        : colors.coolGray[100]
     tabBarBg = () => <View shadow={2} />
   } else {
     bgColor = colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3'
@@ -53,15 +57,14 @@ export default () => {
       fontSize: 11,
     },
     tabBarBackground: tabBarBg,
-    tabBarInactiveTintColor: colorMode === 'dark' ? '#9B9B9F' : '#6B7280',
-    tabBarActiveTintColor: colorMode === 'dark' ? '#E6E6E7' : '#111827',
+    tabBarInactiveTintColor:
+      colorMode === 'dark' ? colors.brand[600] : colors.coolGray[500],
+    tabBarActiveTintColor:
+      colorMode === 'dark' ? colors.brand[200] : colors.coolGray[900],
   }
 
   return (
-    <Tab.Navigator
-      screenOptions={screenOptions}
-      initialRouteName="RandomTab"
-    >
+    <Tab.Navigator screenOptions={screenOptions} initialRouteName="RandomTab">
       <Tab.Screen
         name={TabScreens.HomeTab}
         options={{

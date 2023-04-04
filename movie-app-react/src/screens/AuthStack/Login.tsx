@@ -137,8 +137,7 @@ export default () => {
                         color={
                           colorMode === 'dark'
                             ? colors.coolGray[400]
-                            : // @ts-ignore
-                              colors.brand[600]
+                            : colors.brand[600]
                         }
                       />
                     ) : (
@@ -147,8 +146,7 @@ export default () => {
                         color={
                           colorMode === 'dark'
                             ? colors.coolGray[400]
-                            : // @ts-ignore
-                              colors.brand[600]
+                            : colors.brand[600]
                         }
                       />
                     )}

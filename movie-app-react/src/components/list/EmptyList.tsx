@@ -50,10 +50,7 @@ export default ({
           <Icon
             size={128}
             color={
-              colorMode === 'dark'
-                ? // @ts-ignore
-                  colors.brand[200]
-                : colors.coolGray[300]
+              colorMode === 'dark' ? colors.brand[200] : colors.coolGray[300]
             }
             style={{ marginBottom: 24 }}
           />
