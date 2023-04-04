@@ -160,7 +160,7 @@ export default () => {
 
     return new Promise((resolve, reject) => {
       fetch(
-        `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-BE&include_adult=true&page=${randomPage}&certification_country=US`,
+        `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-BE&include_adult=false&page=${randomPage}&certification_country=US`,
       )
         .then(response => response.json())
         .then(data => {
