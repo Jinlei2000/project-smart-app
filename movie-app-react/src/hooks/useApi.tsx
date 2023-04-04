@@ -245,16 +245,124 @@ export default () => {
     })
   }
 
+  const getFavorites = (page: number): Promise<IMovie[] | null> => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/account/${user.id}/favorite/movies?api_key=${API_KEY}&session_id=${sessionToken}&language=en-BE&page=${page}&sort_by=created_at.desc`,
+            )
+              .then(response => response.json())
+              .then(data => {
+                // no results found
+                if (data.results === undefined || data.results.length === 0) {
+                  resolve(null)
+                  return
+                }
+                // change the poster path to the full url
+                const movies = data.results.map((movie: any) => {
+                  return {
+                    id: movie.id,
+                    title: movie.title,
+                    releaseDate: movie.release_date,
+                    rating:
+                      movie.vote_average * 10 === 0
+                        ? 0
+                        : Math.round(movie.vote_average * 10),
+                    posterUrl: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
+                    overview: movie.overview,
+                  } as IMovie
+                })
+                resolve(movies)
+                // console.log('movies', data.results)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
+  const deleteOrAddFavorite = (movieId: number, favorite: boolean) => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/account/${user.id}/favorite?api_key=${API_KEY}&session_id=${sessionToken}`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  media_type: 'movie',
+                  media_id: movieId,
+                  favorite: favorite, // true = add to favorites, false = remove from favorites
+                }),
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                resolve(true)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
+  const getRated = (page: number): Promise<IMovie[] | null> => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/account/${user.id}/rated/movies?api_key=${API_KEY}&session_id=${sessionToken}&language=en-BE&page=${page}&sort_by=created_at.desc`,
+            )
+              .then(response => response.json())
+              .then(data => {
+                // no results found
+                if (data.results === undefined || data.results.length === 0) {
+                  resolve(null)
+                  return
+                }
+                // change the poster path to the full url
+                const movies = data.results.map((movie: any) => {
+                  return {
+                    id: movie.id,
+                    title: movie.title,
+                    releaseDate: movie.release_date,
+                    rating:
+                      movie.vote_average * 10 === 0
+                        ? 0
+                        : Math.round(movie.vote_average * 10),
+                    posterUrl: `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
+                    overview: movie.overview,
+                  } as IMovie
+                })
+                resolve(movies)
+                // console.log('movies', data.results)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
   return {
     getMovies,
     getMovieById,
     getCategories,
     getUser,
-    // getFavorites,
     getWatchlist,
-    // getRated,
-    // deleteOrAddFavorite,
     deleteOrAddWatchlist,
+    getFavorites,
+    deleteOrAddFavorite,
+    getRated,
     // searchMovies,
     // postMovieRating,
     // deleteMovieRating,

@@ -31,12 +31,15 @@ import SettingBtn from '../../../components/button/SettingBtn'
 import SettingSwitch from '../../../components/button/SettingSwitch'
 import { useAtom } from 'jotai'
 import { vibrationModeAtom } from '../../../stores/vibrationMode'
+import { useNavigation, ParamListBase } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 export default () => {
   const { getUser } = useApi()
   const { logout } = useAuth()
   const [userData, setUserData] = useState<IUserdata | null>(null)
   const [vibrationMode, setVibrationMode] = useAtom(vibrationModeAtom)
+  const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
 
   useEffect(() => {
     getUser().then((data: IUserdata) => {
@@ -46,10 +49,6 @@ export default () => {
 
   const handleCamera = () => {
     console.log('camera')
-  }
-
-  const handleGoTo = () => {
-    console.log('go to')
   }
 
   const handleSwitch = (value: boolean) => {
@@ -89,16 +88,20 @@ export default () => {
         <VStack mt={6} mb={4} space={4}>
           <VStack space={2}>
             <SettingBtn
-              handleBtn={handleGoTo}
+              handleBtn={() => navigate('Favorites')}
               icon={Heart}
               text={'Favorites'}
             />
-            <SettingBtn handleBtn={handleGoTo} icon={Star} text={'Rated'} />
+            <SettingBtn
+              handleBtn={() => navigate('Rated')}
+              icon={Star}
+              text={'Rated'}
+            />
           </VStack>
 
           <VStack space={2}>
             <SettingBtn
-              handleBtn={handleGoTo}
+              handleBtn={() => navigate('DisplayMode')}
               icon={Moon}
               text={'Display Mode'}
             />
@@ -112,7 +115,7 @@ export default () => {
 
           <VStack space={2}>
             <SettingBtn
-              handleBtn={handleGoTo}
+              handleBtn={() => navigate('TermsOfService')}
               icon={BookOpen}
               text={'Terms of Service'}
             />

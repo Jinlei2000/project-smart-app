@@ -4,6 +4,8 @@ import Detail from './Detail'
 import ViewAll from './ViewAll'
 import Rating from './Rating'
 import BottomTabNavigation from '../BottomTabNavigation'
+import Favorites from './Favorites'
+import Rated from './Rated'
 
 const Stack = createStackNavigator()
 
@@ -19,8 +21,8 @@ export default () => {
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="ViewAll" component={ViewAll} />
       <Stack.Screen name="Rating" component={Rating} />
-      {/* <Stack.Screen name="Favorites" component={Favorites} />
-      <Stack.Screen name="Rated" component={Rated} /> */}
+      <Stack.Screen name="Favorites" component={Favorites} />
+      <Stack.Screen name="Rated" component={Rated} />
     </Stack.Navigator>
   )
 }
