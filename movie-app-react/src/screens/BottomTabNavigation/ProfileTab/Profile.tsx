@@ -28,11 +28,15 @@ import {
 } from 'lucide-react-native'
 import { buttonProps } from '../../../styles/props'
 import SettingBtn from '../../../components/button/SettingBtn'
+import SettingSwitch from '../../../components/button/SettingSwitch'
+import { useAtom } from 'jotai'
+import { vibrationModeAtom } from '../../../stores/vibrationMode'
 
 export default () => {
   const { getUser } = useApi()
   const { logout } = useAuth()
   const [userData, setUserData] = useState<IUserdata | null>(null)
+  const [vibrationMode, setVibrationMode] = useAtom(vibrationModeAtom)
 
   useEffect(() => {
     getUser().then((data: IUserdata) => {
@@ -46,6 +50,11 @@ export default () => {
 
   const handleGoTo = () => {
     console.log('go to')
+  }
+
+  const handleSwitch = (value: boolean) => {
+    console.log(value)
+    setVibrationMode(value)
   }
 
   return (
@@ -93,8 +102,9 @@ export default () => {
               icon={Moon}
               text={'Display Mode'}
             />
-            <SettingBtn
-              handleBtn={handleGoTo}
+            <SettingSwitch
+              handleSwitch={handleSwitch}
+              isChecked={vibrationMode}
               icon={Vibrate}
               text={'Vibration Mode'}
             />

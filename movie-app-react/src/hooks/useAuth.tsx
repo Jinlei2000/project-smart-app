@@ -58,7 +58,7 @@ export default () => {
     const data = await response.json()
 
     if (data.success) {
-      console.log('Session token:', data.session_id)
+      // console.log('Session token:', data.session_id)
       // save session id to secure storage
       await setSession(data.session_id)
       // set isAuth to true in global state
