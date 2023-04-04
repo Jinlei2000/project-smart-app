@@ -1,5 +1,4 @@
 import { extendTheme } from 'native-base'
-import { IColorHues } from 'native-base/lib/typescript/theme/base/colors'
 
 // Add new colors & fonts to the theme
 export default extendTheme({
@@ -67,3 +66,11 @@ export default extendTheme({
     useSystemColorMode: true,
   },
 })
+
+// 2. Get the type of the CustomTheme
+type CustomThemeType = typeof import('./theme').default
+
+// 3. Extend the internal NativeBase Theme
+declare module 'native-base' {
+  interface ICustomTheme extends CustomThemeType {}
+}
