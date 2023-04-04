@@ -4,11 +4,18 @@ import Main from '../../components/generic/Main'
 import MovieListHorizontal from '../../components/list/MovieListHorizontal'
 import useApi from '../../hooks/useApi'
 import IMovie from '../../interfaces/IMovie'
+import {
+  NotificationFeedbackType,
+  notificationAsync,
+} from 'expo-haptics'
+import { vibrationModeAtom } from '../../stores/vibrationMode'
+import { useAtom } from 'jotai'
 
 export default () => {
   const { getFavorites, deleteOrAddFavorite } = useApi()
   const [favorites, setFavorites] = useState<IMovie[] | null>(null)
   const [isRefreshing, setIsRefreshing] = useState(false) // add state for isRefreshing
+  const [vibrationMode] = useAtom(vibrationModeAtom)
 
   const onRefresh = () => {
     setIsRefreshing(true) // set isRefreshing to true when the user pulls to refresh
@@ -31,6 +38,10 @@ export default () => {
       movieId,
       false, // false = delete from favorites
     ).then(() => {
+      if (vibrationMode) {
+        // if vibrationMode is true, add haptic feedback
+        notificationAsync(NotificationFeedbackType.Success)
+      }
       onRefresh()
     })
   }
