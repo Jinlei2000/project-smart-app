@@ -4,6 +4,7 @@ import {
   Flex,
   Image,
   Pressable,
+  Skeleton,
   Spinner,
   Text,
   VStack,
@@ -44,7 +45,7 @@ export default () => {
   return (
     <Main scroll={false}>
       <VStack pt={6} mx={6} height={'100%'}>
-        {randomMovie ? (
+        {randomMovie && !loading ? (
           <Flex flex={1} justifyContent="center" mb={32}>
             <Pressable
               onPress={() =>
@@ -102,7 +103,22 @@ export default () => {
             </Pressable>
           </Flex>
         ) : (
-          <Text>Loading...</Text>
+          <Flex flex={1} justifyContent="center" mb={32}>
+            <Skeleton
+              alignSelf="center"
+              justifyContent={'center'}
+              height={Dimensions.get('window').width * 0.7 * 1.5}
+              width={Dimensions.get('window').width * 0.7}
+              borderRadius={16}
+            />
+
+            <Skeleton.Text
+              alignSelf="center"
+              width={Dimensions.get('window').width * 0.5}
+              pt={6}
+              lines={1}
+            />
+          </Flex>
         )}
 
         <Button
