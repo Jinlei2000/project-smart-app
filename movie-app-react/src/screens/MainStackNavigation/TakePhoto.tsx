@@ -114,7 +114,7 @@ export default () => {
   }
 
   const takePicture = async () => {
-    console.log('Taking picture')
+    // console.log('Taking picture')
     let options = {
       quality: 1,
       base64: true,
@@ -123,16 +123,16 @@ export default () => {
 
     try {
       const newPhoto = await cameraRef.current.takePictureAsync(options)
-      console.log('Photo taken')
+      // console.log('Photo taken')
       //   console.log(newPhoto)
       setPhoto(newPhoto)
     } catch (error) {
-      console.log('Error taking picture', error)
+      // console.log('Error taking picture', error)
     }
   }
 
   const handleSavePhoto = async () => {
-    console.log('Saving photo')
+    // console.log('Saving photo')
 
     //delete photo
     await deletePhoto()

@@ -15,6 +15,6 @@ AsyncStorage.getItem('photo').then(photoUri => {
 
 export const isDefaultPhotoAtom = atomWithStorage(
   'isDefaultPhoto',
-  isDefaultPhoto,
+  isDefaultPhoto as any,
   createJSONStorage(() => AsyncStorage),
 )

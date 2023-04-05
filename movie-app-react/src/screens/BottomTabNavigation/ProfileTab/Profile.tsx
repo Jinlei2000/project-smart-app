@@ -51,11 +51,13 @@ export default () => {
     // get user data & check if user has a own photo
     getUser().then((data: IUserdata) => {
       if (!isDefaultPhoto) {
-        getPhotoUri().then(uri => {
-          if (uri) {
-            setUserData({ ...data, avatarUrl: uri })
-          }
-        })
+        getPhotoUri()
+          .then(uri => {
+            if (uri) {
+              setUserData({ ...data, avatarUrl: uri })
+            }
+          })
+          .catch(err => console.log(err))
       } else {
         setUserData(data)
       }
@@ -169,7 +171,7 @@ export default () => {
             icon={Camera}
             text={'Take photo'}
             onPress={() => {
-              console.log('take photo')
+              // console.log('take photo')
               onClose()
               navigate('TakePhoto')
             }}
@@ -178,14 +180,14 @@ export default () => {
             icon={Image}
             text={'Choose from gallery'}
             onPress={() => {
-              console.log('choose from gallery')
+              // console.log('choose from gallery')
             }}
           />
           <ActionSheetItem
             icon={Trash}
             text={'Use default photo'}
             onPress={() => {
-              console.log('use default photo')
+              // console.log('use default photo')
               deletePhoto().then(() => {
                 onClose()
               })

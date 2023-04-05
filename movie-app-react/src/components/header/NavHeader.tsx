@@ -47,11 +47,13 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
     // get user data & check if user has a own photo
     getUser().then((data: IUserdata) => {
       if (!isDefaultPhoto) {
-        getPhotoUri().then(uri => {
-          if (uri) {
-            setUserData({ ...data, avatarUrl: uri })
-          }
-        })
+        getPhotoUri()
+          .then(uri => {
+            if (uri) {
+              setUserData({ ...data, avatarUrl: uri })
+            }
+          })
+          .catch(err => console.log(err))
       } else {
         setUserData(data)
       }

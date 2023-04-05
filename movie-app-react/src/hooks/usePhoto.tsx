@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createAssetAsync } from 'expo-media-library'
+import { createAssetAsync, addListener } from 'expo-media-library'
 import { useAtom } from 'jotai'
 import { isDefaultPhotoAtom } from '../stores/isDefaultPhoto'
+import { getInfoAsync } from 'expo-file-system'
 
 export default () => {
   const [isDefaultPhoto, setIsDefaultPhoto] = useAtom(isDefaultPhotoAtom)
@@ -24,8 +25,27 @@ export default () => {
   }
 
   const getPhotoUri = async () => {
-    const photo = await AsyncStorage.getItem(key)
-    return photo
+    const photoUri = await AsyncStorage.getItem(key)
+
+    return photoUri
+  }
+
+  // check if photo exists in media library (if user deleted it)
+  addListener(() => {
+    if (!isDefaultPhoto) {
+      getPhotoUri().then(uri => {
+        _checkIfPhotoExists(uri).then(exists => {
+          if (!exists) {
+            deletePhoto()
+          }
+        })
+      })
+    }
+  })
+
+  const _checkIfPhotoExists = async (uri: any) => {
+    const fileInfo = await getInfoAsync(uri)
+    return fileInfo.exists
   }
 
   return {
