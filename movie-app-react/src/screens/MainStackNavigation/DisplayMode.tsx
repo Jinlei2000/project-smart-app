@@ -66,7 +66,7 @@ export default () => {
                 justifyContent="space-between"
                 flexDirection="row"
               >
-                <Pressable onPress={() => {}}>
+                <Pressable onPress={() => handleDisplayModeChange('system')}>
                   <Text fontSize={18} fontWeight="medium">
                     System
                   </Text>
@@ -88,7 +88,7 @@ export default () => {
                 justifyContent="space-between"
                 flexDirection="row"
               >
-                <Pressable onPress={() => {}}>
+                <Pressable onPress={() => handleDisplayModeChange('light')}>
                   <Text fontSize={18} fontWeight="medium">
                     Light
                   </Text>
@@ -110,7 +110,7 @@ export default () => {
                 justifyContent="space-between"
                 flexDirection="row"
               >
-                <Pressable onPress={() => {}}>
+                <Pressable onPress={() => handleDisplayModeChange('dark')}>
                   <Text fontSize={18} fontWeight="medium">
                     Dark
                   </Text>

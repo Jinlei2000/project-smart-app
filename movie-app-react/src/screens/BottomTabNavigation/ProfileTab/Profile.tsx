@@ -1,12 +1,8 @@
 import {
   Box,
   Flex,
-  HStack,
   Text,
   VStack,
-  useColorMode,
-  useTheme,
-  Pressable,
   Button,
   Skeleton,
   useDisclose,
@@ -20,10 +16,8 @@ import { IUserdata } from '../../../interfaces/IUserdata'
 import AvatarPic from '../../../components/avatar/AvatarPic'
 import RoundBtn from '../../../components/button/RoundBtn'
 import {
-  Book,
   BookOpen,
   Camera,
-  ChevronRight,
   Heart,
   Image,
   Moon,
@@ -31,7 +25,7 @@ import {
   Trash,
   Vibrate,
 } from 'lucide-react-native'
-import { buttonProps } from '../../../styles/props'
+import { bgProps, buttonProps, textProps } from '../../../styles/props'
 import SettingBtn from '../../../components/button/SettingBtn'
 import SettingSwitch from '../../../components/button/SettingSwitch'
 import { useAtom } from 'jotai'
@@ -39,6 +33,7 @@ import { vibrationModeAtom } from '../../../stores/vibrationMode'
 import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { Linking } from 'react-native'
+import ActionSheetItem from '../../../components/actionSheet/ActionSheetItem'
 
 export default () => {
   const { getUser } = useApi()
@@ -47,27 +42,12 @@ export default () => {
   const [vibrationMode, setVibrationMode] = useAtom(vibrationModeAtom)
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
   const { isOpen, onOpen, onClose } = useDisclose()
-  const { colorMode } = useColorMode()
-  const { colors } = useTheme()
-
-  const iconColor =
-    colorMode === 'dark' ? colors.brand[200] : colors.coolGray[700]
 
   useEffect(() => {
     getUser().then((data: IUserdata) => {
       setUserData(data)
     })
   }, [])
-
-  const handleCamera = () => {
-    console.log('camera')
-    onOpen()
-  }
-
-  const handleSwitch = (value: boolean) => {
-    console.log(value)
-    setVibrationMode(value)
-  }
 
   return (
     <Main>
@@ -92,7 +72,7 @@ export default () => {
                   borderWidth={1}
                   rounded={'full'}
                 >
-                  <RoundBtn handleBtn={handleCamera} icon={Camera} />
+                  <RoundBtn handleBtn={onOpen} icon={Camera} />
                 </Flex>
               </Box>
             </Flex>
@@ -143,7 +123,7 @@ export default () => {
               text={'Display Mode'}
             />
             <SettingSwitch
-              handleSwitch={handleSwitch}
+              handleSwitch={setVibrationMode}
               isChecked={vibrationMode}
               icon={Vibrate}
               text={'Vibration Mode'}
@@ -167,29 +147,31 @@ export default () => {
           </Button>
         </VStack>
       </VStack>
+
+      {/* Actionsheet edit profile picture */}
       <Actionsheet isOpen={isOpen} onClose={onClose}>
-        <Actionsheet.Content>
-          <Actionsheet.Item startIcon={<Camera size={24} color={iconColor} />}>
-            <Box justifyContent={'center'} flex={1}>
-              <Text fontWeight={'medium'} alignSelf={'center'}>
-                Take photo
-              </Text>
-            </Box>
-          </Actionsheet.Item>
-          <Actionsheet.Item startIcon={<Image size={24} color={iconColor} />}>
-            <Box justifyContent={'center'} flex={1}>
-              <Text fontWeight={'medium'} alignSelf={'center'}>
-                Choose from gallery
-              </Text>
-            </Box>
-          </Actionsheet.Item>
-          <Actionsheet.Item startIcon={<Trash size={24} color={iconColor} />}>
-            <Box justifyContent={'center'} flex={1}>
-              <Text fontWeight={'medium'} alignSelf={'center'}>
-                Use default photo
-              </Text>
-            </Box>
-          </Actionsheet.Item>
+        <Actionsheet.Content roundedTop={32} {...bgProps}>
+          <ActionSheetItem
+            icon={Camera}
+            text={'Take photo'}
+            onPress={() => {
+              console.log('take photo')
+            }}
+          />
+          <ActionSheetItem
+            icon={Image}
+            text={'Choose from gallery'}
+            onPress={() => {
+              console.log('choose from gallery')
+            }}
+          />
+          <ActionSheetItem
+            icon={Trash}
+            text={'Use default photo'}
+            onPress={() => {
+              console.log('use default photo')
+            }}
+          />
         </Actionsheet.Content>
       </Actionsheet>
     </Main>
