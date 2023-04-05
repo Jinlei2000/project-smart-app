@@ -34,6 +34,7 @@ import { useAtom } from 'jotai'
 import { vibrationModeAtom } from '../../../stores/vibrationMode'
 import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { Linking } from 'react-native'
 
 export default () => {
   const { getUser } = useApi()
@@ -101,7 +102,12 @@ export default () => {
               <Skeleton height={128} width={128} borderRadius={999} />
             </Flex>
 
-            <Skeleton.Text lines={1} mt={4} width={"1/2"} alignSelf={'center'} />
+            <Skeleton.Text
+              lines={1}
+              mt={4}
+              width={'1/2'}
+              alignSelf={'center'}
+            />
           </>
         )}
 
@@ -135,7 +141,11 @@ export default () => {
 
           <VStack space={2}>
             <SettingBtn
-              handleBtn={() => navigate('TermsOfService')}
+              handleBtn={() => {
+                Linking.openURL(
+                  'https://www.termsfeed.com/live/c19b8c63-b6b3-439e-bd21-b813521029a7',
+                )
+              }}
               icon={BookOpen}
               text={'Terms of Service'}
             />
