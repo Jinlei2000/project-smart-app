@@ -8,6 +8,7 @@ import {
   useTheme,
   Pressable,
   Button,
+  Skeleton,
 } from 'native-base'
 import Main from '../../../components/generic/Main'
 import useApi from '../../../hooks/useApi'
@@ -59,31 +60,50 @@ export default () => {
   return (
     <Main>
       <VStack mx={6} mb={8}>
-        <Flex
-          pt={12}
-          flexDirection={'row'}
-          justifyContent={'center'}
-          flex={1}
-          position={'relative'}
-        >
-          <Box>
-            <AvatarPic userDatas={userData} size={'xxl'} />
+        {userData ? (
+          <>
             <Flex
-              position={'absolute'}
-              bottom={0}
-              right={0}
-              _dark={{ borderColor: 'brand.750' }}
-              _light={{ borderColor: 'coolGray.300' }}
-              borderWidth={1}
-              rounded={'full'}
+              pt={12}
+              flexDirection={'row'}
+              justifyContent={'center'}
+              flex={1}
+              position={'relative'}
             >
-              <RoundBtn handleBtn={handleCamera} icon={Camera} />
+              <Box>
+                <AvatarPic userDatas={userData} size={'xxl'} />
+                <Flex
+                  position={'absolute'}
+                  bottom={0}
+                  right={0}
+                  _dark={{ borderColor: 'brand.750' }}
+                  _light={{ borderColor: 'coolGray.300' }}
+                  borderWidth={1}
+                  rounded={'full'}
+                >
+                  <RoundBtn handleBtn={handleCamera} icon={Camera} />
+                </Flex>
+              </Box>
             </Flex>
-          </Box>
-        </Flex>
-        <Text fontSize={20} fontWeight={'bold'} mt={4} textAlign={'center'}>
-          {userData?.userName}
-        </Text>
+
+            <Text fontSize={20} fontWeight={'bold'} mt={4} textAlign={'center'}>
+              {userData?.userName}
+            </Text>
+          </>
+        ) : (
+          <>
+            <Flex
+              pt={12}
+              flexDirection={'row'}
+              justifyContent={'center'}
+              flex={1}
+              position={'relative'}
+            >
+              <Skeleton height={128} width={128} borderRadius={999} />
+            </Flex>
+
+            <Skeleton.Text lines={1} mt={4} width={"1/2"} alignSelf={'center'} />
+          </>
+        )}
 
         <VStack mt={6} mb={4} space={4}>
           <VStack space={2}>
