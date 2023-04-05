@@ -9,6 +9,8 @@ import {
   Pressable,
   Button,
   Skeleton,
+  useDisclose,
+  Actionsheet,
 } from 'native-base'
 import Main from '../../../components/generic/Main'
 import useApi from '../../../hooks/useApi'
@@ -23,8 +25,10 @@ import {
   Camera,
   ChevronRight,
   Heart,
+  Image,
   Moon,
   Star,
+  Trash,
   Vibrate,
 } from 'lucide-react-native'
 import { buttonProps } from '../../../styles/props'
@@ -42,6 +46,12 @@ export default () => {
   const [userData, setUserData] = useState<IUserdata | null>(null)
   const [vibrationMode, setVibrationMode] = useAtom(vibrationModeAtom)
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
+  const { isOpen, onOpen, onClose } = useDisclose()
+  const { colorMode } = useColorMode()
+  const { colors } = useTheme()
+
+  const iconColor =
+    colorMode === 'dark' ? colors.brand[200] : colors.coolGray[700]
 
   useEffect(() => {
     getUser().then((data: IUserdata) => {
@@ -51,6 +61,7 @@ export default () => {
 
   const handleCamera = () => {
     console.log('camera')
+    onOpen()
   }
 
   const handleSwitch = (value: boolean) => {
@@ -156,6 +167,31 @@ export default () => {
           </Button>
         </VStack>
       </VStack>
+      <Actionsheet isOpen={isOpen} onClose={onClose}>
+        <Actionsheet.Content>
+          <Actionsheet.Item startIcon={<Camera size={24} color={iconColor} />}>
+            <Box justifyContent={'center'} flex={1}>
+              <Text fontWeight={'medium'} alignSelf={'center'}>
+                Take photo
+              </Text>
+            </Box>
+          </Actionsheet.Item>
+          <Actionsheet.Item startIcon={<Image size={24} color={iconColor} />}>
+            <Box justifyContent={'center'} flex={1}>
+              <Text fontWeight={'medium'} alignSelf={'center'}>
+                Choose from gallery
+              </Text>
+            </Box>
+          </Actionsheet.Item>
+          <Actionsheet.Item startIcon={<Trash size={24} color={iconColor} />}>
+            <Box justifyContent={'center'} flex={1}>
+              <Text fontWeight={'medium'} alignSelf={'center'}>
+                Use default photo
+              </Text>
+            </Box>
+          </Actionsheet.Item>
+        </Actionsheet.Content>
+      </Actionsheet>
     </Main>
   )
 }
