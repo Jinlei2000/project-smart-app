@@ -19,6 +19,9 @@ import RoundBtn from '../button/RoundBtn'
 import AvatarPic from '../avatar/AvatarPic'
 import { Platform } from 'react-native'
 import { BlurView } from 'expo-blur'
+import { useAtom } from 'jotai'
+import { isDefaultPhotoAtom } from '../../stores/isDefaultPhoto'
+import usePhoto from '../../hooks/usePhoto'
 
 // PLEASE PLACE THE NAVHEADER COMPONENT UNDER ALL OTHER COMPONENTS
 // ELSE THE BLURVIEW WILL NOT WORK PROPERLY
@@ -37,13 +40,24 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
   const [userData, setUserData] = useState<IUserdata>({
     userName: 'User',
   })
+  const [isDefaultPhoto] = useAtom(isDefaultPhotoAtom)
+  const { getPhotoUri } = usePhoto()
 
   useEffect(() => {
-    // get user data
+    // get user data & check if user has a own photo
     getUser().then((data: IUserdata) => {
-      setUserData(data)
+      if (!isDefaultPhoto) {
+        getPhotoUri().then(uri => {
+          if (uri) {
+            setUserData({ ...data, avatarUrl: uri })
+          }
+        })
+      } else {
+        setUserData(data)
+      }
     })
-  }, [])
+    // rerender when isDefaultPhoto changes
+  }, [isDefaultPhoto])
 
   useEffect(() => {
     // console.log('navBarOptions', navBarOptions)

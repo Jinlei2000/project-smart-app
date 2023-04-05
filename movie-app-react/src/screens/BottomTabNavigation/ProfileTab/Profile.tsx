@@ -25,7 +25,7 @@ import {
   Trash,
   Vibrate,
 } from 'lucide-react-native'
-import { bgProps, buttonProps, textProps } from '../../../styles/props'
+import { bgProps, buttonProps } from '../../../styles/props'
 import SettingBtn from '../../../components/button/SettingBtn'
 import SettingSwitch from '../../../components/button/SettingSwitch'
 import { useAtom } from 'jotai'
@@ -34,6 +34,8 @@ import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { Linking } from 'react-native'
 import ActionSheetItem from '../../../components/actionSheet/ActionSheetItem'
+import usePhoto from '../../../hooks/usePhoto'
+import { isDefaultPhotoAtom } from '../../../stores/isDefaultPhoto'
 
 export default () => {
   const { getUser } = useApi()
@@ -42,12 +44,24 @@ export default () => {
   const [vibrationMode, setVibrationMode] = useAtom(vibrationModeAtom)
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
   const { isOpen, onOpen, onClose } = useDisclose()
+  const { deletePhoto, getPhotoUri } = usePhoto()
+  const [isDefaultPhoto] = useAtom(isDefaultPhotoAtom)
 
   useEffect(() => {
+    // get user data & check if user has a own photo
     getUser().then((data: IUserdata) => {
-      setUserData(data)
+      if (!isDefaultPhoto) {
+        getPhotoUri().then(uri => {
+          if (uri) {
+            setUserData({ ...data, avatarUrl: uri })
+          }
+        })
+      } else {
+        setUserData(data)
+      }
     })
-  }, [])
+    // rerender when isDefaultPhoto changes
+  }, [isDefaultPhoto])
 
   return (
     <Main>
@@ -156,6 +170,8 @@ export default () => {
             text={'Take photo'}
             onPress={() => {
               console.log('take photo')
+              onClose()
+              navigate('TakePhoto')
             }}
           />
           <ActionSheetItem
@@ -170,6 +186,9 @@ export default () => {
             text={'Use default photo'}
             onPress={() => {
               console.log('use default photo')
+              deletePhoto().then(() => {
+                onClose()
+              })
             }}
           />
         </Actionsheet.Content>

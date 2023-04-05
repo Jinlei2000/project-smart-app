@@ -7,6 +7,7 @@ import BottomTabNavigation from '../BottomTabNavigation'
 import Favorites from './Favorites'
 import Rated from './Rated'
 import DisplayMode from './DisplayMode'
+import TakePhoto from './TakePhoto'
 
 const Stack = createStackNavigator()
 
@@ -16,7 +17,10 @@ const screenOptions = {
 
 export default () => {
   return (
-    <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Navigator
+      screenOptions={screenOptions}
+      // initialRouteName="TakePhoto"
+    >
       <Stack.Screen name="HomeBottomTabs" component={BottomTabNavigation} />
       <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Detail" component={Detail} />
@@ -27,6 +31,9 @@ export default () => {
       <Stack.Screen name="Favorites" component={Favorites} />
       <Stack.Screen name="Rated" component={Rated} />
       <Stack.Screen name="DisplayMode" component={DisplayMode} />
+
+      {/* Edit picture */}
+      <Stack.Screen name="TakePhoto" component={TakePhoto} />
     </Stack.Navigator>
   )
 }

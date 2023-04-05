@@ -29,6 +29,23 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photoLibraryPermission": "Allow Movie Zone to access your photo library.",
+          "saveToLibraryPermission": "Allow Movie Zone to save your photos to your photo library.",
+          "isAccessMediaLibraryRequired": "true"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Movie Zone to access your camera.",
+          "mediaLibraryPermission": "Allow Movie Zone to access your media library."
+        }
+      ]
+    ]
   }
 }
