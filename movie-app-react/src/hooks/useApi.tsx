@@ -156,14 +156,22 @@ export default () => {
   }
 
   const getRandomMovie = (): Promise<IMovie | null> => {
-    const randomPage = Math.floor(Math.random() * 250) + 1
-
     return new Promise((resolve, reject) => {
+      const randomPage = Math.floor(Math.random() * 250) + 1
+      // console.log('random page', randomPage)
+      // get a random movie from the last 5 years
+      const releaseDate = new Date()
+      releaseDate.setFullYear(releaseDate.getFullYear() - 5)
+
+      // format date to yyyy-mm-dd
+      const formattedDate = releaseDate.toISOString().split('T')[0]
+
       fetch(
-        `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-BE&include_adult=false&page=${randomPage}&certification_country=US`,
+        `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-BE&include_adult=false&page=${randomPage}&certification_country=US&release_date.gte=${formattedDate}`,
       )
         .then(response => response.json())
         .then(data => {
+          // console.log('total pages', data.total_pages)
           // no results found
           if (data.results === undefined || data.results.length === 0) {
             resolve(null)
