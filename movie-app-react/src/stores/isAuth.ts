@@ -8,11 +8,7 @@ let isAuthAtom = atom<boolean>(false)
 AsyncStorage.getItem('isAuth').then(value => {
   // console.log('value', value)
   if (value !== null) {
-    if (value === 'true') {
-      isAuthAtom = atom<boolean>(true)
-    } else if (value === 'false') {
-      isAuthAtom = atom<boolean>(false)
-    }
+    isAuthAtom = atom<boolean>(value === 'true' ? true : false)
   } else {
     isAuthAtom = atom<boolean>(false)
   }

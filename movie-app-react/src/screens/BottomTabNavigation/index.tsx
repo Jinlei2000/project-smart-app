@@ -26,10 +26,7 @@ export default () => {
   let bgColor = ''
   let tabBarBg = () => {}
   if (Platform.OS !== 'ios') {
-    bgColor =
-      colorMode === 'dark'
-        ? colors.brand[800]
-        : colors.coolGray[100]
+    bgColor = colorMode === 'dark' ? colors.brand[800] : colors.coolGray[100]
     tabBarBg = () => <View shadow={2} />
   } else {
     bgColor = colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3'
@@ -64,7 +61,7 @@ export default () => {
   }
 
   return (
-    <Tab.Navigator screenOptions={screenOptions} initialRouteName="RandomTab">
+    <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
         name={TabScreens.HomeTab}
         options={{

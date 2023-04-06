@@ -1,6 +1,6 @@
 import { Box, Text } from 'native-base'
 
-export default ({ rating, size = 'sm' }: { rating: number; size: string }) => {
+export default ({ rating, size = 'sm' }: { rating: number; size?: string }) => {
   const getRatingBgColor = (rating: number) => {
     if (rating >= 70) {
       return 'extra.green'
