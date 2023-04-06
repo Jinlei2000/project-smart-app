@@ -10,16 +10,18 @@ import SkeletonCategoryList from '../skeleton/SkeletonCategoryList'
 export default ({
   categories,
   header,
+  styleProps,
 }: {
-  categories: ICategory[] | null
+  categories: ICategory[] | null | undefined
   header: boolean
+  styleProps?: any
 }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
 
   return (
-    <VStack space={3}>
+    <VStack space={3} {...styleProps}>
       {header && <SectionHeader title="Categories" viewAll={false} />}
-      {categories !== null ? (
+      {categories ? (
         <FlatList
           data={categories}
           horizontal
