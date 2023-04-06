@@ -31,8 +31,18 @@ export default ({ children }: { children: React.ReactNode }) => {
     },
   }
 
+  const config = {
+    dependencies: {
+      'linear-gradient': require('expo-linear-gradient').LinearGradient,
+    },
+  }
+
   return (
-    <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
+    <NativeBaseProvider
+      theme={theme}
+      colorModeManager={colorModeManager}
+      config={config}
+    >
       <StatusBar style={statusBarStyle === 'dark' ? 'light' : 'dark'} />
       {children}
     </NativeBaseProvider>
