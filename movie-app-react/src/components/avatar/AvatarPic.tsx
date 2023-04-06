@@ -11,10 +11,10 @@ export default ({
   userDatas: IUserdata | null
   size?: string
 }) => {
-  const [userData, setUserData] = useState<IUserdata | null>(userDatas)
+  const [url, setUrl] = useState<string | undefined | null>(null)
 
   useEffect(() => {
-    setUserData(userDatas)
+    setUrl(userDatas?.avatarUrl)
   }, [userDatas])
 
   const getSize = () => {
@@ -32,17 +32,14 @@ export default ({
       _light={{ bg: 'coolGray.200' }}
     >
       {/* show avatar image if exist else show signiture (letter) */}
-      {userData?.avatarUrl ? (
+      {url ? (
         <Image
           source={{
-            uri: userData?.avatarUrl || undefined,
+            uri: userDatas?.avatarUrl || undefined,
           }}
           onError={() => {
             // console.log('no default avatar image on gravatar')
-            setUserData({
-              ...userData,
-              avatarUrl: undefined,
-            })
+            setUrl(undefined)
           }}
           style={{
             width: '100%',
@@ -52,7 +49,7 @@ export default ({
         />
       ) : (
         <Text {...textProps.primaryColor} fontSize={15} fontWeight={'bold'}>
-          {userData?.firstLetter}
+          {userDatas?.firstLetter}
         </Text>
       )}
     </Avatar>

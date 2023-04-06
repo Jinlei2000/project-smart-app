@@ -181,6 +181,8 @@ export default () => {
             text={'Choose from gallery'}
             onPress={() => {
               // console.log('choose from gallery')
+              onClose()
+              navigate('ChooseFromGallery')
             }}
           />
           <ActionSheetItem

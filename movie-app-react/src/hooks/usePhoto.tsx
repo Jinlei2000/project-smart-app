@@ -9,7 +9,8 @@ export default () => {
   const key = 'photo'
 
   const savePhotoInMediaLibrary = async (photo: any) => {
-    setIsDefaultPhoto(false)
+    await deletePhoto()
+
     //save in media library get new uri
     const asset = await createAssetAsync(photo.uri)
     const photoLocationUri = asset.uri
@@ -17,11 +18,19 @@ export default () => {
 
     //save in async storage
     await AsyncStorage.setItem(key, photoLocationUri)
+    setIsDefaultPhoto(false)
+  }
+
+  const savePhotoInAsyncStorage = async (photo: any) => {
+    await deletePhoto()
+
+    await AsyncStorage.setItem(key, photo.uri)
+    setIsDefaultPhoto(false)
   }
 
   const deletePhoto = async () => {
-    setIsDefaultPhoto(true)
     await AsyncStorage.removeItem(key)
+    setIsDefaultPhoto(true)
   }
 
   const getPhotoUri = async () => {
@@ -52,5 +61,6 @@ export default () => {
     savePhotoInMediaLibrary,
     deletePhoto,
     getPhotoUri,
+    savePhotoInAsyncStorage,
   }
 }

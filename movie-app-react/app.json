@@ -45,6 +45,12 @@
           "cameraPermission": "Allow Movie Zone to access your camera.",
           "mediaLibraryPermission": "Allow Movie Zone to access your media library."
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to upload your profile picture."
+        }
       ]
     ]
   }

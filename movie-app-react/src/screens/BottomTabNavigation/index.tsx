@@ -64,7 +64,9 @@ export default () => {
   }
 
   return (
-    <Tab.Navigator screenOptions={screenOptions} initialRouteName="ProfileTab">
+    <Tab.Navigator screenOptions={screenOptions} 
+    // initialRouteName="ProfileTab"
+    >
       <Tab.Screen
         name={TabScreens.HomeTab}
         options={{

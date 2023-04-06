@@ -8,6 +8,7 @@ import Favorites from './Favorites'
 import Rated from './Rated'
 import DisplayMode from './DisplayMode'
 import TakePhoto from './TakePhoto'
+import ChooseFromGallery from './ChooseFromGallery'
 
 const Stack = createStackNavigator()
 
@@ -34,6 +35,7 @@ export default () => {
 
       {/* Edit picture */}
       <Stack.Screen name="TakePhoto" component={TakePhoto} />
+      <Stack.Screen name="ChooseFromGallery" component={ChooseFromGallery} />
     </Stack.Navigator>
   )
 }
