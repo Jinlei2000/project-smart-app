@@ -30,6 +30,7 @@ export default ({
             navigate('ViewAll', {
               category: category,
               item: { name: title },
+              id: id,
             })
           }
         >

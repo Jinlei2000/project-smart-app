@@ -43,6 +43,7 @@ import { vibrationModeAtom } from '../../stores/vibrationMode'
 import { useAtom } from 'jotai'
 import RoundBtn from '../../components/button/RoundBtn'
 import CastListPreview from '../../components/list/CastListPreview'
+import VideoList from '../../components/list/VideoList'
 
 export default (props: any) => {
   const { getMovieById, deleteOrAddFavorite, deleteOrAddWatchlist } = useApi()
@@ -299,7 +300,7 @@ export default (props: any) => {
           </Box>
 
           {/* favorite, rate, share buttons */}
-          <HStack mx={10} alignItems="center">
+          <HStack mx={10} mb={2} alignItems="center">
             {/* favorite button */}
 
             <ActionBtn
@@ -357,9 +358,14 @@ export default (props: any) => {
           </HStack>
 
           {/* cast */}
-
           <CastListPreview
             casts={movieDetail?.credits?.cast}
+            movieId={movieDetail!.id}
+          />
+
+          {/* videos */}
+          <VideoList
+            videos={movieDetail?.videos}
             movieId={movieDetail!.id}
           />
         </VStack>

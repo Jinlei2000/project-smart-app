@@ -1,5 +1,6 @@
 import ICast from './ICast'
 import IMovie from './IMovie'
+import IVideo from './IVideo'
 
 // use IMovie interface as base and IMovie can be null
 export default interface IMovieDetail extends IMovie {
@@ -8,30 +9,21 @@ export default interface IMovieDetail extends IMovie {
   imdb_id?: string | null
   runtime?: number | null
   status?: string
-  videos?: {
-    results?: Array<{
-      id?: string
-      key?: string
-      name?: string
-      type?: string
-      published_at?: string
-    }>
-  } | null
-  similar?: { results: Array<IMovie> }
-  reviews?: {
-    results: Array<{
-      id: string
-      created_at: string
-      content: string
-      author: string
-      author_details: {
-        name: string
-        username: string
-        avatar_path: string | null
-        rating: number | null
-      }
-    }>
-  }
+  videos?: Array<IVideo>
+  similar?: Array<IMovie>
+  reviews?: Array<{
+    id: string
+    created_at: string
+    content: string
+    author: string
+    author_details: {
+      name: string
+      username: string
+      avatar_path: string | null
+      rating: number | null
+    }
+  }>
+
   externalIds?: {
     imdb_id: string | null
     facebook_id: string | null

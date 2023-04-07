@@ -17,7 +17,7 @@ export default ({
   }
 
   return (
-    <VStack space={4} mb={6}>
+    <VStack space={1.5} mb={6}>
       <SectionHeader
         category="Casts"
         id={movieId}
