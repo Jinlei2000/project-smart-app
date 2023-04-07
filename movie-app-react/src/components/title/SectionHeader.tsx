@@ -6,10 +6,12 @@ import { textProps } from '../../styles/props'
 export default ({
   title,
   category,
+  id,
   viewAll = true,
 }: {
   title: string
   category?: string
+  id?: number
   viewAll?: boolean
 }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()

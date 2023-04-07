@@ -1,4 +1,4 @@
-import { Pressable, useColorMode, useTheme } from 'native-base'
+import { Pressable, Spinner, useColorMode, useTheme } from 'native-base'
 import { btnProps } from '../../styles/props'
 import { LucideIcon } from 'lucide-react-native'
 
@@ -6,10 +6,12 @@ export default ({
   icon: Icon,
   handleBtn,
   size = 'sm',
+  isLoading = false,
 }: {
   icon: LucideIcon
   handleBtn: () => void
   size?: string
+  isLoading?: boolean
 }) => {
   const { colorMode } = useColorMode()
   const { colors } = useTheme()
@@ -41,10 +43,21 @@ export default ({
       justifyContent={'center'}
       alignItems={'center'}
     >
-      <Icon
-        color={colorMode === 'dark' ? colors.brand[200] : colors.coolGray[700]}
-        size={sizeProps.sizeIcon}
-      />
+      {!isLoading ? (
+        <Icon
+          color={
+            colorMode === 'dark' ? colors.brand[200] : colors.coolGray[700]
+          }
+          size={sizeProps.sizeIcon}
+        />
+      ) : (
+        <Spinner
+          size={sizeProps.sizeIcon}
+          color={
+            colorMode === 'dark' ? colors.brand[200] : colors.coolGray[800]
+          }
+        />
+      )}
     </Pressable>
   )
 }

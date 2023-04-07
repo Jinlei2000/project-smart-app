@@ -9,7 +9,7 @@ export default ({
   scroll?: boolean
 }) => {
   const safeAreaProps = useSafeArea({
-    safeArea: false,
+    safeArea: true,
     pt: 2,
   })
 

@@ -18,6 +18,10 @@ export default ({
 }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
 
+  if (categories && categories?.length === 0) {
+    return null
+  }
+
   return (
     <VStack space={3} {...styleProps}>
       {header && <SectionHeader title="Categories" viewAll={false} />}

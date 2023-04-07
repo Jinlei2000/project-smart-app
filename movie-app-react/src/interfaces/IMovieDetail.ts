@@ -49,6 +49,6 @@ export default interface IMovieDetail extends IMovie {
           value: number
         }
       | boolean
-    watchlist?: boolean
+    watchlist: boolean
   }
 }

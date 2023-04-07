@@ -6,20 +6,22 @@ import {
   Pressable,
   ScrollView,
   Skeleton,
-  Spinner,
   Text,
   VStack,
   View,
   useColorMode,
+  useSafeArea,
   useTheme,
 } from 'native-base'
 import IMovie from '../../interfaces/IMovie'
-import { Dimensions, StatusBar, Share, RefreshControl } from 'react-native'
-import { useCallback, useEffect, useState } from 'react'
+import { Dimensions, Share, RefreshControl } from 'react-native'
+import { useCallback, useState } from 'react'
 import useApi from '../../hooks/useApi'
 import { bgProps, btnProps, textProps } from '../../styles/props'
 import RatingBadge from '../../components/badge/RatingBadge'
 import {
+  Bookmark,
+  BookmarkMinus,
   ChevronLeft,
   Clock3,
   Heart,
@@ -40,14 +42,19 @@ import { NotificationFeedbackType, notificationAsync } from 'expo-haptics'
 import { vibrationModeAtom } from '../../stores/vibrationMode'
 import { useAtom } from 'jotai'
 import RoundBtn from '../../components/button/RoundBtn'
+import CastListPreview from '../../components/list/CastListPreview'
 
 export default (props: any) => {
-  const { getMovieById, deleteOrAddFavorite } = useApi()
+  const { getMovieById, deleteOrAddFavorite, deleteOrAddWatchlist } = useApi()
   const { colorMode } = useColorMode()
   const { colors } = useTheme()
   const { navigate, goBack } =
     useNavigation<StackNavigationProp<ParamListBase>>()
   const [vibrationMode] = useAtom(vibrationModeAtom)
+  const safeAreaProps = useSafeArea({
+    safeArea: true,
+    pt: 2,
+  })
   const [readMoreData, setReadMoreData] = useState({
     show: false,
     text: 'Read more',
@@ -56,6 +63,10 @@ export default (props: any) => {
   const [favoriteData, setFavoriteData] = useState({
     isLoading: true,
     isFavorite: false,
+  })
+  const [watchlistData, setWatchlistData] = useState({
+    isLoading: true,
+    isWatchlist: false,
   })
 
   // console.log(props)
@@ -96,6 +107,12 @@ export default (props: any) => {
       setFavoriteData({
         isLoading: false,
         isFavorite: data!.accountStates!.favorite,
+      })
+
+      // set watchlist data
+      setWatchlistData({
+        isLoading: false,
+        isWatchlist: data!.accountStates!.watchlist,
       })
     })
   }
@@ -284,54 +301,31 @@ export default (props: any) => {
           {/* favorite, rate, share buttons */}
           <HStack mx={10} alignItems="center">
             {/* favorite button */}
-            {movieDetail?.accountStates && !favoriteData.isLoading ? (
-              <ActionBtn
-                icon={favoriteData.isFavorite ? HeartOff : Heart}
-                text="Favorite"
-                onPress={() => {
+
+            <ActionBtn
+              icon={favoriteData.isFavorite ? HeartOff : Heart}
+              text="Favorite"
+              isLoading={favoriteData.isLoading}
+              onPress={() => {
+                setFavoriteData({
+                  ...favoriteData,
+                  isLoading: true,
+                })
+                deleteOrAddFavorite(
+                  movieDetail!.id,
+                  !favoriteData.isFavorite,
+                ).then(() => {
                   if (vibrationMode) {
                     // if vibrationMode is true, add haptic feedback
                     notificationAsync(NotificationFeedbackType.Success)
                   }
-
                   setFavoriteData({
-                    ...favoriteData,
-                    isLoading: true,
+                    isFavorite: !favoriteData.isFavorite,
+                    isLoading: false,
                   })
-                  deleteOrAddFavorite(
-                    movieDetail?.id,
-                    !favoriteData.isFavorite,
-                  ).then(() => {
-                    setFavoriteData({
-                      isFavorite: !favoriteData.isFavorite,
-                      isLoading: false,
-                    })
-                  })
-                }}
-              />
-            ) : (
-              <>
-                <VStack px={4} py={2} flex={1} alignItems="center">
-                  <Spinner
-                    h={6}
-                    w={6}
-                    color={
-                      colorMode === 'dark'
-                        ? colors.brand[200]
-                        : colors.coolGray[800]
-                    }
-                  />
-                  <Text
-                    mt={1}
-                    fontSize={12}
-                    fontWeight="medium"
-                    {...textProps.primaryColor}
-                  >
-                    Favorite
-                  </Text>
-                </VStack>
-              </>
-            )}
+                })
+              }}
+            />
 
             {/* rate button */}
             <ActionBtn
@@ -361,11 +355,52 @@ export default (props: any) => {
               }}
             />
           </HStack>
+
+          {/* cast */}
+
+          <CastListPreview
+            casts={movieDetail?.credits?.cast}
+            movieId={movieDetail!.id}
+          />
         </VStack>
       </ScrollView>
 
-      <Box position={'absolute'} top={0} left={0}  zIndex={1}>
-        <RoundBtn handleBtn={goBack} icon={ChevronLeft} />
+      {/* Custom navBar */}
+      <Box
+        position={'absolute'}
+        top={0}
+        left={0}
+        zIndex={1}
+        {...safeAreaProps}
+        bg={'transparent'}
+        w="100%"
+      >
+        <HStack justifyContent="space-between" px={6} pb={4}>
+          <RoundBtn handleBtn={goBack} icon={ChevronLeft} />
+          <RoundBtn
+            handleBtn={() => {
+              setWatchlistData({
+                ...watchlistData,
+                isLoading: true,
+              })
+              deleteOrAddWatchlist(
+                movieDetail!.id,
+                !watchlistData.isWatchlist, // true = add to watchlist, false = delete from watchlist
+              ).then(() => {
+                if (vibrationMode) {
+                  // if vibrationMode is true, add haptic feedback
+                  notificationAsync(NotificationFeedbackType.Success)
+                }
+                setWatchlistData({
+                  isWatchlist: !watchlistData.isWatchlist,
+                  isLoading: false,
+                })
+              })
+            }}
+            icon={watchlistData.isWatchlist ? BookmarkMinus : Bookmark}
+            isLoading={watchlistData.isLoading}
+          />
+        </HStack>
       </Box>
     </View>
   )
