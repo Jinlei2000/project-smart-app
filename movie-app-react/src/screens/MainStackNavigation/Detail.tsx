@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
   Skeleton,
+  Spinner,
   Text,
   VStack,
   View,
@@ -13,24 +14,48 @@ import {
   useTheme,
 } from 'native-base'
 import IMovie from '../../interfaces/IMovie'
-import { Dimensions, StatusBar } from 'react-native'
-import { useEffect, useState } from 'react'
+import { Dimensions, StatusBar, Share, RefreshControl } from 'react-native'
+import { useCallback, useEffect, useState } from 'react'
 import useApi from '../../hooks/useApi'
 import { bgProps, btnProps, textProps } from '../../styles/props'
 import RatingBadge from '../../components/badge/RatingBadge'
-import { Clock3 } from 'lucide-react-native'
+import {
+  ChevronLeft,
+  Clock3,
+  Heart,
+  HeartOff,
+  ShareIcon,
+  Star,
+} from 'lucide-react-native'
 import IMovieDetail from '../../interfaces/IMovieDetail'
 import CategoryList from '../../components/list/CategoryList'
+import ActionBtn from '../../components/button/ActionBtn'
+import {
+  useNavigation,
+  ParamListBase,
+  useFocusEffect,
+} from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { NotificationFeedbackType, notificationAsync } from 'expo-haptics'
+import { vibrationModeAtom } from '../../stores/vibrationMode'
+import { useAtom } from 'jotai'
+import RoundBtn from '../../components/button/RoundBtn'
 
 export default (props: any) => {
-  const { getMovieById } = useApi()
+  const { getMovieById, deleteOrAddFavorite } = useApi()
   const { colorMode } = useColorMode()
   const { colors } = useTheme()
-  // const [isReadMore, setIsReadMore] = useState(false)
+  const { navigate, goBack } =
+    useNavigation<StackNavigationProp<ParamListBase>>()
+  const [vibrationMode] = useAtom(vibrationModeAtom)
   const [readMoreData, setReadMoreData] = useState({
     show: false,
     text: 'Read more',
     lines: 3,
+  })
+  const [favoriteData, setFavoriteData] = useState({
+    isLoading: true,
+    isFavorite: false,
   })
 
   // console.log(props)
@@ -57,17 +82,42 @@ export default (props: any) => {
     releaseDate: movie.releaseDate,
     title: movie.title,
   })
+  const [isRefreshing, setIsRefreshing] = useState(false) // add state for isRefreshing
 
-  useEffect(() => {
+  const onRefresh = () => {
+    // don't refresh if there is no data
+    movieDetail?.genres ? setIsRefreshing(true) : setIsRefreshing(false)
+
     getMovieById(movie.id).then((data: IMovieDetail | null) => {
+      setIsRefreshing(false)
       setMovieDetail(data)
+
+      // set favorite data
+      setFavoriteData({
+        isLoading: false,
+        isFavorite: data!.accountStates!.favorite,
+      })
     })
-  }, [])
+  }
+
+  // refresh every time the screen is focused
+  // need it when user comes back from RateMovie screen (after rating the movie or deleting the rating)
+  useFocusEffect(
+    useCallback(() => {
+      onRefresh()
+    }, []),
+  )
 
   return (
     <View {...bgProps} flex={1}>
-      <StatusBar hidden />
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        bounces={true}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          // add RefreshControl component with onRefresh callback
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }
+      >
         {/* image with gradient over it */}
         <Flex position={'relative'}>
           <Image
@@ -98,8 +148,9 @@ export default (props: any) => {
           />
         </Flex>
 
-        {/* rating, release year, runtime */}
+        {/* content */}
         <VStack mt={-10} mb={10} bg={'transparent'}>
+          {/* rating, release year, runtime */}
           <HStack
             mx={6}
             justifyContent="space-between"
@@ -168,57 +219,154 @@ export default (props: any) => {
           />
 
           {/* overview */}
-          <Box mx={6}>
-            <Pressable
-              onPress={() => {
-                if (movieDetail!.overview.length > 150) {
-                  setReadMoreData({
-                    show: !readMoreData.show,
-                    text: readMoreData.show ? 'Read more' : 'Read less',
-                    lines: readMoreData.show ? 3 : 0,
-                  })
-                }
-              }}
-            >
+          <Box mx={6} mb={4}>
+            {movieDetail?.overview ? (
+              <>
+                <Pressable
+                  onPress={() => {
+                    if (readMoreData.lines === 0) {
+                      setReadMoreData({
+                        show: !readMoreData.show,
+                        text: readMoreData.show ? 'Read more' : 'Read less',
+                        lines: readMoreData.show ? 3 : 0,
+                      })
+                    }
+                  }}
+                >
+                  <Text
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="normal"
+                    {...textProps.primaryColor}
+                    numberOfLines={
+                      movieDetail!.overview.length > 150
+                        ? readMoreData.lines
+                        : 0
+                    }
+                  >
+                    {movieDetail?.overview}
+                  </Text>
+                </Pressable>
+
+                {/* read more button */}
+                {movieDetail!.overview.length > 150 && (
+                  <Pressable
+                    alignSelf="flex-start"
+                    onPress={() => {
+                      setReadMoreData({
+                        show: !readMoreData.show,
+                        text: readMoreData.show ? 'Read more' : 'Read less',
+                        lines: readMoreData.show ? 3 : 0,
+                      })
+                    }}
+                  >
+                    <Text
+                      fontSize={14}
+                      fontWeight="medium"
+                      {...textProps.accentColor}
+                    >
+                      {readMoreData.text}
+                    </Text>
+                  </Pressable>
+                )}
+              </>
+            ) : (
               <Text
                 fontSize={14}
-                lineHeight={20}
-                fontWeight="normal"
+                fontWeight="medium"
                 {...textProps.primaryColor}
-                numberOfLines={
-                  movieDetail!.overview.length > 150 ? readMoreData.lines : 0
-                }
               >
-                {movieDetail?.overview}
+                No overview available
               </Text>
-            </Pressable>
-
-            {/* read more button */}
-            {movieDetail!.overview.length > 150 && (
-              <Pressable
-                alignSelf="flex-start"
-                onPress={() => {
-                  setReadMoreData({
-                    show: !readMoreData.show,
-                    text: readMoreData.show ? 'Read more' : 'Read less',
-                    lines: readMoreData.show ? 3 : 0,
-                  })
-                }}
-              >
-                <Text
-                  fontSize={14}
-                  fontWeight="medium"
-                  {...textProps.accentColor}
-                >
-                  {readMoreData.text}
-                </Text>
-              </Pressable>
             )}
           </Box>
 
           {/* favorite, rate, share buttons */}
+          <HStack mx={10} alignItems="center">
+            {/* favorite button */}
+            {movieDetail?.accountStates && !favoriteData.isLoading ? (
+              <ActionBtn
+                icon={favoriteData.isFavorite ? HeartOff : Heart}
+                text="Favorite"
+                onPress={() => {
+                  if (vibrationMode) {
+                    // if vibrationMode is true, add haptic feedback
+                    notificationAsync(NotificationFeedbackType.Success)
+                  }
+
+                  setFavoriteData({
+                    ...favoriteData,
+                    isLoading: true,
+                  })
+                  deleteOrAddFavorite(
+                    movieDetail?.id,
+                    !favoriteData.isFavorite,
+                  ).then(() => {
+                    setFavoriteData({
+                      isFavorite: !favoriteData.isFavorite,
+                      isLoading: false,
+                    })
+                  })
+                }}
+              />
+            ) : (
+              <>
+                <VStack px={4} py={2} flex={1} alignItems="center">
+                  <Spinner
+                    h={6}
+                    w={6}
+                    color={
+                      colorMode === 'dark'
+                        ? colors.brand[200]
+                        : colors.coolGray[800]
+                    }
+                  />
+                  <Text
+                    mt={1}
+                    fontSize={12}
+                    fontWeight="medium"
+                    {...textProps.primaryColor}
+                  >
+                    Favorite
+                  </Text>
+                </VStack>
+              </>
+            )}
+
+            {/* rate button */}
+            <ActionBtn
+              icon={Star}
+              text="Rate it"
+              onPress={() => {
+                navigate('RateMovie', {
+                  movie: {
+                    id: movieDetail?.id,
+                    title: movieDetail?.title,
+                    posterUrl: movieDetail?.posterUrl,
+                    rated: movieDetail?.accountStates?.rated,
+                  },
+                })
+              }}
+            />
+
+            {/* share button */}
+            <ActionBtn
+              icon={ShareIcon}
+              text="Share"
+              onPress={() => {
+                Share.share({
+                  // show movie title and link to the movie
+                  message: `Check out this movie: ${movieDetail?.title} - https://www.themoviedb.org/movie/${movieDetail?.id}`,
+                })
+              }}
+            />
+          </HStack>
         </VStack>
       </ScrollView>
+
+      <Box position={'absolute'} top={0} left={0}  zIndex={1}>
+        <RoundBtn handleBtn={goBack} icon={ChevronLeft} />
+      </Box>
     </View>
   )
 }

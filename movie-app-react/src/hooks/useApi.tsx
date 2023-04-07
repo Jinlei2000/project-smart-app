@@ -361,6 +361,56 @@ export default () => {
     })
   }
 
+  const postMovieRating = (movieId: number, rating: number) => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/movie/${movieId}/rating?api_key=${API_KEY}&session_id=${sessionToken}`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  value: rating,
+                }),
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                resolve(true)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
+  const deleteMovieRating = (movieId: number) => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/movie/${movieId}/rating?api_key=${API_KEY}&session_id=${sessionToken}`,
+              {
+                method: 'DELETE',
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                resolve(true)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
   return {
     getMovies,
     getMovieById,
@@ -372,8 +422,8 @@ export default () => {
     deleteOrAddFavorite,
     getRated,
     // searchMovies,
-    // postMovieRating,
-    // deleteMovieRating,
+    postMovieRating,
+    deleteMovieRating,
     getRandomMovie,
   }
 }
