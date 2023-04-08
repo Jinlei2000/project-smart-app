@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   Flex,
   HStack,
   Image,
@@ -99,17 +100,14 @@ export default (props: any) => {
   const onRefresh = () => {
     // don't refresh if there is no data
     movieDetail?.genres ? setIsRefreshing(true) : setIsRefreshing(false)
-
     getMovieById(movie.id).then((data: IMovieDetail | null) => {
       setIsRefreshing(false)
       setMovieDetail(data)
-
       // set favorite data
       setFavoriteData({
         isLoading: false,
         isFavorite: data!.accountStates!.favorite,
       })
-
       // set watchlist data
       setWatchlistData({
         isLoading: false,
@@ -138,12 +136,28 @@ export default (props: any) => {
       >
         {/* image with gradient over it */}
         <Flex position={'relative'}>
-          <Image
-            source={{ uri: movieDetail?.posterUrl }}
-            alt={movieDetail?.title}
-            width={Dimensions.get('window').width}
-            height={Dimensions.get('window').width * 1.5}
-          />
+          {/* show placeholder image if there is no posterUrl */}
+          {movieDetail?.posterUrl ? (
+            <Image
+              source={{ uri: movieDetail.posterUrl }}
+              alt={movieDetail.title}
+              width={Dimensions.get('window').width}
+              height={Dimensions.get('window').width * 1.5}
+            />
+          ) : (
+            <Center
+              width={Dimensions.get('window').width}
+              height={Dimensions.get('window').width * 1.5}
+              _dark={{ bg: 'brand.800' }}
+              _light={{ bg: 'coolGray.100' }}
+            >
+              <Image
+                source={require('../../assets/placeholder/movie-poster.png')}
+                alt={"Movie poster doesn't exist placeholder"}
+                size={Dimensions.get('window').width * 0.5}
+              />
+            </Center>
+          )}
 
           {/* little liniar gradient over the image */}
           <Box
@@ -364,10 +378,7 @@ export default (props: any) => {
           />
 
           {/* videos */}
-          <VideoList
-            videos={movieDetail?.videos}
-            movieId={movieDetail!.id}
-          />
+          <VideoList videos={movieDetail?.videos} movieId={movieDetail!.id} />
         </VStack>
       </ScrollView>
 
