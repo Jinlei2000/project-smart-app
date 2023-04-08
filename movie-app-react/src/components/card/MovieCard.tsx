@@ -1,9 +1,10 @@
-import { Box, Flex, Pressable, Image, Text } from 'native-base'
+import { Box, Flex, Pressable, Image, Text, Center } from 'native-base'
 import IMovie from '../../interfaces/IMovie'
 import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { textProps } from '../../styles/props'
 import RatingBadge from '../badge/RatingBadge'
+import PlaceholderImage from '../placeholder/PlaceholderImage'
 
 export default ({ movie }: { movie: IMovie }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
@@ -29,14 +30,25 @@ export default ({ movie }: { movie: IMovie }) => {
         alignItems={'center'}
         position="relative"
       >
-        <Image
-          width={120}
-          height={180}
-          src={movie?.posterUrl}
-          alt={movie?.title}
-          resizeMode="cover"
-          borderRadius={16}
-        />
+        {movie?.posterUrl ? (
+          <Image
+            width={120}
+            height={180}
+            src={movie?.posterUrl}
+            alt={movie?.title}
+            resizeMode="cover"
+            borderRadius={16}
+          />
+        ) : (
+          <PlaceholderImage
+            width={120}
+            height={180}
+            size={48}
+            imageStyle={{
+              borderRadius: 16,
+            }}
+          />
+        )}
         <RatingBadge rating={movie?.rating} />
         <Box
           position="absolute"

@@ -14,6 +14,7 @@ import RatingBadge from '../badge/RatingBadge'
 import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import IMovie from '../../interfaces/IMovie'
+import PlaceholderImage from '../placeholder/PlaceholderImage'
 
 export default ({
   movie,
@@ -48,14 +49,25 @@ export default ({
         width={24}
         zIndex={10}
       >
-        <Image
-          width={24}
-          height={145}
-          src={movie?.posterUrl}
-          alt={movie?.title}
-          resizeMode="cover"
-          borderRadius={12}
-        />
+        {movie?.posterUrl ? (
+          <Image
+            width={24}
+            height={145}
+            src={movie?.posterUrl}
+            alt={movie?.title}
+            resizeMode="cover"
+            borderRadius={12}
+          />
+        ) : (
+          <PlaceholderImage
+            width={24}
+            height={145}
+            size={48}
+            imageStyle={{
+              borderRadius: 12,
+            }}
+          />
+        )}
         <RatingBadge rating={movie?.rating} />
       </Pressable>
       {/* Movie details */}

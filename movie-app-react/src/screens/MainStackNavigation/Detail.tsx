@@ -45,6 +45,7 @@ import { useAtom } from 'jotai'
 import RoundBtn from '../../components/button/RoundBtn'
 import CastListPreview from '../../components/list/CastListPreview'
 import VideoList from '../../components/list/VideoList'
+import PlaceholderImage from '../../components/placeholder/PlaceholderImage'
 
 export default (props: any) => {
   const { getMovieById, deleteOrAddFavorite, deleteOrAddWatchlist } = useApi()
@@ -136,7 +137,7 @@ export default (props: any) => {
       >
         {/* image with gradient over it */}
         <Flex position={'relative'}>
-          {/* show placeholder image if there is no posterUrl */}
+          {/* poster image */}
           {movieDetail?.posterUrl ? (
             <Image
               source={{ uri: movieDetail.posterUrl }}
@@ -145,18 +146,12 @@ export default (props: any) => {
               height={Dimensions.get('window').width * 1.5}
             />
           ) : (
-            <Center
+            // show placeholder image if there is no posterUrl
+            <PlaceholderImage
               width={Dimensions.get('window').width}
               height={Dimensions.get('window').width * 1.5}
-              _dark={{ bg: 'brand.800' }}
-              _light={{ bg: 'coolGray.100' }}
-            >
-              <Image
-                source={require('../../assets/placeholder/movie-poster.png')}
-                alt={"Movie poster doesn't exist placeholder"}
-                size={Dimensions.get('window').width * 0.5}
-              />
-            </Center>
+              size={Dimensions.get('window').width * 0.5}
+            />
           )}
 
           {/* little liniar gradient over the image */}
