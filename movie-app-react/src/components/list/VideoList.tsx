@@ -53,7 +53,7 @@ export default ({
           // site: 'YouTube' && official: true
           data={videos
             ?.filter(video => video.site === 'YouTube' && video.official)
-            .slice(0, 3)} // only show 3 videos, more = Webview Process Terminated
+            .slice(0, 4)} // only show 3 videos, more = Webview Process Terminated
           horizontal
           showsHorizontalScrollIndicator={false}
           alwaysBounceVertical={false}

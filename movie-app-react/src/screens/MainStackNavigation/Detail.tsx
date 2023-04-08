@@ -74,21 +74,20 @@ export default (props: any) => {
   })
 
   // console.log(props)
-
-  // const movie: IMovie = props.route.params.movie
+  const movie: IMovie = props.route.params.movie
   // console.log(movie)
 
-  // TEMPORARY TEST
-  const movie = {
-    id: 502356,
-    overview:
-      'While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.',
-    posterUrl:
-      'https://image.tmdb.org/t/p/w780/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg',
-    rating: 78,
-    releaseDate: '2023-04-05',
-    title: 'The Super Mario Bros. Movie',
-  }
+  // // TEMPORARY TEST
+  // const movie = {
+  //   id: 502356,
+  //   overview:
+  //     'While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.',
+  //   posterUrl:
+  //     'https://image.tmdb.org/t/p/w780/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg',
+  //   rating: 78,
+  //   releaseDate: '2023-04-05',
+  //   title: 'The Super Mario Bros. Movie',
+  // }
   const [movieDetail, setMovieDetail] = useState<IMovieDetail | null>({
     id: movie.id,
     overview: movie.overview,
@@ -383,6 +382,7 @@ export default (props: any) => {
               title="More like this"
               data={movieDetail?.similar || null}
               movieId={movieDetail!.id}
+              navigateToSameScreen={true}
             />
           </Box>
 

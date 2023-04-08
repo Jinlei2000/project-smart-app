@@ -19,7 +19,7 @@ const screenOptions = {
 export default () => {
   return (
     <Stack.Navigator screenOptions={screenOptions} 
-    initialRouteName="Detail"
+    // initialRouteName="Detail"
     >
       {/* Bottom tab navigation */}
       <Stack.Screen name="HomeBottomTabs" component={BottomTabNavigation} />

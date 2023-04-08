@@ -5,6 +5,7 @@ import {
   HStack,
   Pressable,
   Skeleton,
+  Spacer,
   Text,
   VStack,
   useColorMode,
@@ -44,10 +45,11 @@ export default ({
       <VStack space={2}>
         <SectionHeader title={'Social media'} viewAll={false} />
         {links || homepage ? (
-          <HStack mx={6} space={3}>
+          <HStack mx={6}>
             {/* homepage */}
             {homepage && (
               <Pressable
+                mr={3}
                 p={2}
                 rounded={14}
                 {...btnProps}
@@ -66,10 +68,10 @@ export default ({
                 />
               </Pressable>
             )}
-
             {/* facebook */}
             {links?.facebook_id && (
               <Pressable
+                mr={3}
                 p={2}
                 rounded={14}
                 {...btnProps}
@@ -95,6 +97,7 @@ export default ({
             {links?.twitter_id && (
               <Pressable
                 p={2}
+                mr={3}
                 rounded={14}
                 {...btnProps}
                 onPress={() => {
@@ -117,6 +120,7 @@ export default ({
             {links?.instagram_id && (
               <Pressable
                 p={2}
+                mr={3}
                 rounded={14}
                 {...btnProps}
                 onPress={() => {
@@ -140,6 +144,7 @@ export default ({
             {/* imdb */}
             {links?.imdb_id && (
               <Pressable
+                mr={3}
                 rounded={14}
                 h={42}
                 w={42}

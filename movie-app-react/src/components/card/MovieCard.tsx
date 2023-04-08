@@ -6,17 +6,29 @@ import { textProps } from '../../styles/props'
 import RatingBadge from '../badge/RatingBadge'
 import PlaceholderImage from '../placeholder/PlaceholderImage'
 
-export default ({ movie }: { movie: IMovie }) => {
-  const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
-  
+export default ({
+  movie,
+  navigateToSameScreen = false,
+}: {
+  movie: IMovie
+  navigateToSameScreen?: boolean
+}) => {
+  const { navigate, push } = useNavigation<StackNavigationProp<ParamListBase>>()
 
   return (
     <Pressable
-      onPress={() =>
-        navigate('Detail', {
-          movie: movie,
-        })
-      }
+      key={movie.id}
+      onPress={() => {
+        if (navigateToSameScreen) {
+          push('Detail', {
+            movie: movie,
+          })
+        } else {
+          navigate('Detail', {
+            movie: movie,
+          })
+        }
+      }}
     >
       <Flex
         _dark={{
