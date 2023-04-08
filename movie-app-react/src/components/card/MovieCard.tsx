@@ -8,7 +8,7 @@ import PlaceholderImage from '../placeholder/PlaceholderImage'
 
 export default ({ movie }: { movie: IMovie }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
-
+  
 
   return (
     <Pressable

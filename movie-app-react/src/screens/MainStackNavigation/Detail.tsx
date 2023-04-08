@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   Flex,
   HStack,
   Image,
@@ -130,6 +129,7 @@ export default (props: any) => {
   return (
     <View {...bgProps} flex={1}>
       <ScrollView
+        scrollEventThrottle={16}
         bounces={true}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -394,7 +394,7 @@ export default (props: any) => {
         </VStack>
       </ScrollView>
 
-      {/* Custom navBar */}
+      {/* Custom navHeader */}
       <Box
         position={'absolute'}
         top={0}
