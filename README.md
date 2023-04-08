@@ -38,6 +38,6 @@ Dit alle expo api's die ik gebruik.
 - [MediaLibrary](https://docs.expo.dev/versions/latest/sdk/media-library/)
 - [LinearGradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
 - [ImagePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
-- []()
+- [WebView](https://docs.expo.dev/versions/latest/sdk/webview/)
 - []()
 - []()

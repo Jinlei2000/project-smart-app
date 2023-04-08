@@ -65,6 +65,7 @@ export default extendTheme({
     // Automatically use the system color mode preference
     useSystemColorMode: true,
   },
+  
 })
 
 // 2. Get the type of the CustomTheme

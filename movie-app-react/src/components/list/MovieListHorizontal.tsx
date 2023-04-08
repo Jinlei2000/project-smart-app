@@ -82,7 +82,7 @@ export default ({
       {movies ? (
         movies.length > 0 ? (
           <FlatList
-            bounces={false}
+            bounces={true}
             data={movies}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item?.id.toString()}

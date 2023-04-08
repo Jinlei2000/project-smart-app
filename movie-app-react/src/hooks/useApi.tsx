@@ -11,6 +11,18 @@ import useSessionToken from './useSessionToken'
 export default () => {
   const { getSession } = useSessionToken()
 
+  const _checkImage = (url: any): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      fetch(url).then(response => {
+        if (response.status === 200) {
+          resolve(true)
+        } else {
+          resolve(false)
+        }
+      })
+    })
+  }
+
   const getUser = (): Promise<IUserdata> => {
     return new Promise((resolve, reject) => {
       getSession()
@@ -221,6 +233,7 @@ export default () => {
                 resolve(null)
                 return
               }
+
               // change the poster path to the full url
               const movie = {
                 id: data.id,
@@ -238,7 +251,23 @@ export default () => {
                 genres: data.genres,
                 runtime: data.runtime,
                 videos: data.videos.results,
-                similar: data.similar.results,
+                homepage: data.homepage,
+                similar: data.similar.results.map((movie: any) => {
+                  return {
+                    id: movie.id,
+                    title: movie.title,
+                    releaseDate: movie.release_date,
+                    rating:
+                      movie.vote_average * 10 === 0
+                        ? 0
+                        : Math.round(movie.vote_average * 10),
+                    posterUrl:
+                      movie.poster_path === null
+                        ? ''
+                        : `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
+                    overview: movie.overview,
+                  } as IMovie
+                }),
                 reviews: data.reviews.results,
                 externalIds: data.external_ids,
                 credits: data.credits,
@@ -361,6 +390,56 @@ export default () => {
     })
   }
 
+  const postMovieRating = (movieId: number, rating: number) => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/movie/${movieId}/rating?api_key=${API_KEY}&session_id=${sessionToken}`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  value: rating,
+                }),
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                resolve(true)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
+  const deleteMovieRating = (movieId: number) => {
+    return new Promise((resolve, reject) => {
+      getSession()
+        .then(sessionToken => {
+          getUser().then(user => {
+            fetch(
+              `${BASE_URL}/movie/${movieId}/rating?api_key=${API_KEY}&session_id=${sessionToken}`,
+              {
+                method: 'DELETE',
+              },
+            )
+              .then(response => response.json())
+              .then(data => {
+                resolve(true)
+              })
+              .catch(error => reject(error))
+          })
+        })
+        .catch(error => reject(error))
+    })
+  }
+
   return {
     getMovies,
     getMovieById,
@@ -372,8 +451,8 @@ export default () => {
     deleteOrAddFavorite,
     getRated,
     // searchMovies,
-    // postMovieRating,
-    // deleteMovieRating,
+    postMovieRating,
+    deleteMovieRating,
     getRandomMovie,
   }
 }

@@ -1,6 +1,14 @@
 import { Box, Text } from 'native-base'
 
-export default ({ rating, size = 'sm' }: { rating: number; size?: string }) => {
+export default ({
+  rating,
+  size = 'sm',
+  styleProps,
+}: {
+  rating: number | null | undefined
+  size?: string
+  styleProps?: any
+}) => {
   const getRatingBgColor = (rating: number) => {
     if (rating >= 70) {
       return 'extra.green'
@@ -26,6 +34,11 @@ export default ({ rating, size = 'sm' }: { rating: number; size?: string }) => {
         text: { fontSize: 10 },
         box: { px: 1.5, py: 0.5, m: 1.5, borderRadius: 8 },
       }
+    } else if (size === 'md') {
+      return {
+        text: { fontSize: 12 },
+        box: { px: 2, py: 1, m: 2, borderRadius: 10 },
+      }
     } else if (size === 'lg') {
       return {
         text: { fontSize: 14 },
@@ -42,6 +55,7 @@ export default ({ rating, size = 'sm' }: { rating: number; size?: string }) => {
       opacity={0.95}
       {...getSize().box}
       bg={getRatingBgColor(rating)}
+      {...styleProps}
     >
       <Text {...getSize().text} fontWeight="semibold" color="brand.50">
         {getRatingText(rating)}
