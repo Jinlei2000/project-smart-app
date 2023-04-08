@@ -1,4 +1,4 @@
-import { HStack, Text } from 'native-base'
+import { HStack, Pressable, Text } from 'native-base'
 import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { textProps } from '../../styles/props'
@@ -22,20 +22,27 @@ export default ({
         {title}
       </Text>
       {viewAll && (
-        <Text
-          fontSize={12}
-          fontWeight="medium"
-          {...textProps.accentColor}
+        <Pressable
           onPress={() =>
             navigate('ViewAll', {
-              category: category,
-              item: { name: title },
-              id: id,
+              data: {
+                category: category,
+                item: { name: title },
+                id: id,
+              },
             })
           }
+          pb={1}
+          pt={1.5}
         >
-          View all
-        </Text>
+          <Text
+            fontSize={12}
+            fontWeight="medium"
+            {...textProps.accentColor}
+          >
+            View all
+          </Text>
+        </Pressable>
       )}
     </HStack>
   )

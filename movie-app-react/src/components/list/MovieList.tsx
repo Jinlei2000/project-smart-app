@@ -5,14 +5,28 @@ import MovieCard from '../card/MovieCard'
 import SectionHeader from '../title/SectionHeader'
 import SkeletonMovieList from '../skeleton/SkeletonMovieList'
 
-export default ({ title, data }: { title: string; data: IMovie[] | null }) => {
+export default ({
+  title,
+  data,
+  movieId,
+}: {
+  title: string
+  data: IMovie[] | null
+  movieId?: number
+}) => {
   return (
     <VStack space={4}>
-      <SectionHeader title={title} category="Movies" />
+      <SectionHeader
+        title={title}
+        category="Movies"
+        viewAll={data && data.length > 10 ? true : false}
+        id={movieId}
+      />
       {data !== null ? (
         <FlatList
           horizontal
-          data={data}
+          // first 10 items
+          data={data.slice(0, 10)}
           keyExtractor={item => item?.id.toString()}
           showsHorizontalScrollIndicator={false}
           bounces={false}

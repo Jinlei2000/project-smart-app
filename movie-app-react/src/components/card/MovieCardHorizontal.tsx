@@ -49,12 +49,12 @@ export default ({
         width={24}
         zIndex={10}
       >
-        {movie?.posterUrl ? (
+        {movie.posterUrl ? (
           <Image
             width={24}
             height={145}
-            src={movie?.posterUrl}
-            alt={movie?.title}
+            src={movie.posterUrl}
+            alt={movie.title}
             resizeMode="cover"
             borderRadius={12}
           />
@@ -62,13 +62,13 @@ export default ({
           <PlaceholderImage
             width={24}
             height={145}
-            size={48}
-            imageStyle={{
+            size={12}
+            boxStyle={{
               borderRadius: 12,
             }}
           />
         )}
-        <RatingBadge rating={movie?.rating} />
+        <RatingBadge rating={movie.rating} />
       </Pressable>
       {/* Movie details */}
       <Pressable
@@ -102,8 +102,8 @@ export default ({
             lineHeight={15}
             {...textProps.secondaryColor}
           >
-            {movie?.releaseDate &&
-              new Date(movie?.releaseDate).toLocaleDateString('en-US', {
+            {movie.releaseDate &&
+              new Date(movie.releaseDate).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',

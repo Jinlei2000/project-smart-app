@@ -9,6 +9,7 @@ import PlaceholderImage from '../placeholder/PlaceholderImage'
 export default ({ movie }: { movie: IMovie }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
 
+
   return (
     <Pressable
       onPress={() =>
@@ -30,12 +31,12 @@ export default ({ movie }: { movie: IMovie }) => {
         alignItems={'center'}
         position="relative"
       >
-        {movie?.posterUrl ? (
+        {movie.posterUrl ? (
           <Image
             width={120}
             height={180}
-            src={movie?.posterUrl}
-            alt={movie?.title}
+            src={movie.posterUrl}
+            alt={movie.title}
             resizeMode="cover"
             borderRadius={16}
           />
@@ -43,13 +44,13 @@ export default ({ movie }: { movie: IMovie }) => {
           <PlaceholderImage
             width={120}
             height={180}
-            size={48}
-            imageStyle={{
+            size={16}
+            boxStyle={{
               borderRadius: 16,
             }}
           />
         )}
-        <RatingBadge rating={movie?.rating} />
+        <RatingBadge rating={movie.rating} />
         <Box
           position="absolute"
           bottom={0}
@@ -76,7 +77,7 @@ export default ({ movie }: { movie: IMovie }) => {
             numberOfLines={2}
             textAlign="center"
           >
-            {movie?.title}
+            {movie.title}
           </Text>
         </Box>
       </Flex>

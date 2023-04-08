@@ -1,4 +1,5 @@
 import ICast from './ICast'
+import { IExternalLinks } from './IExternalLinks';
 import IMovie from './IMovie'
 import IVideo from './IVideo'
 
@@ -11,6 +12,7 @@ export default interface IMovieDetail extends IMovie {
   status?: string
   videos?: Array<IVideo>
   similar?: Array<IMovie>
+  homepage?: string | null
   reviews?: Array<{
     id: string
     created_at: string
@@ -24,12 +26,7 @@ export default interface IMovieDetail extends IMovie {
     }
   }>
 
-  externalIds?: {
-    imdb_id: string | null
-    facebook_id: string | null
-    instagram_id: string | null
-    twitter_id: string | null
-  }
+  externalIds?: IExternalLinks
   credits?: {
     cast: Array<ICast>
   }

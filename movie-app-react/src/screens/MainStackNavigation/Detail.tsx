@@ -46,6 +46,8 @@ import RoundBtn from '../../components/button/RoundBtn'
 import CastListPreview from '../../components/list/CastListPreview'
 import VideoList from '../../components/list/VideoList'
 import PlaceholderImage from '../../components/placeholder/PlaceholderImage'
+import MovieList from '../../components/list/MovieList'
+import SocialMediaList from '../../components/list/SocialMediaList'
 
 export default (props: any) => {
   const { getMovieById, deleteOrAddFavorite, deleteOrAddWatchlist } = useApi()
@@ -138,7 +140,7 @@ export default (props: any) => {
         {/* image with gradient over it */}
         <Flex position={'relative'}>
           {/* poster image */}
-          {movieDetail?.posterUrl ? (
+          {movieDetail && movieDetail.posterUrl ? (
             <Image
               source={{ uri: movieDetail.posterUrl }}
               alt={movieDetail.title}
@@ -374,6 +376,21 @@ export default (props: any) => {
 
           {/* videos */}
           <VideoList videos={movieDetail?.videos} movieId={movieDetail!.id} />
+
+          {/* more like this */}
+          <Box mb={6}>
+            <MovieList
+              title="More like this"
+              data={movieDetail?.similar || null}
+              movieId={movieDetail!.id}
+            />
+          </Box>
+
+          {/* social media */}
+          <SocialMediaList
+            links={movieDetail?.externalIds}
+            homepage={movieDetail?.homepage}
+          />
         </VStack>
       </ScrollView>
 

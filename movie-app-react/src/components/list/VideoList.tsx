@@ -2,7 +2,6 @@ import { FlatList, Flex, HStack, Skeleton, VStack, View } from 'native-base'
 import SectionHeader from '../title/SectionHeader'
 import YoutubePlayer from 'react-native-youtube-iframe'
 import IVideo from '../../interfaces/IVideo'
-import { StyleSheet } from 'react-native'
 import { useState } from 'react'
 
 export default ({
@@ -18,8 +17,31 @@ export default ({
     return null
   }
 
+  const renderItem = ({ item }: { item: IVideo }) => {
+    return (
+      <View overflow={'hidden'} borderRadius={16}>
+        <YoutubePlayer
+          height={150}
+          width={266}
+          videoId={item.key}
+          play={item.id === currentVideoId}
+          onChangeState={state => {
+            if (state === 'playing') {
+              setCurrentVideoId(item.id)
+            }
+          }}
+          webViewProps={{
+            allowsFullscreenVideo: true,
+            bounces: false,
+            scrollEnabled: false,
+          }}
+        />
+      </View>
+    )
+  }
+
   return (
-    <VStack space={1.5} mb={6}>
+    <VStack space={4} mb={6}>
       <SectionHeader
         category="Videos"
         id={movieId}
@@ -31,7 +53,7 @@ export default ({
           // site: 'YouTube' && official: true
           data={videos
             ?.filter(video => video.site === 'YouTube' && video.official)
-            .slice(0, 6)}
+            .slice(0, 3)} // only show 3 videos, more = Webview Process Terminated
           horizontal
           showsHorizontalScrollIndicator={false}
           alwaysBounceVertical={false}
@@ -41,28 +63,7 @@ export default ({
             paddingHorizontal: 24,
           }}
           ItemSeparatorComponent={() => <Flex w={3} />}
-          renderItem={({ item }) => (
-            <>
-              <View overflow={'hidden'} borderRadius={16}>
-                <YoutubePlayer
-                  height={150}
-                  width={266}
-                  videoId={item.key}
-                  play={item.id === currentVideoId}
-                  onChangeState={state => {
-                    if (state === 'playing') {
-                      setCurrentVideoId(item.id)
-                    }
-                  }}
-                  webViewProps={{
-                    allowsFullscreenVideo: true,
-                    bounces: false,
-                    scrollEnabled: false,
-                  }}
-                />
-              </View>
-            </>
-          )}
+          renderItem={renderItem}
         />
       ) : (
         // make a skeleton with 2 videos
