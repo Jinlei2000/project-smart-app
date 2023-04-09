@@ -13,7 +13,7 @@ export default ({
 }) => {
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null)
 
-  console.log('videos: ', videos)
+  // console.log('videos: ', videos)
 
   const filterVideos =
     videos &&

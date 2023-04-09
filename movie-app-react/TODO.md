@@ -6,4 +6,6 @@
 
 4. fix warn on ios Webview Process Terminated (if more than 3 video)
 
-5. fix ENV file 
+5. fix ENV file
+
+6. viewall screen show all casts of movie & show all videos of movie (official of yt)
