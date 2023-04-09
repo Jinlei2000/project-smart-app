@@ -1,4 +1,4 @@
-import { FlatList, VStack } from 'native-base'
+import { FlatList, Flex, VStack } from 'native-base'
 import React from 'react'
 import IMovie from '../../interfaces/IMovie'
 import MovieCard from '../card/MovieCard'
@@ -32,6 +32,7 @@ export default ({
           keyExtractor={item => item.id.toString()}
           showsHorizontalScrollIndicator={false}
           bounces={false}
+          ItemSeparatorComponent={() => <Flex w={4} />}
           contentContainerStyle={{ paddingLeft: 24, paddingRight: 12 }}
           renderItem={({ item }: { item: IMovie }) => (
             <MovieCard

@@ -21,6 +21,7 @@ export default ({
     return (
       <View overflow={'hidden'} borderRadius={16}>
         <YoutubePlayer
+          key={item.id}
           height={150}
           width={266}
           videoId={item.key}

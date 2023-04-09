@@ -1,10 +1,15 @@
-import { Box, Flex, Pressable, Image, Text, Center } from 'native-base'
+import { Box, Flex, Pressable, Image, Text } from 'native-base'
 import IMovie from '../../interfaces/IMovie'
 import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { textProps } from '../../styles/props'
 import RatingBadge from '../badge/RatingBadge'
 import PlaceholderImage from '../placeholder/PlaceholderImage'
+import { Dimensions } from 'react-native'
+
+const ITEM_WIDTH = (Dimensions.get('window').width - 64) / 2
+const ITEM_HEIGHT = ITEM_WIDTH * 1.5
+const BORDER_RADIUS = ITEM_WIDTH * 0.11
 
 export default ({
   movie,
@@ -37,27 +42,27 @@ export default ({
         _light={{
           bg: 'coolGray.300',
         }}
-        borderRadius={16.5}
+        borderRadius={BORDER_RADIUS + 0.5}
         justifyContent={'center'}
         alignItems={'center'}
         position="relative"
       >
         {movie.posterUrl ? (
           <Image
-            width={120}
-            height={180}
+            width={ITEM_WIDTH}
+            height={ITEM_HEIGHT}
             src={movie.posterUrl}
             alt={movie.title}
             resizeMode="cover"
-            borderRadius={16}
+            borderRadius={BORDER_RADIUS}
           />
         ) : (
           <PlaceholderImage
-            width={120}
-            height={180}
-            size={16}
+            width={ITEM_WIDTH}
+            height={ITEM_HEIGHT}
+            size={24}
             boxStyle={{
-              borderRadius: 16,
+              borderRadius: BORDER_RADIUS,
             }}
           />
         )}

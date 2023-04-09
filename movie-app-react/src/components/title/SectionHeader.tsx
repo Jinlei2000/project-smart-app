@@ -27,19 +27,14 @@ export default ({
             navigate('ViewAll', {
               data: {
                 category: category,
-                item: { name: title },
-                id: id,
+                item: { name: title, id: id },
               },
             })
           }
           pb={1}
           pt={1.5}
         >
-          <Text
-            fontSize={12}
-            fontWeight="medium"
-            {...textProps.accentColor}
-          >
+          <Text fontSize={12} fontWeight="medium" {...textProps.accentColor}>
             View all
           </Text>
         </Pressable>
