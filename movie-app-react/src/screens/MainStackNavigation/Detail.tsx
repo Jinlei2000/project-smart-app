@@ -366,14 +366,13 @@ export default (props: any) => {
           <VideoList videos={movieDetail?.videos} movieId={movieDetail!.id} />
 
           {/* more like this */}
-          <Box mb={6}>
             <MovieList
               title="More like this"
               data={movieDetail?.similar || null}
-              movieId={movieDetail!.id}
               navigateToSameScreen={true}
+              viewAll={false}
+              mb={6}
             />
-          </Box>
 
           {/* social media */}
           <SocialMediaList

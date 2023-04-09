@@ -1,7 +1,7 @@
 import { VStack, FlatList, Flex, Box, HStack, View, Spacer } from 'native-base'
 import IMovie from '../../interfaces/IMovie'
 import SectionHeader from '../title/SectionHeader'
-import MovieCardResponsive from '../card/MovieCardResponsive';
+import MovieCardResponsive from '../card/MovieCardResponsive'
 
 export default ({ title, data }: { title?: string; data: IMovie[] | null }) => {
   return (
@@ -9,7 +9,6 @@ export default ({ title, data }: { title?: string; data: IMovie[] | null }) => {
       {title && <SectionHeader title={title} viewAll={false} />}
       {data !== null ? (
         <FlatList
-          w="100%"
           data={data}
           keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
@@ -27,7 +26,7 @@ export default ({ title, data }: { title?: string; data: IMovie[] | null }) => {
             }
             // If the index is even, render the current movie and the next movie (if it exists)
             return (
-              <HStack space={4} key={index} mb={4} alignSelf="center">
+              <HStack space={4} key={index} mb={4}>
                 <MovieCardResponsive movie={item} />
                 {data[index + 1] && (
                   <MovieCardResponsive movie={data[index + 1]} />

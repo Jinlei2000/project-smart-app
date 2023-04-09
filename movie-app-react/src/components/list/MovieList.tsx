@@ -8,21 +8,32 @@ import SkeletonMovieList from '../skeleton/SkeletonMovieList'
 export default ({
   title,
   data,
-  movieId,
   navigateToSameScreen = false,
+  viewAll,
+  mb,
 }: {
   title: string
   data: IMovie[] | null
-  movieId?: number
   navigateToSameScreen?: boolean
+  viewAll?: boolean
+  mb?: number
 }) => {
+  if (data && data.length === 0) {
+    return null
+  }
+
   return (
-    <VStack space={4}>
+    <VStack space={4} mb={mb}>
       <SectionHeader
         title={title}
         category="Movies"
-        viewAll={data && data.length > 10 ? true : false}
-        id={movieId}
+        viewAll={
+          viewAll != undefined
+            ? viewAll
+            : data && data.length > 10
+            ? true
+            : false
+        }
       />
       {data !== null ? (
         <FlatList

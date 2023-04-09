@@ -13,7 +13,12 @@ export default ({
 }) => {
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null)
 
-  if (videos && videos?.length === 0) {
+  console.log('videos: ', videos)
+
+  const filterVideos =
+    videos &&
+    videos?.filter(video => video.site === 'YouTube' && video.official)
+  if (videos && filterVideos?.length === 0) {
     return null
   }
 
@@ -47,14 +52,12 @@ export default ({
         category="Videos"
         id={movieId}
         title="Videos"
-        viewAll={videos && videos.length > 6}
+        viewAll={filterVideos && filterVideos.length > 4 ? true : false}
       />
       {videos ? (
         <FlatList
           // site: 'YouTube' && official: true
-          data={videos
-            ?.filter(video => video.site === 'YouTube' && video.official)
-            .slice(0, 4)} // only show 3 videos, more = Webview Process Terminated
+          data={filterVideos && filterVideos.slice(0, 4)} // only show 3 videos, more = Webview Process Terminated
           horizontal
           showsHorizontalScrollIndicator={false}
           alwaysBounceVertical={false}
