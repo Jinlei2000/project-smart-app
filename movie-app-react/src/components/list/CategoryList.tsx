@@ -10,16 +10,22 @@ import SkeletonCategoryList from '../skeleton/SkeletonCategoryList'
 export default ({
   categories,
   header,
+  styleProps,
 }: {
-  categories: ICategory[] | null
+  categories: ICategory[] | null | undefined
   header: boolean
+  styleProps?: any
 }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
 
+  if (categories && categories?.length === 0) {
+    return null
+  }
+
   return (
-    <VStack space={3}>
+    <VStack space={3} {...styleProps}>
       {header && <SectionHeader title="Categories" viewAll={false} />}
-      {categories !== null ? (
+      {categories ? (
         <FlatList
           data={categories}
           horizontal
@@ -31,11 +37,12 @@ export default ({
           ItemSeparatorComponent={() => <Flex w={2} />}
           renderItem={({ item }) => (
             <Pressable
+              key={item.id}
               {...btnProps}
               borderRadius={12}
               onPress={() =>
                 navigate('ViewAll', {
-                  data: { category: 'category', item: item },
+                  data: { category: 'Categories', item: item },
                 })
               }
             >

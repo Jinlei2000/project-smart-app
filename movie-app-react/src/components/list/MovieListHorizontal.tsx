@@ -14,7 +14,13 @@ import { RefreshControl } from 'react-native'
 import MovieCardHorizontal from '../card/MovieCardHorizontal'
 import SkeletonMovieListHorizontal from '../skeleton/SkeletonMovieListHorizontal'
 import { useEffect, useState } from 'react'
-import { Bookmark, BookmarkMinus, Heart, HeartOff, Star } from 'lucide-react-native'
+import {
+  Bookmark,
+  BookmarkMinus,
+  Heart,
+  HeartOff,
+  Star,
+} from 'lucide-react-native'
 import { textProps } from '../../styles/props'
 import EmptyList from './EmptyList'
 
@@ -76,6 +82,7 @@ export default ({
       {movies ? (
         movies.length > 0 ? (
           <FlatList
+            bounces={true}
             data={movies}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item?.id.toString()}

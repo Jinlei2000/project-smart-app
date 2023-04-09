@@ -16,7 +16,7 @@ export default ({
   return (
     <View {...bgProps} {...safeAreaProps} flex={1}>
       {scroll ? (
-        <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false}>{children}</ScrollView>
       ) : (
         <View>{children}</View>
       )}

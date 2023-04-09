@@ -8,6 +8,8 @@ import MovieList from '../../../components/list/MovieList'
 import NavHeader from '../../../components/header/NavHeader'
 import React, { useEffect, useState } from 'react'
 import useApi from '../../../hooks/useApi'
+import { useNavigation, ParamListBase } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 export default () => {
   const { getCategories, getMovies } = useApi()
@@ -20,14 +22,6 @@ export default () => {
     upcoming: null,
   })
 
-  const getFirst10Movies = (data: IMovie[] | null) => {
-    if (data) {
-      return data.slice(0, 10)
-    } else {
-      return null
-    }
-  }
-
   useEffect(() => {
     // Get categories
     getCategories().then((data: ICategory[]) => {
@@ -39,7 +33,7 @@ export default () => {
       (data: IMovie[] | null) => {
         setMovies(prev => ({
           ...prev,
-          nowPlaying: getFirst10Movies(data),
+          nowPlaying: data,
         }))
       },
     )
@@ -47,21 +41,21 @@ export default () => {
     getMovies(enumMovieCategory.POPULAR, 1).then((data: IMovie[] | null) => {
       setMovies(prev => ({
         ...prev,
-        popular: getFirst10Movies(data),
+        popular: data,
       }))
     })
 
     getMovies(enumMovieCategory.TOP_RATED, 1).then((data: IMovie[] | null) => {
       setMovies(prev => ({
         ...prev,
-        topRated: getFirst10Movies(data),
+        topRated: data,
       }))
     })
 
     getMovies(enumMovieCategory.UPCOMING, 1).then((data: IMovie[] | null) => {
       setMovies(prev => ({
         ...prev,
-        upcoming: getFirst10Movies(data),
+        upcoming: data,
       }))
     })
 
@@ -69,7 +63,7 @@ export default () => {
       (data: IMovie[] | null) => {
         setMovies(prev => ({
           ...prev,
-          trending: getFirst10Movies(data),
+          trending: data,
         }))
       },
     )

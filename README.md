@@ -12,7 +12,6 @@ Denk aan je data-opslag, navigatie. Benoem ook onderdelen die je nog niet weet.
 - API: [TMDB](https://www.themoviedb.org/documentation/api)
 - Werken met bottom tab navigator of drawer en stack navigator
 - Searchbar
--
 
 ## Wat wordt je insteek voor de UI?
 
@@ -24,3 +23,21 @@ Voorbeelden, UI-kits, templates, ideeën, etc...
 ## Op welk platform ga je focussen?
 
 Ik zal proberen om het op zowel Android als iOS te laten werken.
+
+## Expo Api's
+
+Dit alle expo api's die ik gebruik.
+
+- [FileSystem](https://docs.expo.dev/versions/latest/sdk/filesystem/)
+- [Camera](https://docs.expo.dev/versions/latest/sdk/camera/)
+- [Haptics](https://docs.expo.dev/versions/latest/sdk/haptics/)
+- [BlurView](https://docs.expo.dev/versions/latest/sdk/blur-view/)
+- [SecureStore](https://docs.expo.dev/versions/latest/sdk/securestore/)
+- [Font](https://docs.expo.dev/versions/latest/sdk/font/)
+- [SplashScreen](https://docs.expo.dev/versions/latest/sdk/splash-screen/)
+- [MediaLibrary](https://docs.expo.dev/versions/latest/sdk/media-library/)
+- [LinearGradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
+- [ImagePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
+- [WebView](https://docs.expo.dev/versions/latest/sdk/webview/)
+- []()
+- []()

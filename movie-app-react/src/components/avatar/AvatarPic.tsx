@@ -4,31 +4,42 @@ import { Image } from 'react-native'
 import { IUserdata } from '../../interfaces/IUserdata'
 import { textProps } from '../../styles/props'
 
-export default ({ userDatas }: { userDatas: IUserdata | undefined }) => {
-  const [userData, setUserData] = useState<IUserdata | undefined>(userDatas)
+export default ({
+  userDatas,
+  size = 'sm',
+}: {
+  userDatas: IUserdata | null
+  size?: string
+}) => {
+  const [url, setUrl] = useState<string | undefined | null>(null)
 
   useEffect(() => {
-    setUserData(userDatas)
+    setUrl(userDatas?.avatarUrl)
   }, [userDatas])
+
+  const getSize = () => {
+    if (size === 'sm') {
+      return 10
+    } else if (size === 'xxl') {
+      return 128
+    }
+  }
 
   return (
     <Avatar
-      size={10}
+      size={getSize()}
       _dark={{ bg: 'brand.700' }}
       _light={{ bg: 'coolGray.200' }}
     >
       {/* show avatar image if exist else show signiture (letter) */}
-      {userData?.avatarUrl ? (
+      {url ? (
         <Image
           source={{
-            uri: userData?.avatarUrl || undefined,
+            uri: userDatas?.avatarUrl || undefined,
           }}
           onError={() => {
             // console.log('no default avatar image on gravatar')
-            setUserData({
-              ...userData,
-              avatarUrl: undefined,
-            })
+            setUrl(undefined)
           }}
           style={{
             width: '100%',
@@ -38,7 +49,7 @@ export default ({ userDatas }: { userDatas: IUserdata | undefined }) => {
         />
       ) : (
         <Text {...textProps.primaryColor} fontSize={15} fontWeight={'bold'}>
-          {userData?.firstLetter}
+          {userDatas?.firstLetter}
         </Text>
       )}
     </Avatar>
