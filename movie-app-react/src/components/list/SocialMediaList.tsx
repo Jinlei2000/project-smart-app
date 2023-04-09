@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
 import { IExternalLinks } from '../../interfaces/IExternalLinks'
 import SectionHeader from '../title/SectionHeader'
 import {
   HStack,
   Pressable,
   Skeleton,
-  Spacer,
   Text,
   VStack,
   useColorMode,

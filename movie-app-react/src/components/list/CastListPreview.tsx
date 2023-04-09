@@ -39,6 +39,7 @@ export default ({
             />
           ) : (
             <Box
+              key={index}
               size={12}
               rounded="full"
               _dark={{
@@ -48,6 +49,8 @@ export default ({
                 bg: 'coolGray.200',
               }}
               ml={index === 0 ? 0 : -2}
+              alignItems="center"
+              justifyContent="center"
             >
               <Text
                 fontSize={14}
