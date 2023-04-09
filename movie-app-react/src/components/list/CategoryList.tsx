@@ -37,6 +37,7 @@ export default ({
           ItemSeparatorComponent={() => <Flex w={2} />}
           renderItem={({ item }) => (
             <Pressable
+              key={item.id}
               {...btnProps}
               borderRadius={12}
               onPress={() =>
