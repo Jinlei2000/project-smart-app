@@ -122,10 +122,13 @@ export default () => {
               <Input
                 {...formProps.input}
                 // type="password"
+                enablesReturnKeyAutomatically={true}
+                returnKeyType="done"
                 type={showPassword ? 'text' : 'password'}
                 id="password"
                 placeholder="CHdfzd51sd?5"
                 // secureTextEntry={!showPassword}
+                value={values.password}
                 onChange={event => {
                   handleChange(event, 'password')
                 }}

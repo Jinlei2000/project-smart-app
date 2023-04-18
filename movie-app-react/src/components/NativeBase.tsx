@@ -1,5 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
-import { ColorMode, NativeBaseProvider, StorageManager } from 'native-base'
+import {
+  ColorMode,
+  NativeBaseProvider,
+  StorageManager,
+} from 'native-base'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import useColorMode from '../hooks/useColorMode'
@@ -39,6 +43,7 @@ export default ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
+
     <NativeBaseProvider
       theme={theme}
       colorModeManager={colorModeManager}

@@ -57,10 +57,25 @@ export default () => {
     return fileInfo.exists
   }
 
+  // check if photo exists in media library (if user deleted it)
+  const initializePhoto = async () => {
+    console.log('initializePhoto')
+    const photoUri = await AsyncStorage.getItem(key)
+
+    if (photoUri) {
+      _checkIfPhotoExists(photoUri).then(exists => {
+        if (!exists) {
+          deletePhoto()
+        }
+      })
+    }
+  }
+
   return {
     savePhotoInMediaLibrary,
     deletePhoto,
     getPhotoUri,
     savePhotoInAsyncStorage,
+    initializePhoto,
   }
 }

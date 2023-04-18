@@ -48,7 +48,7 @@ export default () => {
   ): void => {
     const val = event.nativeEvent.text
 
-    // console.log(name, val)
+    console.log(name, val)
 
     setValues({
       ...values,

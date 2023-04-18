@@ -8,6 +8,7 @@ import { HomeIcon, Bookmark, Dices, User } from 'lucide-react-native'
 import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import { BlurView } from 'expo-blur'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Tab = createBottomTabNavigator()
 
@@ -27,15 +28,21 @@ export default () => {
   let tabBarBg = () => {}
   if (Platform.OS !== 'ios') {
     bgColor = colorMode === 'dark' ? colors.brand[800] : colors.coolGray[100]
-    tabBarBg = () => <View shadow={2} />
+    tabBarBg = () => (
+      <SafeAreaView style={{ flex: 1 }}>
+        <View shadow={2} />
+      </SafeAreaView>
+    )
   } else {
     bgColor = colorMode === 'dark' ? '#1E1F27B3' : '#F3F4F6B3'
     tabBarBg = () => (
-      <BlurView
-        tint={colorMode === 'dark' ? 'dark' : 'light'}
-        intensity={50}
-        style={StyleSheet.absoluteFill}
-      />
+      <SafeAreaView style={{ flex: 1 }}>
+        <BlurView
+          tint={colorMode === 'dark' ? 'dark' : 'light'}
+          intensity={50}
+          style={StyleSheet.absoluteFill}
+        />
+      </SafeAreaView>
     )
   }
 
@@ -43,11 +50,9 @@ export default () => {
     headerShown: false,
     tabBarStyle: {
       backgroundColor: bgColor,
-      paddingBottom: 6,
       paddingTop: 8,
       padingHorizontal: 8,
       borderTopWidth: 0,
-      height: 56,
       position: 'absolute',
     },
     tabBarLabelStyle: {

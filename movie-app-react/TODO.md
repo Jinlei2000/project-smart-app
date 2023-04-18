@@ -9,3 +9,11 @@
 5. fix ENV file
 
 6. viewall screen show all casts of movie & show all videos of movie (official of yt)
+
+7. lottie werkt niet op android
+
+8. expo eject
+
+9. export
+
+10. fix bug if profile picture is not found in phone show default image

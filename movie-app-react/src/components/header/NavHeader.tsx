@@ -127,7 +127,12 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
   }
 
   const children = (
-    <Box {...safeAreaProps} px={6} h={20} justifyContent="center" py={2}>
+    <Box
+      {...safeAreaProps}
+      px={6}
+      justifyContent="center"
+      pb={2}
+    >
       <HStack alignItems="center" justifyContent="space-between">
         {leftItem}
         {rightItem}
