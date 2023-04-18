@@ -1,9 +1,17 @@
-import { VStack, FlatList, Flex, Box, HStack, View, Spacer } from 'native-base'
+import { VStack, FlatList, HStack } from 'native-base'
 import IMovie from '../../interfaces/IMovie'
 import SectionHeader from '../title/SectionHeader'
 import MovieCardResponsive from '../card/MovieCardResponsive'
 
-export default ({ title, data }: { title?: string; data: IMovie[] | null }) => {
+export default ({
+  title,
+  data,
+  navigateToSameScreen,
+}: {
+  title?: string
+  data: IMovie[] | null
+  navigateToSameScreen?: boolean
+}) => {
   return (
     <VStack space={4} mx={6}>
       {title && <SectionHeader title={title} viewAll={false} />}
@@ -29,7 +37,10 @@ export default ({ title, data }: { title?: string; data: IMovie[] | null }) => {
               <HStack space={4} key={index} mb={4}>
                 <MovieCardResponsive movie={item} />
                 {data[index + 1] && (
-                  <MovieCardResponsive movie={data[index + 1]} />
+                  <MovieCardResponsive
+                    navigateToSameScreen={navigateToSameScreen}
+                    movie={data[index + 1]}
+                  />
                 )}
               </HStack>
             )

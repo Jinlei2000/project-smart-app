@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Pressable } from 'native-base'
+import { Box, Flex, Image, Pressable, View } from 'native-base'
 import Main from '../../components/generic/Main'
 import { Camera, CameraType } from 'expo-camera'
 import { useEffect, useRef, useState } from 'react'
@@ -111,12 +111,26 @@ export default () => {
             />
           ) : (
             // Camera
-            <Camera
-              style={styles.camera}
-              type={type}
-              ratio="1:1"
-              ref={cameraRef}
-            />
+            <>
+              <Box
+                rounded={'full'}
+                bgColor={'white'}
+                mt={-Dimensions.get('window').height * 0.2}
+                h={Dimensions.get('window').width * 0.8}
+                w={Dimensions.get('window').width * 0.8}
+                overflow={'hidden'}
+                display={'flex'}
+                justifyContent={'center'}
+                alignItems={'center'}
+              >
+                <Camera
+                  style={styles.camera}
+                  type={type}
+                  ratio="1:1"
+                  ref={cameraRef}
+                />
+              </Box>
+            </>
           )}
         </Flex>
 
@@ -182,6 +196,6 @@ const styles = StyleSheet.create({
   camera: {
     width: Dimensions.get('window').width * 0.8,
     height: Dimensions.get('window').width * 0.8,
-    marginTop: -Dimensions.get('window').height * 0.2,
+    // marginTop: -Dimensions.get('window').height * 0.2,
   },
 })

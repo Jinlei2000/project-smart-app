@@ -11,10 +11,12 @@ export default ({
   categories,
   header,
   styleProps,
+  navigateToSameScreen = false,
 }: {
   categories: ICategory[] | null | undefined
   header: boolean
   styleProps?: any
+  navigateToSameScreen?: boolean
 }) => {
   const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>()
 
@@ -40,11 +42,17 @@ export default ({
               key={item.id}
               {...btnProps}
               borderRadius={12}
-              onPress={() =>
-                navigate('ViewAll', {
-                  data: { category: 'Categories', item: item },
-                })
-              }
+              onPress={() => {
+                {
+                  navigate('ViewAll', {
+                    data: {
+                      category: 'Categories',
+                      item: item,
+                      navigateToSameScreen: navigateToSameScreen,
+                    },
+                  })
+                }
+              }}
             >
               <Text
                 fontSize={12}
