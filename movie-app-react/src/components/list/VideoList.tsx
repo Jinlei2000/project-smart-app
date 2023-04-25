@@ -26,7 +26,6 @@ export default ({
     return (
       <View overflow={'hidden'} borderRadius={16}>
         <YoutubePlayer
-        
           key={item.id}
           height={150}
           width={266}
@@ -54,7 +53,8 @@ export default ({
         category="Videos"
         id={movieId}
         title="Videos"
-        viewAll={filterVideos && filterVideos.length > 4 ? true : false}
+        // viewAll={filterVideos && filterVideos.length > 4 ? true : false}
+        viewAll={false}
       />
       {videos ? (
         <FlatList
