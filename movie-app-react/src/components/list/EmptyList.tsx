@@ -1,7 +1,6 @@
 import { Bookmark, LucideIcon } from 'lucide-react-native'
 import {
   Button,
-  Pressable,
   ScrollView,
   Text,
   VStack,
@@ -14,17 +13,21 @@ import { useNavigation, ParamListBase } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 
 export default ({
-  isRefreshing,
+  isRefreshing = false,
   onRefresh,
   icon: Icon,
   title,
   description,
+  hasButton = true,
+  bounces = true,
 }: {
-  isRefreshing: boolean
-  onRefresh: () => void
+  isRefreshing?: boolean
+  onRefresh?: () => void
   icon: LucideIcon
   title: string
   description: string
+  hasButton?: boolean
+  bounces?: boolean
 }) => {
   const { colorMode } = useColorMode()
   const { colors } = useTheme()
@@ -40,6 +43,7 @@ export default ({
           // add RefreshControl component with onRefresh callback
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
+        bounces={bounces}
         // center the empty screen text with flex
         contentContainerStyle={{
           flex: 1,
@@ -68,15 +72,17 @@ export default ({
           </Text>
         </VStack>
 
-        <Button
-          {...buttonProps}
-          onPress={() => navigate('HomeBottomTabs', { screen: 'HomeTab' })}
-          position="absolute"
-          width="100%"
-          bottom={20}
-        >
-          Explore movies
-        </Button>
+        {hasButton && (
+          <Button
+            {...buttonProps}
+            onPress={() => navigate('HomeBottomTabs', { screen: 'HomeTab' })}
+            position="absolute"
+            width="100%"
+            bottom={20}
+          >
+            Explore movies
+          </Button>
+        )}
       </ScrollView>
     </>
   )

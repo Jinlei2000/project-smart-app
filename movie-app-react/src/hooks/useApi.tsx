@@ -467,6 +467,45 @@ export default () => {
     })
   }
 
+  const searchMovies = (
+    query: string,
+    page: number,
+  ): Promise<IMovie[] | null> => {
+    return new Promise((resolve, reject) => {
+      fetch(
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-BE&page=${page}&query=${query}&include_adult=false`,
+      )
+        .then(response => response.json())
+        .then(data => {
+          // no results found
+          if (data.results === undefined || data.results.length === 0) {
+            resolve(null)
+            return
+          }
+          // change the poster path to the full url
+          const movies: IMovie[] = data.results.map((movie: any) => {
+            return {
+              id: movie.id,
+              title: movie.title,
+              releaseDate: movie.release_date,
+              rating:
+                movie.vote_average * 10 === 0
+                  ? 0
+                  : Math.round(movie.vote_average * 10),
+              posterUrl:
+                movie.poster_path === null
+                  ? ''
+                  : `https://image.tmdb.org/t/p/w780${movie.poster_path}`,
+              overview: movie.overview,
+            }
+          })
+          resolve(movies)
+          // console.log('movies', data.results)
+        })
+        .catch(error => reject(error))
+    })
+  }
+
   return {
     getMovies,
     getMovieById,
@@ -477,7 +516,7 @@ export default () => {
     getFavorites,
     deleteOrAddFavorite,
     getRated,
-    // searchMovies,
+    searchMovies,
     postMovieRating,
     deleteMovieRating,
     getRandomMovie,

@@ -1,14 +1,4 @@
-import {
-  Box,
-  FlatList,
-  Flex,
-  ScrollView,
-  Text,
-  VStack,
-  View,
-  useColorMode,
-  useTheme,
-} from 'native-base'
+import { FlatList, Flex, View } from 'native-base'
 import IMovie from '../../interfaces/IMovie'
 import { RefreshControl } from 'react-native'
 import MovieCardHorizontal from '../card/MovieCardHorizontal'
@@ -21,7 +11,6 @@ import {
   HeartOff,
   Star,
 } from 'lucide-react-native'
-import { textProps } from '../../styles/props'
 import EmptyList from './EmptyList'
 
 export default ({
