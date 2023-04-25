@@ -1,6 +1,6 @@
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { ChevronLeft, Search } from 'lucide-react-native'
+import { ChevronLeft, Search, XCircle } from 'lucide-react-native'
 import {
   View,
   Text,
@@ -9,8 +9,10 @@ import {
   Box,
   useSafeArea,
   useColorMode,
+  Input,
+  Pressable,
 } from 'native-base'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useApi from '../../hooks/useApi'
 import { INavbarOptions } from '../../interfaces/INavbarOptions'
 import { IUserdata } from '../../interfaces/IUserdata'
@@ -111,12 +113,46 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
           {leftTitle}
         </Text>,
       ])
+    } else if (left === 'Back&SearchBar') {
+      setLeftItem([
+        <HStack key="left" alignItems="center" space={2}>
+          <RoundBtn handleBtn={goBack} icon={ChevronLeft} />
+          <Input
+            flex={1}
+            placeholder="Search for a movie"
+            variant="filled"
+            _dark={{
+              bgColor: 'brand.700',
+              placeholderTextColor: 'brand.600',
+            }}
+            _light={{
+              bgColor: 'coolGray.200',
+              placeholderTextColor: 'coolGray.600',
+            }}
+            borderWidth={0}
+            width="100%"
+            borderRadius="full"
+            p="1"
+            fontSize="sm"
+            value={navBarOptions.searchValue}
+            onChangeText={navBarOptions.setSearchValue}
+            InputLeftElement={<RoundBtn handleBtn={() => {}} icon={Search} />}
+            InputRightElement={
+              <RoundBtn handleBtn={navBarOptions.clearSearch!} icon={XCircle} />
+            }
+          />
+        </HStack>,
+      ])
     }
     if (right === 'Search&Profile') {
       setRightItem([
         <HStack space={2} key="right">
           <RoundBtn handleBtn={handleSearch} icon={Search} />
-          <AvatarPic userDatas={userData} />
+          <Pressable
+            onPress={() => navigate('HomeBottomTabs', { screen: 'ProfileTab' })}
+          >
+            <AvatarPic userDatas={userData} />
+          </Pressable>
         </HStack>,
       ])
     }
@@ -127,12 +163,7 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
   }
 
   const children = (
-    <Box
-      {...safeAreaProps}
-      px={6}
-      justifyContent="center"
-      pb={2}
-    >
+    <Box {...safeAreaProps} px={6} justifyContent="center" pb={2}>
       <HStack alignItems="center" justifyContent="space-between">
         {leftItem}
         {rightItem}
