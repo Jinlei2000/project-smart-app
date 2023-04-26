@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "movie-app-react",
-    "slug": "movie-app-react",
+    "name": "movie zone",
+    "slug": "movie zone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
