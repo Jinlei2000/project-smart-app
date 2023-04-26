@@ -1,7 +1,4 @@
-import {
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ChevronLeft, Search, XCircle } from 'lucide-react-native'
 import {
@@ -118,11 +115,20 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
             borderRadius="full"
             p="1"
             fontSize="sm"
+            type="text"
+            id="search"
             value={navBarOptions.searchValue}
-            onChangeText={navBarOptions.setSearchValue}
+            onChangeText={value => {
+              navBarOptions.setSearchValue!(value)
+            }}
             InputLeftElement={<RoundBtn handleBtn={() => {}} icon={Search} />}
             InputRightElement={
-              <RoundBtn handleBtn={navBarOptions.clearSearch!} icon={XCircle} />
+              <RoundBtn
+                handleBtn={() => {
+                  navBarOptions.setSearchValue!('')
+                }}
+                icon={XCircle}
+              />
             }
           />
         </HStack>,
@@ -160,7 +166,7 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
 
   useEffect(() => {
     refreshNavBar()
-  }, [userData])
+  }, [userData, navBarOptions])
 
   // BACK UP CODE FOR NAVBAR
   // useEffect(() => {

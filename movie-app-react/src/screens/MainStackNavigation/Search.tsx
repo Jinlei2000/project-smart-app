@@ -54,7 +54,6 @@ export default () => {
       <NavHeader
         navBarOptions={{
           left: 'Back&SearchBar',
-          clearSearch: () => setSearchValue(''),
           searchValue,
           setSearchValue,
         }}
