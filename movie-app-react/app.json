@@ -33,7 +33,7 @@
       [
         "expo-media-library",
         {
-          "photoLibraryPermission": "Allow Movie Zone to access your photo library.",
+          "photoLibraryPermission": "Allow Movie Zone to access your photo library to upload your profile picture.",
           "saveToLibraryPermission": "Allow Movie Zone to save your photos to your photo library.",
           "isAccessMediaLibraryRequired": "true"
         }
