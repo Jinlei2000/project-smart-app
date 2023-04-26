@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "movie zone",
-    "slug": "movie zone",
+    "name": "movie-zone",
+    "slug": "movie-zone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -23,7 +23,6 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
-        "resizeMode": "contain",
         "backgroundColor": "#201E26"
       }
     },

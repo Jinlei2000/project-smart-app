@@ -8,8 +8,8 @@ export default () => {
 
   // store color mode in async storage & change color mode
   const _changeMode = async (mode: 'dark' | 'light') => {
-    await AsyncStorage.setItem('@color-mode', mode)
     setColorMode(mode)
+    await AsyncStorage.setItem('@color-mode', mode)
     // console.log('color mode changed', mode)
   }
 
@@ -24,6 +24,7 @@ export default () => {
       _setSystemMode('false')
     } else if (mode === 'system') {
       // console.log('system mode')
+      // console.log(Appearance.getColorScheme())
       _changeMode(Appearance.getColorScheme() === 'dark' ? 'dark' : 'light')
       _setSystemMode('true')
     }
