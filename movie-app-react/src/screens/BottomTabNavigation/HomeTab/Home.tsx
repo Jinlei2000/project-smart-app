@@ -8,9 +8,6 @@ import MovieList from '../../../components/list/MovieList'
 import NavHeader from '../../../components/header/NavHeader'
 import React, { useEffect, useState } from 'react'
 import useApi from '../../../hooks/useApi'
-import { useNavigation, ParamListBase } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
-import MovieListStacked from '../../../components/list/MovieListStacked'
 
 export default () => {
   const { getCategories, getMovies } = useApi()
@@ -78,16 +75,15 @@ export default () => {
             {/* Categories */}
             <CategoryList categories={categories} header={true} />
             {/* Now Playing */}
-            <MovieListStacked title="Now Playing" data={movies.nowPlaying} />
-            {/* <MovieList title="Now Playing" data={movies.nowPlaying} /> */}
+            <MovieList title="Now Playing" data={movies.nowPlaying} />
             {/* Trending Now*/}
-            {/* <MovieList title="Trending Now" data={movies.trending} /> */}
+            <MovieList title="Trending Now" data={movies.trending} />
             {/* Popular */}
-            {/* <MovieList title="Popular" data={movies.popular} /> */}
+            <MovieList title="Popular" data={movies.popular} />
             {/* Upcoming */}
-            {/* <MovieList title="Upcoming" data={movies.upcoming} /> */}
+            <MovieList title="Upcoming" data={movies.upcoming} />
             {/* Top Rated */}
-            {/* <MovieList title="Top Rated" data={movies.topRated} /> */}
+            <MovieList title="Top Rated" data={movies.topRated} />
           </VStack>
         </Box>
       </Main>
