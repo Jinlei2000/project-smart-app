@@ -104,7 +104,7 @@ export default (props: any) => {
 
   return (
     <>
-      <Main scroll={false}>{list}</Main>
+      <Main safeAreaBottom={false} scroll={false}>{list}</Main>
 
       {/* NavHeader have to be the last component, because else the BlurView don't work */}
       <NavHeader
