@@ -10,6 +10,7 @@ AsyncStorage.getItem('vibrationMode').then(value => {
   if (value !== null) {
     vibrationMode = atom<boolean>(value === 'true' ? true : false)
   } else {
+    AsyncStorage.setItem('vibrationMode', 'true')
     vibrationMode = atom<boolean>(true)
   }
 })

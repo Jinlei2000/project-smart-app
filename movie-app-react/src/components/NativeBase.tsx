@@ -1,20 +1,18 @@
 import { StatusBar } from 'expo-status-bar'
-import {
-  ColorMode,
-  NativeBaseProvider,
-  StorageManager,
-} from 'native-base'
+import { ColorMode, NativeBaseProvider, StorageManager } from 'native-base'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import useColorMode from '../hooks/useColorMode'
 import theme from '../styles/theme'
 import { useState } from 'react'
+import { Appearance } from 'react-native'
 
 export default ({ children }: { children: React.ReactNode }) => {
   // Status bar style dark or light
   const [statusBarStyle, setStatusBarStyle] = useState<'dark' | 'light'>('dark')
   // use my own useColorMode hook
   const { setInitialColorMode } = useColorMode()
+  const [firstColorMode, setFirstColorMode] = useState(true)
 
   // set first time system color mode to true
   setInitialColorMode()
@@ -28,6 +26,10 @@ export default ({ children }: { children: React.ReactNode }) => {
       const storedPreference = await AsyncStorage.getItem('@color-mode')
       // console.log(storedPreference)
       setStatusBarStyle(storedPreference === 'dark' ? 'dark' : 'light')
+      if (storedPreference === null && firstColorMode) {
+        setFirstColorMode(false)
+        return Appearance.getColorScheme() === 'dark' ? 'dark' : 'light'
+      }
       return storedPreference === 'dark' ? 'dark' : 'light'
     },
     set: async (value: ColorMode) => {
@@ -43,7 +45,6 @@ export default ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-
     <NativeBaseProvider
       theme={theme}
       colorModeManager={colorModeManager}
