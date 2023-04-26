@@ -8,8 +8,6 @@ import MovieList from '../../../components/list/MovieList'
 import NavHeader from '../../../components/header/NavHeader'
 import React, { useEffect, useState } from 'react'
 import useApi from '../../../hooks/useApi'
-import { useNavigation, ParamListBase } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
 
 export default () => {
   const { getCategories, getMovies } = useApi()

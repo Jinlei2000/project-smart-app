@@ -40,6 +40,7 @@ export default ({
             allowsFullscreenVideo: true,
             bounces: false,
             scrollEnabled: false,
+            onShouldStartLoadWithRequest: () => true,
           }}
         />
       </View>
@@ -52,7 +53,8 @@ export default ({
         category="Videos"
         id={movieId}
         title="Videos"
-        viewAll={filterVideos && filterVideos.length > 4 ? true : false}
+        // viewAll={filterVideos && filterVideos.length > 4 ? true : false}
+        viewAll={false}
       />
       {videos ? (
         <FlatList

@@ -22,7 +22,8 @@ export default ({
         category="Casts"
         id={movieId}
         title="Cast"
-        viewAll={casts && casts.length > 6}
+        // viewAll={casts && casts.length > 6}
+        viewAll={false}
       />
       <HStack mx={6}>
         {casts?.slice(0, 6).map((cast, index) =>

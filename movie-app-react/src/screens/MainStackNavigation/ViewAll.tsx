@@ -12,6 +12,8 @@ export default (props: any) => {
   const { data } = props.route.params
   // console.log('data: ', data)
 
+  const navigateToSameScreen = data.navigateToSameScreen ? true : false
+
   const { getMovies, getMoviesByGenre } = useApi()
   const [list, setList] = useState<JSX.Element>()
 
@@ -21,7 +23,12 @@ export default (props: any) => {
       // console.log('Categories: ', data.item.name, data.item.id)
       getMoviesByGenre(data.item.id, 1).then((movies: IMovie[] | null) => {
         // console.log('movies: ', movies)
-        setList(<MovieListVertical data={movies} />)
+        setList(
+          <MovieListVertical
+            navigateToSameScreen={navigateToSameScreen}
+            data={movies}
+          />,
+        )
       })
     } else if (data.category === 'Movies') {
       setList(<SkeletonMovieListVertical />)
@@ -31,35 +38,60 @@ export default (props: any) => {
         getMovies(enumMovieCategory.POPULAR, 1).then(
           (movies: IMovie[] | null) => {
             // console.log('movies: ', movies)
-            setList(<MovieListVertical data={movies} />)
+            setList(
+              <MovieListVertical
+                navigateToSameScreen={navigateToSameScreen}
+                data={movies}
+              />,
+            )
           },
         )
       } else if (data.item.name === 'Trending Now') {
         getMovies(enumMovieCategory.TRENDING_NOW, 1).then(
           (movies: IMovie[] | null) => {
             // console.log('movies: ', movies)
-            setList(<MovieListVertical data={movies} />)
+            setList(
+              <MovieListVertical
+                navigateToSameScreen={navigateToSameScreen}
+                data={movies}
+              />,
+            )
           },
         )
       } else if (data.item.name === 'Top Rated') {
         getMovies(enumMovieCategory.TOP_RATED, 1).then(
           (movies: IMovie[] | null) => {
             // console.log('movies: ', movies)
-            setList(<MovieListVertical data={movies} />)
+            setList(
+              <MovieListVertical
+                navigateToSameScreen={navigateToSameScreen}
+                data={movies}
+              />,
+            )
           },
         )
       } else if (data.item.name === 'Upcoming') {
         getMovies(enumMovieCategory.UPCOMING, 1).then(
           (movies: IMovie[] | null) => {
             // console.log('movies: ', movies)
-            setList(<MovieListVertical data={movies} />)
+            setList(
+              <MovieListVertical
+                navigateToSameScreen={navigateToSameScreen}
+                data={movies}
+              />,
+            )
           },
         )
       } else if (data.item.name === 'Now Playing') {
         getMovies(enumMovieCategory.NOW_PLAYING, 1).then(
           (movies: IMovie[] | null) => {
             // console.log('movies: ', movies)
-            setList(<MovieListVertical data={movies} />)
+            setList(
+              <MovieListVertical
+                navigateToSameScreen={navigateToSameScreen}
+                data={movies}
+              />,
+            )
           },
         )
       }
@@ -72,7 +104,7 @@ export default (props: any) => {
 
   return (
     <>
-      <Main scroll={false}>{list}</Main>
+      <Main safeAreaBottom={false} scroll={false}>{list}</Main>
 
       {/* NavHeader have to be the last component, because else the BlurView don't work */}
       <NavHeader

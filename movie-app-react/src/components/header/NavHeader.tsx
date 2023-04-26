@@ -1,6 +1,9 @@
-import { ParamListBase, useNavigation } from '@react-navigation/native'
+import {
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { ChevronLeft, Search } from 'lucide-react-native'
+import { ChevronLeft, Search, XCircle } from 'lucide-react-native'
 import {
   View,
   Text,
@@ -9,8 +12,10 @@ import {
   Box,
   useSafeArea,
   useColorMode,
+  Input,
+  Pressable,
 } from 'native-base'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useApi from '../../hooks/useApi'
 import { INavbarOptions } from '../../interfaces/INavbarOptions'
 import { IUserdata } from '../../interfaces/IUserdata'
@@ -43,26 +48,7 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
   const [isDefaultPhoto] = useAtom(isDefaultPhotoAtom)
   const { getPhotoUri } = usePhoto()
 
-  useEffect(() => {
-    // get user data & check if user has a own photo
-    getUser().then((data: IUserdata) => {
-      if (!isDefaultPhoto) {
-        getPhotoUri()
-          .then(uri => {
-            if (uri) {
-              setUserData({ ...data, avatarUrl: uri })
-            }
-          })
-          .catch(err => console.log(err))
-      } else {
-        setUserData(data)
-      }
-    })
-    // rerender when isDefaultPhoto changes
-  }, [isDefaultPhoto])
-
-  useEffect(() => {
-    // console.log('navBarOptions', navBarOptions)
+  const refreshNavBar = () => {
     const { left, right, leftTitle } = navBarOptions
     if (left === 'Name&Text') {
       setLeftItem([
@@ -111,23 +97,191 @@ export default ({ navBarOptions }: { navBarOptions: INavbarOptions }) => {
           {leftTitle}
         </Text>,
       ])
+    } else if (left === 'Back&SearchBar') {
+      setLeftItem([
+        <HStack key="left" alignItems="center" space={2}>
+          <RoundBtn handleBtn={goBack} icon={ChevronLeft} />
+          <Input
+            flex={1}
+            placeholder="Search for a movie"
+            variant="filled"
+            _dark={{
+              bgColor: 'brand.700',
+              placeholderTextColor: 'brand.600',
+            }}
+            _light={{
+              bgColor: 'coolGray.200',
+              placeholderTextColor: 'coolGray.600',
+            }}
+            borderWidth={0}
+            width="100%"
+            borderRadius="full"
+            p="1"
+            fontSize="sm"
+            value={navBarOptions.searchValue}
+            onChangeText={navBarOptions.setSearchValue}
+            InputLeftElement={<RoundBtn handleBtn={() => {}} icon={Search} />}
+            InputRightElement={
+              <RoundBtn handleBtn={navBarOptions.clearSearch!} icon={XCircle} />
+            }
+          />
+        </HStack>,
+      ])
     }
     if (right === 'Search&Profile') {
       setRightItem([
         <HStack space={2} key="right">
           <RoundBtn handleBtn={handleSearch} icon={Search} />
-          <AvatarPic userDatas={userData} />
+          <Pressable
+            onPress={() => navigate('HomeBottomTabs', { screen: 'ProfileTab' })}
+          >
+            <AvatarPic userDatas={userData} />
+          </Pressable>
         </HStack>,
       ])
     }
-  }, [navBarOptions, userData])
+  }
+
+  useEffect(() => {
+    getUser().then((data: IUserdata) => {
+      if (!isDefaultPhoto) {
+        getPhotoUri()
+          .then(uri => {
+            if (uri) {
+              setUserData({ ...data, avatarUrl: uri })
+            }
+          })
+          .catch(err => console.log(err))
+      } else {
+        setUserData(data)
+      }
+    })
+  }, [isDefaultPhoto])
+
+  useEffect(() => {
+    refreshNavBar()
+  }, [userData])
+
+  // BACK UP CODE FOR NAVBAR
+  // useEffect(() => {
+  //   // console.log('navBarOptions', navBarOptions)
+  //   const { left, right, leftTitle } = navBarOptions
+  //   if (left === 'Name&Text') {
+  //     setLeftItem([
+  //       <VStack key="left">
+  //         <Text
+  //           fontSize={24}
+  //           fontWeight={'bold'}
+  //           lineHeight={24}
+  //           {...textProps.primaryColor}
+  //         >
+  //           Hi, {userData?.userName}
+  //         </Text>
+  //         <Text
+  //           fontSize={12}
+  //           fontWeight={'medium'}
+  //           lineHeight={12}
+  //           {...textProps.secondaryColor}
+  //         >
+  //           Let's explore some movies
+  //         </Text>
+  //       </VStack>,
+  //     ])
+  //   } else if (left === 'Back&Title') {
+  //     setLeftItem([
+  //       <HStack key="left" alignItems="center" space={4}>
+  //         <RoundBtn handleBtn={goBack} icon={ChevronLeft} />
+  //         <Text
+  //           fontSize={24}
+  //           fontWeight={'semibold'}
+  //           lineHeight={29}
+  //           {...textProps.primaryColor}
+  //         >
+  //           {leftTitle}
+  //         </Text>
+  //       </HStack>,
+  //     ])
+  //   } else if (left === 'Title') {
+  //     setLeftItem([
+  //       <Text
+  //         key="left"
+  //         fontSize={24}
+  //         fontWeight={'bold'}
+  //         lineHeight={29}
+  //         {...textProps.primaryColor}
+  //       >
+  //         {leftTitle}
+  //       </Text>,
+  //     ])
+  //   } else if (left === 'Back&SearchBar') {
+  //     setLeftItem([
+  //       <HStack key="left" alignItems="center" space={2}>
+  //         <RoundBtn handleBtn={goBack} icon={ChevronLeft} />
+  //         <Input
+  //           flex={1}
+  //           placeholder="Search for a movie"
+  //           variant="filled"
+  //           _dark={{
+  //             bgColor: 'brand.700',
+  //             placeholderTextColor: 'brand.600',
+  //           }}
+  //           _light={{
+  //             bgColor: 'coolGray.200',
+  //             placeholderTextColor: 'coolGray.600',
+  //           }}
+  //           borderWidth={0}
+  //           width="100%"
+  //           borderRadius="full"
+  //           p="1"
+  //           fontSize="sm"
+  //           value={navBarOptions.searchValue}
+  //           onChangeText={navBarOptions.setSearchValue}
+  //           InputLeftElement={<RoundBtn handleBtn={() => {}} icon={Search} />}
+  //           InputRightElement={
+  //             <RoundBtn handleBtn={navBarOptions.clearSearch!} icon={XCircle} />
+  //           }
+  //         />
+  //       </HStack>,
+  //     ])
+  //   }
+  //   if (right === 'Search&Profile') {
+  //     setRightItem([
+  //       <HStack space={2} key="right">
+  //         <RoundBtn handleBtn={handleSearch} icon={Search} />
+  //         <Pressable
+  //           onPress={() => navigate('HomeBottomTabs', { screen: 'ProfileTab' })}
+  //         >
+  //           <AvatarPic userDatas={userData} />
+  //         </Pressable>
+  //       </HStack>,
+  //     ])
+  //   }
+  // }, [navBarOptions, userData])
+
+  // useEffect(() => {
+  //   // get user data & check if user has a own photo
+  //   getUser().then((data: IUserdata) => {
+  //     if (!isDefaultPhoto) {
+  //       getPhotoUri()
+  //         .then(uri => {
+  //           if (uri) {
+  //             setUserData({ ...data, avatarUrl: uri })
+  //           }
+  //         })
+  //         .catch(err => console.log(err))
+  //     } else {
+  //       setUserData(data)
+  //     }
+  //   })
+  //   // rerender when isDefaultPhoto changes
+  // }, [isDefaultPhoto])
 
   const handleSearch = () => {
     navigate('Search')
   }
 
   const children = (
-    <Box {...safeAreaProps} px={6} h={20} justifyContent="center" py={2}>
+    <Box {...safeAreaProps} px={6} justifyContent="center" pb={2}>
       <HStack alignItems="center" justifyContent="space-between">
         {leftItem}
         {rightItem}

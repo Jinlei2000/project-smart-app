@@ -230,6 +230,7 @@ export default (props: any) => {
 
           {/* categories */}
           <CategoryList
+            navigateToSameScreen={true}
             categories={movieDetail?.genres}
             header={false}
             styleProps={{ mb: 4 }}
@@ -366,13 +367,13 @@ export default (props: any) => {
           <VideoList videos={movieDetail?.videos} movieId={movieDetail!.id} />
 
           {/* more like this */}
-            <MovieList
-              title="More like this"
-              data={movieDetail?.similar || null}
-              navigateToSameScreen={true}
-              viewAll={false}
-              mb={6}
-            />
+          <MovieList
+            title="More like this"
+            data={movieDetail?.similar || null}
+            navigateToSameScreen={true}
+            viewAll={false}
+            mb={6}
+          />
 
           {/* social media */}
           <SocialMediaList
